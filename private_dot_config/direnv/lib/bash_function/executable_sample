@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+sample () 
+{ 
+    echo "hello, $1"
+}
+sample "$@"
