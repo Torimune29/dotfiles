@@ -23,11 +23,14 @@ alias gst='git status'
 alias gco='git checkout'
 alias gf='git fetch'
 alias gc='git commit'
-alias cdg='cd $(git rev-parse --show-toplevel)'  # cd to .git
+alias cdg='cd $(git rev-parse --show-toplevel)'  # cd to .git project root
 ## safety
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
+## ssh
+alias ssh='ssh -o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
 
 # docker
 alias dcu='docker-compose up -d'
@@ -40,6 +43,7 @@ alias dr='docker run -it --rm=true'
 alias dotfile='chezmoi'
 alias dotfile-cd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 
+
 #######################################
 # chaet
 # Arguments:
@@ -48,7 +52,7 @@ alias dotfile-cd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 #   0 is ok, non-zero on error.
 #######################################
 cheat () {
-  curl cheat.sh/"$1"
+  curl "cheat.sh/$1"
 }
 
 #######################################
