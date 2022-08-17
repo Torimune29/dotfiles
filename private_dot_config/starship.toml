@@ -1,0 +1,12 @@
+# エディターの補完を設定スキーマに合わせて取得
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# シェルのプロンプトの間に空行を挿入する
+add_newline = true
+
+# 記号"❯"を記号"➜"に置き換える
+[character] # 編集するモジュールの名前は"character"
+success_symbol = "[➜](bold green)" # "success_symbol"を記号"➜"で"bold green"(太字の緑色)にセット
+# パッケージモジュールを無効化することでプロンプトを完全に非表示にする
+[package]
+disabled = true
