@@ -1,0 +1,48 @@
+name: bootstrap
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/bootstrap.yml'
+      - 'bootstrap.sh'
+      - '_sh_core/*'
+  pull_request:
+    paths:
+      - '.github/workflows/bootstrap.yml'
+      - 'bootstrap.sh'
+      - '_sh_core/*'
+
+jobs:
+  native-oneline:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 3
+    steps:
+      - name: Run Test
+        run: |
+          wget --quiet -O - https://raw.githubusercontent.com/Torimune29/Toolkit/main/bootstrap.sh | DOTFILES_GIT_AUTHOR_NAME=Torimune29 sudo -E sh
+  distro:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 3
+    strategy:
+      matrix:
+        docker:
+        - "ubuntu:latest"
+        - "ubuntu:14.04"
+        - "almalinux:latest"
+        - "debian:stable-slim"
+        - "public.ecr.aws/amazonlinux/amazonlinux:latest"
+        - "public.ecr.aws/ubuntu/ubuntu:latest"
+        - "opensuse/leap:latest"
+        - "alpine:latest"
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Run Test
+        uses: addnab/docker-run-action@v3
+        with:
+          image: ${{ matrix.docker }}
+          options: -v ${{ github.workspace }}:/tmp/project
+          shell: sh
+          run: /tmp/project/bootstrap.sh

@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: true
+  pre_tasks:
+  - name: Get ansible_user home directory
+    shell: "getent passwd {{ ansible_env.USER | default('root') }} | cut -d: -f6"
+    register: ansible_home_result
+  - name: Set the fact for the other scripts to use
+    set_fact:
+      ansible_user: "{{ ansible_env.USER | default('root') }}"
+      ansible_home: "{{ ansible_home_result.stdout }}"
+  tasks:
+  - import_role:
+      name: external/cimon-io.asdf
+    vars:
+      asdf_user: "{{ ansible_user }}"
+      asdf_dir: "{{ ansible_home }}/.asdf"
+      asdf_plugins:
+      - name: direnv
+        versions: ["latest"]
+        global: "latest"
+  - import_role:
+      name: direnv

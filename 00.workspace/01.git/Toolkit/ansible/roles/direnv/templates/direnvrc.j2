@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+
+use asdf
+
+dotenv_if_exists .env
+dotenv_if_exists {{ direnv_env_public_filename }}

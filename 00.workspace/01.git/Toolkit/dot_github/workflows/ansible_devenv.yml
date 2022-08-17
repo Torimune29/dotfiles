@@ -1,0 +1,58 @@
+name: ansible_devenv
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/ansible_devenv.yml'
+      - 'ansible*/*'
+  pull_request:
+    paths:
+      - '.github/workflows/ansible_devenv.yml'
+      - 'ansible*/*'
+
+jobs:
+  native-oneline:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 6
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Run bootstrap
+        shell: bash -ileo pipefail {0}
+        run: |
+          ./bootstrap.sh
+          ./ansible/bootstrap.sh
+      - name: Run playbook
+        shell: bash -ileo pipefail {0}
+        run: |
+          ansible-playbook ./ansible/site_devenv.yml
+      - name: Run teardown
+        shell: bash -ileo pipefail {0}
+        run: |
+          ansible-playbook ./ansible/site_devenv_teardown.yml
+  distro:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 6
+    strategy:
+      matrix:
+        docker:
+        - "ubuntu:latest"
+        - "almalinux:latest"
+        - "debian:stable"
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Run bootstrap
+        uses: addnab/docker-run-action@v3
+        with:
+          image: ${{ matrix.docker }}
+          options: -v ${{ github.workspace }}:/tmp/project
+          shell: bash
+          run: |
+            /tmp/project/bootstrap.sh
+            /tmp/project/ansible/bootstrap.sh
+            ansible-playbook /tmp/project/ansible/site_devenv.yml
+            . /etc/profile
+            ansible-playbook /tmp/project/ansible/site_devenv_teardown.yml

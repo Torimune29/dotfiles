@@ -1,0 +1,6 @@
+- hosts: localhost
+  gather_facts: true
+  tasks:
+  - name: Setup direnv
+    shell: |
+      asdf direnv setup --shell /bin/bash --version latest

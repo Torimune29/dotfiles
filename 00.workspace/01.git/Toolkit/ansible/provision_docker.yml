@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: true
+  tasks:
+  - set_fact:
+      docker_service_manage: false
+    when: ansible_kernel is search("WSL")
+  ignore_errors: true
+- hosts: localhost
+  gather_facts: true
+  become: true
+  vars:
+    pip_install_packages:
+    - name: docker
+  roles:
+  - external/geerlingguy.pip
+  - external/geerlingguy.docker
+  ignore_errors: true
