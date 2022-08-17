@@ -43,6 +43,7 @@ alias dr='docker run -it --rm=true'
 # chezmoi ("dotfile")
 alias dotfile='chezmoi'
 alias dotfile-cd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
+alias dotfile-push='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit; git add . && git commit -m "commit" && git push -f && popd'
 
 
 #######################################
