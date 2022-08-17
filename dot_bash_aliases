@@ -1,0 +1,5 @@
+alias dotfile='chezmoi'
+alias dotfile-cd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
+alias dotfile-commit='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit; '
+
+alias git-qcommit='git -c color.status=false status --short -b | git commit -F -'
