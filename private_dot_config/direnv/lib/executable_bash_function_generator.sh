@@ -1,5 +1,3 @@
-# see https://eidera.com/blog/2018/12/28/direnv_alias/
-
 ALIASES_DIR="$HOME/.config/direnv/lib/bash_function"
 export_function() {
   local name=$1
