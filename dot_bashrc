@@ -118,3 +118,4 @@ fi
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
+eval "$(starship init bash)"
