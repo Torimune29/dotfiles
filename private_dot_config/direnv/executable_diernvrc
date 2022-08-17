@@ -1,6 +1,0 @@
-# Ansible managed
-
-use asdf
-
-dotenv_if_exists .env
-source_env_if_exists .env.private
