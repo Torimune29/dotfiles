@@ -1,8 +1,0 @@
----
-# defaults file for roles/direnv
-direnv_user_home: "{{ ansible_home }}"
-direnv_user: "{{ ansible_user }}"
-direnv_config_dir: "{{ direnv_user_home }}/.config/direnv/"
-direnv_lib_dir: "{{ direnv_user_home }}/.config/direnv/lib"
-direnv_env_public_filename: .env.public
-direnv_bash_function_dir: "{{ direnv_lib_dir }}/bash_function"
