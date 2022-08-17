@@ -1,5 +1,6 @@
 use asdf
 
+export DIRENV_LOG_FORMAT=
+
 dotenv_if_exists .env
 dotenv_if_exists .env.public
-
