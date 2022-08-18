@@ -5,13 +5,8 @@ alias ls='ls -color=auto'
 alias ip='ip -color=auto'
 # builtin-utility
 ## search
-alias 'ps?'='ps ax | grep '
-alias 'lsof?'='lsof -i -P | grep -i '
-## cd
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
+alias 'psa'='ps ax'
+alias 'lsofi'='lsof -i -P'
 ## git
 alias g='git'
 alias ga='git add'
@@ -35,30 +30,54 @@ alias ssh='ssh -o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s -
 
 # modern cli tools
 ## ls, tree to exa
-alias lsm='exa'
-alias treem='exa --tree'
+if [ "$(command -v z)" ]; then
+  alias ls='exa'
+  alias tree='exa --tree'
+fi
+## cat to bat
+if [ "$(command -v bat)" ]; then
+  alias cat='bat'
+fi
+## cd to z
+if [ "$(command -v zoxide)" ]; then
+  alias ..='z ..'
+  alias ...='z ../..'
+  alias ....='z ../../..'
+  alias .....='z ../../../..'
+  alias c='z'
+  alias cd='z'
+fi
+## peco
+if [ "$(command -v peco)" ]; then
+  _peco_search_history() {  ## Ctrl + r history search with peco
+  	local l=$(HISTTIMEFORMAT= history | \
+  	sort -r | sed -E s/^\ *[0-9]\+\ \+// | \
+  	peco --query "$READLINE_LINE")
+  	READLINE_LINE="$l"
+  	READLINE_POINT=${#l}
+  }
+  bind -x '"\C-r": _peco_search_history'
+fi
 
 # docker
-alias dcu='docker-compose up -d'
-alias dcd='docker-compose down'
-alias dcr='docker-compose restart'
-alias dp='docker ps'
-alias dx='docker exec -it'
-alias dr='docker run -it --rm=true'
+if [ "$(command -v docker-compose)" ]; then
+  alias dcu='docker-compose up -d'
+  alias dcd='docker-compose down'
+  alias dcr='docker-compose restart'
+fi
+if [ "$(command -v docker)" ]; then
+  alias dp='docker ps'
+  alias dx='docker exec -it'
+  alias dr='docker run -it --rm=true'
+fi
 # chezmoi ("dotfile")
-alias dotfile='chezmoi'
-alias dotfile-cd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
+if [ "$(command -v chezmoi)" ]; then
+  alias dotf='chezmoi'
+  alias dotf-cd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
+fi
 
 
-# Ctrl + r history search with peco
-_peco_search_history() {
-	local l=$(HISTTIMEFORMAT= history | \
-	sort -r | sed -E s/^\ *[0-9]\+\ \+// | \
-	peco --query "$READLINE_LINE")
-	READLINE_LINE="$l"
-	READLINE_POINT=${#l}
-}
-bind -x '"\C-r": _peco_search_history'
+# functions
 
 #######################################
 # mkdir and cd
@@ -85,14 +104,14 @@ cheat () {
 #######################################
 # switch file to back/front
 # Arguments:
-#   $1: back or front
+#   $1: bak or fr
 #   $2: file path
 # Returns:
 #   0 is ok, non-zero on error.
 #######################################
-switch () {
-  if [ $# != 2 ]; then echo "switch: argument error." >&2; return 1; fi
-  if [ $1 = "back" ]; then mv -i $2{,.bak};
-  elif [ $1 = "front" ]; then mv -i $2{.bak,};
-  else echo "switch: argument parse error $1." >&2 ; fi
+sw () {
+  if [ $# != 2 ]; then echo "sw: argument error." >&2; return 1; fi
+  if [ $1 = "bak" ]; then mv -i $2{,.bak};
+  elif [ $1 = "fr" ]; then mv -i $2{.bak,};
+  else echo "sw: argument parse error $1." >&2 ; fi
 }
