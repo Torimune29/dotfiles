@@ -72,6 +72,16 @@ fi
 if [ "$(command -v gojq)" ]; then
   alias jq='gojq'
 fi
+## compressor to ouch
+if [ "$(command -v ouch)" ]; then
+  alias comp='ouch compress'
+  alias decomp='ouch decompress'
+  alias tar='ouch'
+  alias zip='ouch compress'
+  alias unzip='ouch decompress'
+  alias gzip='ouch compress'
+  alias gunzip='ouch decompress'
+fi
 
 ## ghq, hub
 alias ghql='cd $(ghq root)/$(ghq list | peco)'
