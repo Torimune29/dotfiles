@@ -45,6 +45,16 @@ alias dr='docker run -it --rm=true'
 alias dotfile='chezmoi'
 alias dotfile-cd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 
+#######################################
+# mkdir and cd
+# Arguments:
+#   path
+# Returns:
+#   0 is ok, non-zero on error.
+#######################################
+mkdircd () {
+  mkdir -p $1 && cd "$_" || exit
+}
 
 #######################################
 # chaet
