@@ -1,7 +1,7 @@
 # builtin-colorize
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
-alias ls='ls -alhF --color=auto'
+alias ls='ls -color=auto'
 alias ip='ip -color=auto'
 # builtin-utility
 ## search
@@ -33,6 +33,10 @@ alias rm='rm -i'
 ## ssh
 alias ssh='ssh -o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 
+# modern cli tools
+## ls, tree to exa
+alias lsm='exa'
+alias treem='exa --tree'
 
 # docker
 alias dcu='docker-compose up -d'
@@ -44,6 +48,17 @@ alias dr='docker run -it --rm=true'
 # chezmoi ("dotfile")
 alias dotfile='chezmoi'
 alias dotfile-cd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
+
+
+# Ctrl + r history search with peco
+_peco_search_history() {
+	local l=$(HISTTIMEFORMAT= history | \
+	sort -r | sed -E s/^\ *[0-9]\+\ \+// | \
+	peco --query "$READLINE_LINE")
+	READLINE_LINE="$l"
+	READLINE_POINT=${#l}
+}
+bind -x '"\C-r": _peco_search_history'
 
 #######################################
 # mkdir and cd
