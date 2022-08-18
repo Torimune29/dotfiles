@@ -121,7 +121,6 @@ fi
 . $HOME/.asdf/completions/asdf.bash
 source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
 eval "$(starship init bash)"
-eval "$(zoxide init bash)"
 if [ -f ~/.enhancd/init.sh ]; then
     . ~/.enhancd/init.sh
 fi
