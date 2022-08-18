@@ -1,8 +1,8 @@
 # builtin-colorize
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
-alias ls='ls -color=auto'
-alias ip='ip -color=auto'
+alias ls='ls --color=auto'
+alias ip='ip --color=auto'
 # builtin-utility
 ## search
 alias 'psa'='ps ax'
@@ -27,16 +27,20 @@ alias mv='mv -i'
 alias rm='rm -i'
 ## ssh
 alias ssh='ssh -o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+## shell
+alias reload='exec $SHELL -l'
 
 # modern cli tools
 ## ls, tree to exa
-if [ "$(command -v z)" ]; then
-  alias ls='exa'
+if [ "$(command -v exa)" ]; then
+  alias exa='exa -a -h -g'
+  alias ls='exa -a -h -g'
   alias tree='exa --tree'
 fi
-## cat to bat
+## cat, less to bat
 if [ "$(command -v bat)" ]; then
-  alias cat='bat'
+  alias cat='bat --paging=never'
+  alias less='bat --paging=always'
 fi
 ## cd to z
 if [ "$(command -v zoxide)" ]; then
@@ -87,8 +91,19 @@ fi
 # Returns:
 #   0 is ok, non-zero on error.
 #######################################
-mkdircd () {
+mkcd () {
   mkdir -p $1 && cd "$_" || exit
+}
+
+#######################################
+# cd and ls
+# Arguments:
+#   path
+# Returns:
+#   0 is ok, non-zero on error.
+#######################################
+cl () {
+  cd $1 && ls || exit
 }
 
 #######################################
