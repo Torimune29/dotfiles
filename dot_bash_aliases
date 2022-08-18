@@ -51,7 +51,7 @@ if [ "$(command -v zoxide)" ]; then
   alias ....='z ../../..'
   alias .....='z ../../../..'
   alias c='z'
-  alias cd='z'
+  # alias cd='z'  enhancd uses cd
 fi
 ## peco
 if [ "$(command -v peco)" ]; then
