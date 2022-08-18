@@ -60,7 +60,7 @@ if [ "$(command -v peco)" ]; then
   alias peco='peco --layout=bottom-up'
   ### open file directly with peco
   op () {
-    eval code "$(ls . | peco) "
+    eval code "$(find . -type f | grep -v .git/ | peco) "
   }
   alias open='ls | p '
   ### history
@@ -75,7 +75,8 @@ if [ "$(command -v peco)" ]; then
 fi
 ## ghq, hub
 alias ghql='cd $(ghq root)/$(ghq list | peco)'
-alias ghqv='gh repo view -w $(ghq list | peco)'
+alias ghqo='code $(cd $(ghq root)/$(ghq list | peco) && pwd)'
+# alias ghqv='gh repo view -w $(ghq list | peco)'
 
 # docker
 if [ "$(command -v docker-compose)" ]; then
