@@ -83,7 +83,7 @@ fi
 if [ "$(command -v chezmoi)" ]; then
   alias dotf='chezmoi'
   alias dotfile='chezmoi'
-  alias dotf-cd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
+  alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 fi
 
 
