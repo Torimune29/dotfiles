@@ -56,7 +56,13 @@ fi
 ## peco
 if [ "$(command -v peco)" ]; then
   ### common
+  alias p='peco --layout=bottom-up'
   alias peco='peco --layout=bottom-up'
+  ### open file directly with peco
+  op () {
+    eval code "$(ls . | peco) "
+  }
+  alias open='ls | p '
   ### history
   _peco_search_history() {  ## Ctrl + r history search with peco
   	local l=$(HISTTIMEFORMAT= history | \
