@@ -67,6 +67,9 @@ if [ "$(command -v peco)" ]; then
   }
   bind -x '"\C-r": _peco_search_history'
 fi
+## ghq, hub
+alias ghql='cd $(ghq root)/$(ghq list | peco)'
+alias ghqv='gh repo view -w $(ghq list | peco)'
 
 # docker
 if [ "$(command -v docker-compose)" ]; then
