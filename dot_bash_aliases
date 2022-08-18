@@ -68,6 +68,11 @@ if [ "$(command -v peco)" ]; then
   }
   bind -x '"\C-r": _peco_search_history'
 fi
+## jq to gojq
+if [ "$(command -v gojq)" ]; then
+  alias jq='gojq'
+fi
+
 ## ghq, hub
 alias ghql='cd $(ghq root)/$(ghq list | peco)'
 alias ghqo='code $(cd $(ghq root)/$(ghq list | peco) && pwd)'
