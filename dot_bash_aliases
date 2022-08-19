@@ -58,6 +58,11 @@ if [ "$(command -v peco)" ]; then
   ### common
   alias p='peco --layout=bottom-up'
   alias peco='peco --layout=bottom-up'
+  ### open file from dir
+  opfr () {
+    local path=$(find ${1:-.} | peco)
+    code ${path:?is empty} || true
+  }
   ### history
   _peco_search_history() {  ## Ctrl + r history search with peco
   	local l=$(HISTTIMEFORMAT= history | \
@@ -71,16 +76,6 @@ fi
 ## jq to gojq
 if [ "$(command -v gojq)" ]; then
   alias jq='gojq'
-fi
-## compressor to ouch
-if [ "$(command -v ouch)" ]; then
-  alias comp='ouch compress'
-  alias decomp='ouch decompress'
-  alias tar='ouch'
-  alias zip='ouch compress'
-  alias unzip='ouch decompress'
-  alias gzip='ouch compress'
-  alias gunzip='ouch decompress'
 fi
 
 ## ghq, hub
