@@ -4,4 +4,4 @@ chezmoistate.boltdb
 .config/gh
 
 # common
-*secret*
+secret/**
