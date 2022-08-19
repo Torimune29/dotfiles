@@ -84,22 +84,16 @@ alias ghqo='code $(cd $(ghq root)/$(ghq list | peco) && pwd)'
 alias ghqv='$(cd $(ghq root)/$(ghq list | peco) && gh browse)'
 
 # docker
-if [ "$(command -v docker-compose)" ]; then
-  alias dcu='docker-compose up -d'
-  alias dcd='docker-compose down'
-  alias dcr='docker-compose restart'
-fi
-if [ "$(command -v docker)" ]; then
-  alias dp='docker ps'
-  alias dx='docker exec -it'
-  alias dr='docker run -it --rm=true'
-fi
+alias dcu='docker-compose up -d'
+alias dcd='docker-compose down'
+alias dcr='docker-compose restart'
+alias dp='docker ps'
+alias dx='docker exec -it'
+alias dr='docker run -it --rm=true'
 # chezmoi ("dotfile")
-if [ "$(command -v chezmoi)" ]; then
-  alias dotf='chezmoi'
-  alias dotfile='chezmoi'
-  alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
-fi
+alias dotf='chezmoi'
+alias dotfile='chezmoi'
+alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 
 
 # functions
