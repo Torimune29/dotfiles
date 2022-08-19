@@ -1,5 +1,6 @@
 # common
 Host *
+  IgnoreUnknown UseKeychain
   UseKeychain yes
   ForwardAgent yes
   ControlMaster auto
