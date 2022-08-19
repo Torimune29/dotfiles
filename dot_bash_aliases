@@ -53,13 +53,18 @@ if [ "$(command -v zoxide)" ]; then
   alias c='z'
   # alias cd='z'  enhancd uses cd
 fi
+## find to fd
+if [ "$(command -v fd)" ]; then
+  alias find='fd'
+fi
+
 ## peco
 if [ "$(command -v peco)" ]; then
   ### common
   alias p='peco --layout=bottom-up'
   alias peco='peco --layout=bottom-up'
   ### open file from dir
-  opfr () {
+  opfd () {
     local path=$(find ${1:-.} | peco)
     code ${path:?is empty} || true
   }
@@ -72,6 +77,55 @@ if [ "$(command -v peco)" ]; then
   	READLINE_POINT=${#l}
   }
   bind -x '"\C-r": _peco_search_history'
+  ### snippet
+  psnippet () {
+    local name="psnippet"
+    local snippets="${HOME}/.snippets"
+    local command="$1"
+    _trim() { sed -i '' -E 's/^[[:blank:]]+//;s/[[:blank:]]+$//' "$snippets"; sort -u -o "$snippets" "$snippets"; }
+    _peco_snippets() {
+      _trim
+      grep -v "^#" "$snippets" | peco
+    }
+    if [ "$command" = "add" ]; then
+      local NUM=$(history | wc -l)
+      local FIRST=$((-1*(NUM-1)))
+      if [ $FIRST -eq 0 ]; then
+        echo "No history" >&2
+        return 1
+      fi
+      fc -l $FIRST | sort -k 2 -k 1nr | uniq -f 1 | sort -nr | sed -E 's/^[0-9]+[[:blank:]]+//' | peco >> "$snippets"
+      _trim
+      return
+    fi
+    if [ "$command" = "rm" ]; then
+      local lines=$(_peco_snippets)
+      local IFS=$'\n'
+      for line in $lines ; do
+        line=${line//\//\\\/}
+        IFS=" "; sed -i '' -E "/^${line}$/d" "$snippets"
+      done
+      return
+    fi
+    if [ "$command" = "list" ]; then cat "$snippets"; return; fi
+    if [ "$command" = "help" ]; then
+      cat <<EOF
+Usage: $name [command]
+
+Select a snippet in the snippets file ($snippets) using peco
+
+command:
+  add   Add the selected command history to the snippets file
+  rm    Remove the selected snippets from the snippets file
+  list  List snippets in the snippets file
+
+  help  Show this message
+EOF
+      return
+    fi
+    local line=$(_peco_snippets | head -n 1)
+    if [ -n "$line" ] ; then history -s $line; fi # Replace the last entry with $line
+  }
 fi
 ## jq to gojq
 if [ "$(command -v gojq)" ]; then
@@ -81,25 +135,19 @@ fi
 ## ghq, hub
 alias ghql='cd $(ghq root)/$(ghq list | peco)'
 alias ghqo='code $(cd $(ghq root)/$(ghq list | peco) && pwd)'
-# alias ghqv='gh repo view -w $(ghq list | peco)'
+alias ghqv='$(cd $(ghq root)/$(ghq list | peco) && gh browse)'
 
 # docker
-if [ "$(command -v docker-compose)" ]; then
-  alias dcu='docker-compose up -d'
-  alias dcd='docker-compose down'
-  alias dcr='docker-compose restart'
-fi
-if [ "$(command -v docker)" ]; then
-  alias dp='docker ps'
-  alias dx='docker exec -it'
-  alias dr='docker run -it --rm=true'
-fi
+alias dcu='docker-compose up -d'
+alias dcd='docker-compose down'
+alias dcr='docker-compose restart'
+alias dp='docker ps'
+alias dx='docker exec -it'
+alias dr='docker run -it --rm=true'
 # chezmoi ("dotfile")
-if [ "$(command -v chezmoi)" ]; then
-  alias dotf='chezmoi'
-  alias dotfile='chezmoi'
-  alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
-fi
+alias dotf='chezmoi'
+alias dotfile='chezmoi'
+alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 
 
 # functions
