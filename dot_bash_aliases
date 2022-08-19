@@ -59,7 +59,7 @@ if [ "$(command -v peco)" ]; then
   alias p='peco --layout=bottom-up'
   alias peco='peco --layout=bottom-up'
   ### open file from dir
-  opfr () {
+  opfd () {
     local path=$(find ${1:-.} | peco)
     code ${path:?is empty} || true
   }
@@ -81,7 +81,7 @@ fi
 ## ghq, hub
 alias ghql='cd $(ghq root)/$(ghq list | peco)'
 alias ghqo='code $(cd $(ghq root)/$(ghq list | peco) && pwd)'
-# alias ghqv='gh repo view -w $(ghq list | peco)'
+alias ghqv='$(cd $(ghq root)/$(ghq list | peco) && gh browse)'
 
 # docker
 if [ "$(command -v docker-compose)" ]; then
