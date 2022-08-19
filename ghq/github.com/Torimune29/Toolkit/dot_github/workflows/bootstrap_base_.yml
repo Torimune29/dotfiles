@@ -1,0 +1,32 @@
+name: bootstrap_base
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/bootstrap_base.yml'
+      - 'bootstrap.sh'
+      - '_bootstrap/*'
+      - 'base/*'
+      - 'order_base.txt'
+  pull_request:
+    paths:
+      - '.github/workflows/bootstrap_base.yml'
+      - 'bootstrap.sh'
+      - '_bootstrap/*'
+      - 'base/*'
+      - 'order_base.txt'
+jobs:
+  native:
+    runs-on: ${{ matrix.distro }}
+    strategy:
+      matrix:
+        distro:
+        - ubuntu-latest
+        - ubuntu-22.04
+    timeout-minutes: 3
+    steps:
+      - name: Run Test
+        run: |
+          wget --quiet -O - https://raw.githubusercontent.com/Torimune29/Toolkit/main/bootstrap.sh | ORDER=base DOTFILES_GIT_AUTHOR_NAME=Torimune29 sudo -E sh
