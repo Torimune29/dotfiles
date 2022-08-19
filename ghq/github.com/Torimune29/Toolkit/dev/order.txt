@@ -1,5 +1,0 @@
-asdf/init.sh
-cli/init.sh
-utility/init.sh
-dotfiles/init.sh
-work/init.sh
