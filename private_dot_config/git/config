@@ -1,0 +1,9 @@
+# global
+[ghq]
+root = ~/ghq
+## own
+[includeIf "gitdir:~/ghq/github\.com/Torimune29/"]
+    path = ~/.config/git/config_github_Torimune29
+## other
+[includeIf "gitdir:~/ghq/github\.com/"]
+    path = ~/.config/git/config_github
