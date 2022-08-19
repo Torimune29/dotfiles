@@ -27,8 +27,6 @@ alias cdg='cd $(git rev-parse --show-toplevel)'  # cd to .git project root
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
-## ssh
-alias ssh='ssh -o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 ## shell
 alias reload='exec $SHELL -l'
 
