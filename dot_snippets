@@ -1,0 +1,14 @@
+# C-iC^i open this on bash.
+# sharp is comment.
+
+# utility
+## open ~/snippets
+code ~/.snippets
+## generate random words
+head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo ''
+
+# stats
+## vmstat with timestamp
+vmstat 1 | awk '{print strftime("%y/%m/%d %H:%M:%S"), $0}'
+# list listen ports
+lsof -Pan -i tcp -i udp
