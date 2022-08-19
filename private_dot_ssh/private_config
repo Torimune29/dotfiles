@@ -1,0 +1,12 @@
+# common
+Host *
+  IgnoreUnknown UseKeychain
+  UseKeychain yes
+  ForwardAgent yes
+  ControlMaster auto
+  ControlPersist 60s
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+
+# secret config
+Include ~/.ssh/secret/config
