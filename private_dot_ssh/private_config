@@ -6,7 +6,7 @@ Host *
   ControlMaster auto
   ControlPersist 60s
   StrictHostKeyChecking no
-  UserKnownHostsFile /dev/null'
+  UserKnownHostsFile /dev/null
 
 # secret config
 Include ~/.ssh/secret/config
