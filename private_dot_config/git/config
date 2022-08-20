@@ -1,6 +1,14 @@
 # global
+[log]
+  decorate = short
+[color]
+  ui = auto
+[core]
+  autocrlf = false
+  excludesfile = "~/.gitignore"
+
 [ghq]
-root = ~/ghq
+  root = ~/ghq
 ## own
 [includeIf "gitdir:~/ghq/github\.com/Torimune29/"]
     path = ~/.config/git/config_github_Torimune29
