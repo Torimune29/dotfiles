@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
 WINDOWS_USENAME=$(powershell.exe '$env:USERNAME' | sed -e 's/^M//g' | tr -d \\r)
-WINDOWS_DESKTOP_PATH="C:/Users/${WINDOWS_USENAME}/Desktop"
+WINDOWS_TMP_PATH="C:/Users/${WINDOWS_USENAME}/AppData/Local/Temp"
 NOTIFY_PS_PATH="$HOME/.local/share/my_own/notify.ps1"
 
 [ $# -lt 1 ] && exit 1
 
-if [ ! -e "$WINDOWS_DESKTOP_PATH/$(basename $NOTIFY_PS_PATH)" ]; then
-  cp -f $NOTIFY_PS_PATH $(wslpath $WINDOWS_DESKTOP_PATH)
+if [ ! -e "$WINDOWS_TMP_PATH/$(basename $NOTIFY_PS_PATH)" ]; then
+  cp -f $NOTIFY_PS_PATH $(wslpath $WINDOWS_TMP_PATH)
 fi
 
-powershell.exe -Sta -NoProfile -WindowStyle Hidden -ExecutionPolicy RemoteSigned -File $WINDOWS_DESKTOP_PATH/$(basename "$NOTIFY_PS_PATH") $1 $2
+trap "rm -rf $(wslpath $WINDOWS_TMP_PATH)/$(basename $NOTIFY_PS_PATH)" INT PIPE TERM EXIT
+
+powershell.exe -Sta -NoProfile -WindowStyle Hidden -ExecutionPolicy RemoteSigned -File $WINDOWS_TMP_PATH/$(basename "$NOTIFY_PS_PATH") $1 $2
