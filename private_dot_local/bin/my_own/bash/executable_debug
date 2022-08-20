@@ -1,0 +1,3 @@
+#!/bin/bash
+
+trap 'read -p "next(LINE:$LINENO)>> $BASH_COMMAND"' DEBUG
