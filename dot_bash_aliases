@@ -55,6 +55,10 @@ fi
 if [ "$(command -v fd)" ]; then
   alias find='fd'
 fi
+## diff to delta
+if [ "$(command -v delta)" ]; then
+  alias diff='delta'
+fi
 ## peco
 if [ "$(command -v peco)" ]; then
   ### common
@@ -77,25 +81,17 @@ if [ "$(command -v peco)" ]; then
   bind -x '"\C-r": _peco_search_history'
   ### singleline search
   ### https://kohkimakimoto.hatenablog.com/entry/2014/06/28/163412
-  # _peco_snippets() {
-  #   if [ ! -e ~/.snippets ]; then
-  #       echo "~/.snippets is not found." >&2
-  #       return 1
-  #   fi
-  #   local line
-  #   local snippet
-  #   line=$(grep -v -e "^#" -e "^ *$"  ~/.snippets | peco --query "$READLINE_LINE")
-  #   if [ -z "$line" ]; then
-  #       return 1
-  #   fi
-  #   snippet=$(echo "$line" | sed "s/^\[[^]]*\] *//g")
-  #   if [ -z "$snippet" ]; then
-  #       return 1
-  #   fi
-  #   READLINE_LINE="$snippet"
-  #   READLINE_POINT=${#READLINE_LINE}
-  # }
-  # bind -x '"\C-i": _peco_snippets'
+  _peco_snippets() {
+    if [ ! -e ~/.snippets ]; then
+        echo "~/.snippets is not found." >&2
+        return 1
+    fi
+    local line
+    line=$(grep -v -e "^#" -e "^ *$"  ~/.snippets | peco --query "$READLINE_LINE" | sed "s/^\[[^]]*\] *//g")
+    READLINE_LINE="$line"
+    READLINE_POINT=${#READLINE_LINE}
+  }
+  bind -x '"\C-x\C-x": _peco_snippets'
 fi
 ## jq to gojq
 if [ "$(command -v gojq)" ]; then
@@ -118,91 +114,10 @@ alias dr='docker run -it --rm=true'
 alias dotf='chezmoi'
 alias dotfile='chezmoi'
 alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
+alias dotfa='chezmoi add'
 
 # WSL
 ## share clipboard
 alias pbcopy='clip.exe'
 alias pbpaste='powershell.exe -Command Get-Clipboard'
 
-# functions
-
-#######################################
-# mkdir and cd
-# Arguments:
-#   path
-# Returns:
-#   0 is ok, non-zero on error.
-#######################################
-mkcd () {
-  mkdir -p $1 && cd "$_" || exit
-}
-
-#######################################
-# cd and ls
-# Arguments:
-#   path
-# Returns:
-#   0 is ok, non-zero on error.
-#######################################
-cl () {
-  cd $1 && ls || exit
-}
-
-#######################################
-# chaet
-# Arguments:
-#   command you want to cheat
-# Returns:
-#   0 is ok, non-zero on error.
-#######################################
-cheat () {
-  curl "cheat.sh/$1"
-}
-
-#######################################
-# switch file to back/front
-# Arguments:
-#   $1: bak or fr
-#   $2: file path
-# Returns:
-#   0 is ok, non-zero on error.
-#######################################
-sw () {
-  if [ $# != 2 ]; then echo "sw: argument error." >&2; return 1; fi
-  if [ $1 = "bak" ]; then mv -i $2{,.bak};
-  elif [ $1 = "fr" ]; then mv -i $2{.bak,};
-  else echo "sw: argument parse error $1." >&2 ; fi
-}
-
-#######################################
-# open like mac
-# Arguments:
-#   $1: command
-# Returns:
-#   0 is ok, non-zero on error.
-# Details:
-#   https://zenn.dev/kaityo256/articles/open_command_on_wsl
-#######################################
-open () {
-  if [ $# != 1 ]; then explorer.exe .
-  else
-    if [ -e $1 ]; then cmd.exe /c start $(wslpath -w $1) 2> /dev/null
-    else echo "open: $1 : No such file or directory"
-    fi
-  fi
-}
-
-#######################################
-# google
-# Arguments:
-#   $1: search word.
-# Returns:
-#   0 is ok, non-zero on error.
-# Details:
-#   https://ludwig125.hatenablog.com/entry/2021/02/09/063639
-#######################################
-google() {
-  _browser="/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe --incognito"
-  [ -z "$1" ] && searchWord=$(clip.exe) || searchWord=$1
-  eval "$_browser" https://www.google.co.jp/search\?q\=$searchWord
-}
