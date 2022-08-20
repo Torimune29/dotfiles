@@ -1,0 +1,155 @@
+# functions
+
+##############################################################################
+# for interactive, or non-interactive use
+##############################################################################
+
+#######################################
+# inflate any file
+# Arguments:
+#   file
+# Returns:
+#   0 is ok, non-zero on error.
+# Details:
+#   see: https://github.com/paulirish/dotfiles/blob/4708afc97acd00554aa69093ee591cfcc501d73f/.functions#L97
+#######################################
+inflate () {
+	if [ -f "$1" ] ; then
+		local filename=$(basename "$1")
+		local foldername="${filename%%.*}"
+		local fullpath="$(readlink -f $1)"
+		local didfolderexist=false
+		if [ -d "$foldername" ]; then
+			didfolderexist=true
+			read -p "$foldername already exists, do you want to overwrite it? (y/n) " -n 1
+			echo
+			if [[ $REPLY =~ ^[Nn]$ ]]; then
+				return
+			fi
+		fi
+		mkdir -p "$foldername" && cd "$foldername"
+		case $1 in
+			*.tar.bz2) tar xjf "$fullpath" ;;
+			*.tar.gz) tar xzf "$fullpath" ;;
+			*.tar.xz) tar Jxvf "$fullpath" ;;
+			*.tar.Z) tar xzf "$fullpath" ;;
+			*.tar) tar xf "$fullpath" ;;
+			*.taz) tar xzf "$fullpath" ;;
+			*.tb2) tar xjf "$fullpath" ;;
+			*.tbz) tar xjf "$fullpath" ;;
+			*.tbz2) tar xjf "$fullpath" ;;
+			*.tgz) tar xzf "$fullpath" ;;
+			*.txz) tar Jxvf "$fullpath" ;;
+			*.zip) unzip "$fullpath" ;;
+			*) echo "'$1' cannot be extracted via extract()" >2 && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
+		esac
+	else
+		echo "'$1' is not a valid file" >2
+	fi
+}
+
+#######################################
+# deflate any file/directory to tar.gz
+# Arguments:
+#   file or directory
+# Returns:
+#   0 is ok, non-zero on error.
+#######################################
+deflate () {
+	if [ ! -e "$1" ] ; then
+		echo "'$1' is not a valid file" >2
+  fi
+	local path
+	if [ -d "$1" ]; then
+		path="$(basename $(realpath -s $1))"
+	else
+		path=$1
+  fi
+  tar -cvzf "$path".tar.gz "$path"
+}
+
+#######################################
+# mkdir and cd
+# Arguments:
+#   path
+# Returns:
+#   0 is ok, non-zero on error.
+#######################################
+mkcd () {
+  mkdir -p $1 && cd "$_" || exit
+}
+
+#######################################
+# cd and ls
+# Arguments:
+#   path
+# Returns:
+#   0 is ok, non-zero on error.
+#######################################
+cl () {
+  cd $1 && ls || exit
+}
+
+#######################################
+# chaet
+# Arguments:
+#   command you want to cheat
+# Returns:
+#   0 is ok, non-zero on error.
+#######################################
+cheat () {
+  curl "cheat.sh/$1"
+}
+
+#######################################
+# switch file to back/front
+# Arguments:
+#   $1: bak or fr
+#   $2: file path
+# Returns:
+#   0 is ok, non-zero on error.
+#######################################
+sw () {
+  if [ $# != 2 ]; then echo "sw: argument error." >&2; return 1; fi
+  if [ $1 = "bak" ]; then mv -i $2{,.bak};
+  elif [ $1 = "fr" ]; then mv -i $2{.bak,};
+  else echo "sw: argument parse error $1." >&2 ; fi
+}
+
+
+##############################################################################
+# for interactive shell only
+##############################################################################
+
+#######################################
+# open like mac
+# Arguments:
+#   $1: command
+# Returns:
+#   0 is ok, non-zero on error.
+# Details:
+#   https://zenn.dev/kaityo256/articles/open_command_on_wsl
+#######################################
+open () {
+  if [ $# != 1 ]; then explorer.exe .
+  else
+    if [ -e $1 ]; then cmd.exe /c start $(wslpath -w $1) 2> /dev/null
+    else echo "open: $1 : No such file or directory"
+    fi
+  fi
+}
+
+#######################################
+# google
+# Arguments:
+#   $1: search word.
+# Returns:
+#   0 is ok, non-zero on error.
+# Details:
+#   https://ludwig125.hatenablog.com/entry/2021/02/09/063639
+#######################################
+google() {
+  _browser="/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe --incognito"
+  [ -z "$1" ] && searchWord=$(clip.exe) || searchWord=$1
+  eval "$_browser" https://www.google.co.jp/search\?q\=$searchWord
+}
