@@ -1,8 +1,0 @@
-#!/bin/sh
-
-trap 'read -p "next(LINE:$LINENO)>> $BASH_COMMAND"' DEBUG
-
-a=10
-if [ $(( $a % 2)) -eq 0 ]; then
-        echo "even"
-fi
