@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# color log.
+
+. _color
+
+_log() {
+   __template="$1"
+   shift
+   printf "$__template" "$@" >&2
+   unset __template
+}
+
+log::success() {  _log "$Green✔ %s$ResetColor\n" "$@"; }
+log::error() {    _log "$Red✖ %s$ResetColor\n" "$@"; }
+log::warning() {  _log "$Yellow➜ %s$ResetColor\n" "$@"; }
+log::note() {     _log "$Blue%s$ResetColor\n" "$@"; }
