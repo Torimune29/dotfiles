@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# see: https://qiita.com/rsooo/items/ef1d036bcc7282a66d7d
+trap 'read -p "next(LINE:$LINENO)>> $BASH_COMMAND"' DEBUG
