@@ -116,7 +116,6 @@ alias dr='docker run -it --rm=true'
 alias dotf='chezmoi'
 alias dotfile='chezmoi'
 alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
-alias dotfa='chezmoi add'
 alias dotfd='chezmoi diff'
 
 # WSL
