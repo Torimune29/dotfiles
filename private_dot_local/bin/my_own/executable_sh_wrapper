@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+[ $# -lt 2 ] && return 1
+[ -v "${DEBUG}" ] && . _debug
+
+set -euo pipefail
+
+
