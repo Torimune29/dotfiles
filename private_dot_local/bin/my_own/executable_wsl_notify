@@ -9,7 +9,6 @@ NOTIFY_PS_PATH="$HOME/.local/share/my_own/notify.ps1"
 if [ ! -e "$WINDOWS_TMP_PATH/$(basename $NOTIFY_PS_PATH)" ]; then
   cp -f $NOTIFY_PS_PATH $(wslpath $WINDOWS_TMP_PATH)
 fi
-
 trap "rm -rf $(wslpath $WINDOWS_TMP_PATH)/$(basename $NOTIFY_PS_PATH)" INT PIPE TERM EXIT
 
 powershell.exe -Sta -NoProfile -WindowStyle Hidden -ExecutionPolicy RemoteSigned -File $WINDOWS_TMP_PATH/$(basename "$NOTIFY_PS_PATH") $1 $2
