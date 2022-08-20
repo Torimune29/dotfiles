@@ -1,0 +1,41 @@
+#!/bin/sh
+
+#######################################
+# get_system
+# Arguments:
+#   None
+# Returns:
+#   0 is ok, non-zero on error.
+# Outputs:
+#   Write systemname("Linux", "Mac", "Windows", "Other") to stdout
+# Details:
+#   see: https://stackoverflow.com/a/27776822/9982477
+#   see: https://github.com/ouch-org/ouch/blob/main/install.sh
+#######################################
+get_system () {
+  case "$(uname -s)" in
+    Linux) echo "Linux" ;;
+    Darwin) echo "Mac" ;;
+    CYGWIN*|MINGW32*|MSYS*|MINGW*) echo "Windows" ;;
+    *) echo "Other" ;;
+  esac
+}
+
+#######################################
+# get escalation method(sudo, or su) if needed
+# Arguments:
+#   None
+# Returns:
+#   0 is ok, non-zero on error.
+# Outputs:
+#   Write method("sudo~", "su~", or "") to stdout
+# Details:
+#   If root, write empty("").
+#   If non root, delegate environments (sudo -E).
+#######################################
+get_escalation_method() {
+  if [ "$(whoami)" != "root" ]; then
+    if [ -x "$(command -v sudo)" ]; then echo "sudo -S -E"
+    elif [ -x "$(command -v su)" ]; then echo "su - -c"; fi
+  fi
+}
