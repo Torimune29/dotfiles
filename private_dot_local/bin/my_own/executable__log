@@ -2,7 +2,8 @@
 
 # color log.
 
-. _color
+DIR="$(cd $(dirname $0)/; pwd)"
+. "$DIR"/_color
 
 _log() {
    __template="$1"

@@ -1,8 +1,10 @@
 #!/usr/bin/env sh
 
-[ $# -lt 2 ] && return 1
-[ -v "${DEBUG}" ] && . _debug
+DIR="$(cd $(dirname $0)/; pwd)"
+. "$DIR"/_debug
 
-set -euo pipefail
+[ "$#" -lt 2 ] && return 1;
 
+set -eu
 
+echo hello
