@@ -119,6 +119,11 @@ alias dotf='chezmoi'
 alias dotfile='chezmoi'
 alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 
+# WSL
+## share clipboard
+alias pbcopy='clip.exe'
+alias pbpaste='powershell.exe -Command Get-Clipboard'
+
 # functions
 
 #######################################
