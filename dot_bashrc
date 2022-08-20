@@ -117,11 +117,14 @@ if ! shopt -oq posix; then
 fi
 
 # !!! added
+if [ -f $HOME/.bash_function ]; then
+    . $HOME/.bash_function
+fi
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
-if [ -f ~/.enhancd/init.sh ]; then
-    . ~/.enhancd/init.sh
+if [ -f $HOME/.enhancd/init.sh ]; then
+    . $HOME/.enhancd/init.sh
 fi
