@@ -2,7 +2,7 @@
 
 ## Enable our easy to read Colour Flags as long as --no-colors hasn't been passed or the NO_COLOR Env Variable is set.
 ## NOTE: the NO_COLOR env variable is from: https://no-color.org/
-if [ ! $* == *--no-color* ] && [ -z "${NO_COLOR}" ]; then
+if [ -z "${NO_COLOR}" ]; then
   ESeq="\x1b["
   # Set up our Colour Holders.
   ResetColor="$ESeq"'0m'    # Text Reset

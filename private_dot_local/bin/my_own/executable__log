@@ -11,12 +11,12 @@ _log() {
    unset __template
 }
 
-log::success() {  _log "$Green✔ %s$ResetColor\n" "$@"; }
-log::error() {    _log "$Red✖ %s$ResetColor\n" "$@"; }
-log::warning() {  _log "$Yellow➜ %s$ResetColor\n" "$@"; }
-log::note() {     _log "$Blue%s$ResetColor\n" "$@"; }
+log_success() {  _log "$Green✔ %s$ResetColor\n" "$@"; }
+log_error() {    _log "$Red✖ %s$ResetColor\n" "$@"; }
+log_warning() {  _log "$Yellow➜ %s$ResetColor\n" "$@"; }
+log_note() {     _log "$Blue%s$ResetColor\n" "$@"; }
 
-logger::success() {  _log "$Green✔ %s$ResetColor\n" "$@";  logger -p user.info "$@"; }
-logger::error() {    _log "$Red✖ %s$ResetColor\n" "$@";    logger -p user.err "$@"; }
-logger::warning() {  _log "$Yellow➜ %s$ResetColor\n" "$@"; logger -p user.warning "$@"; }
-logger::note() {     _log "$Blue%s$ResetColor\n" "$@";      logger -p user.notice "$@"; }
+logger_success() {  _log "$Green✔ %s$ResetColor\n" "$@";  logger -p user.info "$@"; }
+logger_error() {    _log "$Red✖ %s$ResetColor\n" "$@";    logger -p user.err "$@"; }
+logger_warning() {  _log "$Yellow➜ %s$ResetColor\n" "$@"; logger -p user.warning "$@"; }
+logger_note() {     _log "$Blue%s$ResetColor\n" "$@";      logger -p user.notice "$@"; }
