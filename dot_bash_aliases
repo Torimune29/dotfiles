@@ -27,8 +27,6 @@ alias cdg='cd $(git rev-parse --show-toplevel)'  # cd to .git project root
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
-## ssh
-alias ssh='ssh -o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 ## shell
 alias reload='exec $SHELL -l'
 
@@ -64,6 +62,7 @@ if [ "$(command -v peco)" ]; then
   alias peco='peco --layout=bottom-up'
   ### open file from dir
   opfd () {
+    if [ -f "${1:-.}" ]; then code $1; return; fi
     local path=$(fd -HI . ${1:-.} | peco)
     code ${path:?is empty} || true
   }
@@ -76,6 +75,27 @@ if [ "$(command -v peco)" ]; then
   	READLINE_POINT=${#l}
   }
   bind -x '"\C-r": _peco_search_history'
+  ### singleline search
+  ### https://kohkimakimoto.hatenablog.com/entry/2014/06/28/163412
+  # _peco_snippets() {
+  #   if [ ! -e ~/.snippets ]; then
+  #       echo "~/.snippets is not found." >&2
+  #       return 1
+  #   fi
+  #   local line
+  #   local snippet
+  #   line=$(grep -v -e "^#" -e "^ *$"  ~/.snippets | peco --query "$READLINE_LINE")
+  #   if [ -z "$line" ]; then
+  #       return 1
+  #   fi
+  #   snippet=$(echo "$line" | sed "s/^\[[^]]*\] *//g")
+  #   if [ -z "$snippet" ]; then
+  #       return 1
+  #   fi
+  #   READLINE_LINE="$snippet"
+  #   READLINE_POINT=${#READLINE_LINE}
+  # }
+  # bind -x '"\C-i": _peco_snippets'
 fi
 ## jq to gojq
 if [ "$(command -v gojq)" ]; then
@@ -99,6 +119,10 @@ alias dotf='chezmoi'
 alias dotfile='chezmoi'
 alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 
+# WSL
+## share clipboard
+alias pbcopy='clip.exe'
+alias pbpaste='powershell.exe -Command Get-Clipboard'
 
 # functions
 
@@ -148,4 +172,37 @@ sw () {
   if [ $1 = "bak" ]; then mv -i $2{,.bak};
   elif [ $1 = "fr" ]; then mv -i $2{.bak,};
   else echo "sw: argument parse error $1." >&2 ; fi
+}
+
+#######################################
+# open like mac
+# Arguments:
+#   $1: command
+# Returns:
+#   0 is ok, non-zero on error.
+# Details:
+#   https://zenn.dev/kaityo256/articles/open_command_on_wsl
+#######################################
+open () {
+  if [ $# != 1 ]; then explorer.exe .
+  else
+    if [ -e $1 ]; then cmd.exe /c start $(wslpath -w $1) 2> /dev/null
+    else echo "open: $1 : No such file or directory"
+    fi
+  fi
+}
+
+#######################################
+# google
+# Arguments:
+#   $1: search word.
+# Returns:
+#   0 is ok, non-zero on error.
+# Details:
+#   https://ludwig125.hatenablog.com/entry/2021/02/09/063639
+#######################################
+google() {
+  _browser="/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe --incognito"
+  [ -z "$1" ] && searchWord=$(clip.exe) || searchWord=$1
+  eval "$_browser" https://www.google.co.jp/search\?q\=$searchWord
 }

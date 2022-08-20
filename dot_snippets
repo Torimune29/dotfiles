@@ -1,0 +1,12 @@
+# C-iC^i open this on bash.
+# sharp, [.*] strip automatically.
+
+# utility
+[open ~/snippets      ] code ~/.snippets
+[generate random words] head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo ''
+[open file as windows ] open ~/.snippets
+[search word on google] google hello
+
+# stats
+[vmstat with timestamp] vmstat 1 | awk '{print strftime("%y/%m/%d %H:%M:%S"), $0}'
+[listen ports         ] lsof -Pan -i tcp -i udp
