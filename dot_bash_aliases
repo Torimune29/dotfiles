@@ -56,9 +56,10 @@ if [ "$(command -v fd)" ]; then
   alias find='fd'
 fi
 ## diff to delta
-if [ "$(command -v delta)" ]; then
-  alias diff='delta'
-fi
+### disable because delta has less compatible with diff
+# if [ "$(command -v delta)" ]; then
+#   alias diff='delta'
+# fi
 ## peco
 if [ "$(command -v peco)" ]; then
   ### common
