@@ -1,10 +1,14 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-DIR="$(cd $(dirname $0)/; pwd)"
-. "$DIR"/_debug
+. _debug
 
 [ "$#" -lt 2 ] && return 1;
 
 set -eu
 
-echo hello
+if [ "$(command -v $1)" ]; then
+  _interpreter=$1
+  shift
+  eval "$_interpreter" "$@"
+  unset _interpreter
+fi

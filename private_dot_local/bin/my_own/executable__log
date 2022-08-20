@@ -2,22 +2,21 @@
 
 # color log.
 
-DIR="$(cd $(dirname $0)/; pwd)"
-. "$DIR"/_color
+. _color
 
-_log_internal() {
+_log() {
    __template="$1"
    shift
    printf "$__template" "$@" >&2
    unset __template
 }
 
-log::success() {  _log_internal "$Green✔ %s$ResetColor\n" "$@"; }
-log::error() {    _log_internal "$Red✖ %s$ResetColor\n" "$@"; }
-log::warning() {  _log_internal "$Yellow➜ %s$ResetColor\n" "$@"; }
-log::note() {     _log_internal "$Blue%s$ResetColor\n" "$@"; }
+log::success() {  _log "$Green✔ %s$ResetColor\n" "$@"; }
+log::error() {    _log "$Red✖ %s$ResetColor\n" "$@"; }
+log::warning() {  _log "$Yellow➜ %s$ResetColor\n" "$@"; }
+log::note() {     _log "$Blue%s$ResetColor\n" "$@"; }
 
-logger::success() {  _log_internal "$Green✔ %s$ResetColor\n" "$@";  logger -p user.info "$@"; }
-logger::error() {    _log_internal "$Red✖ %s$ResetColor\n" "$@";    logger -p user.err "$@"; }
-logger::warning() {  _log_internal "$Yellow➜ %s$ResetColor\n" "$@"; logger -p user.warning "$@"; }
-logger::note() {     _log_internal "$Blue%s$ResetColor\n" "$@";      logger -p user.notice "$@"; }
+logger::success() {  _log "$Green✔ %s$ResetColor\n" "$@";  logger -p user.info "$@"; }
+logger::error() {    _log "$Red✖ %s$ResetColor\n" "$@";    logger -p user.err "$@"; }
+logger::warning() {  _log "$Yellow➜ %s$ResetColor\n" "$@"; logger -p user.warning "$@"; }
+logger::note() {     _log "$Blue%s$ResetColor\n" "$@";      logger -p user.notice "$@"; }
