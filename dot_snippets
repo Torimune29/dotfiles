@@ -1,4 +1,4 @@
-# C-iC^i open this on bash.
+# C-xC^x open this on bash.
 # sharp, [.*] strip automatically.
 
 # utility
@@ -10,3 +10,6 @@
 # stats
 [vmstat with timestamp] vmstat 1 | awk '{print strftime("%y/%m/%d %H:%M:%S"), $0}'
 [listen ports         ] lsof -Pan -i tcp -i udp
+
+# dotfiles
+[open dotfiles workdir] code $(chezmoi source-path)
