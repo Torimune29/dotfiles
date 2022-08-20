@@ -46,6 +46,7 @@ fi
 if [ "$(command -v wsl.exe)" ]; then
     if [ "$(command -v docker)" ] && [ "$(command -v service)" ] \
     && service docker status 2>&1 | grep -q "is not running"; then
+        echo "docker service is not running. service start."
         sudo service docker start > /dev/null 2>&1
     fi
 fi
