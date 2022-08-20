@@ -28,7 +28,7 @@ function Show-NotifyIcon {
 
     [int]$timeout = 3 # sec
 
-    [DateTimeOffset]$finishTime = 
+    [DateTimeOffset]$finishTime =
         [DateTimeOffset]::UtcNow.AddSeconds( $timeout )
 
     $notifyIcon.ShowBalloonTip( $timeout )
