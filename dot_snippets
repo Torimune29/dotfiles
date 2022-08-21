@@ -6,6 +6,8 @@
 [utility  : search word on google] google hello
 [utility  : check alias          ] alias | peco
 [utility  : open+push snippets   ] code --wait ~/.snippets && chezmoi add ~/.snippets
+[utility  : copy linux to win    ] cat file | pbcopy
+[utility  : paste win to linux   ] pbpaste | cat > file
 
 # windows
 [windows  : open home dir        ] code $WINDOWS_USER_HOME_WSL_PATH/
