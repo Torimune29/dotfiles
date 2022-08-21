@@ -2,11 +2,13 @@
 # sharp, [.*] strip automatically.
 
 # utility
-[utility  : open+push snippets   ] code --wait ~/.snippets && chezmoi add ~/.snippets
-[utility  : generate random words] head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo ''
 [utility  : open file as windows ] open ~/.snippets
 [utility  : search word on google] google hello
 [utility  : check alias          ] alias | peco
+[utility  : open+push snippets   ] code --wait ~/.snippets && chezmoi add ~/.snippets
+
+# windows
+[windows  : open user home dir    ] code $WINDOWS_USER_HOME_WSL_PATH/
 
 # ssh
 [ssh      : choose host          ] sshp
@@ -19,4 +21,4 @@
 [dotfiles : open dotfiles workdir] code $(chezmoi source-path)
 
 # my_own
-[my_own   : check log dir        ] exa -T $MY_OWN_LOG_PATH/terminal | cat
+[my_own   : check log dir        ] ls -al $MY_OWN_LOG_PATH/terminal
