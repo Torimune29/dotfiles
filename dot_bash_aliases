@@ -53,9 +53,10 @@ if [ "$(command -v zoxide)" ]; then
   # alias cd='z'  enhancd uses cd
 fi
 ## find to fd
-if [ "$(command -v fd)" ]; then
-  alias find='fd'
-fi
+### disable because fd has less compatible with find
+# if [ "$(command -v fd)" ]; then
+#   alias find='fd'
+# fi
 ## diff to delta
 ### disable because delta has less compatible with diff
 # if [ "$(command -v delta)" ]; then
