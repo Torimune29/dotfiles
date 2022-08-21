@@ -1,6 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#
+# bash debug step executor. trap DEBUG signal.
+# If defined $MY_OWN__DEBUG environment variable, this is enabled.
+# e.g. MY_OWN__DEBUG=1 echo hello
+#
 # see: https://qiita.com/rsooo/items/ef1d036bcc7282a66d7d
 
-if [ -n "${MY_OWN__DEBUG}" ]; then
+set +u
+if [ ! -z "$MY_OWN__DEBUG" ]; then
   trap 'read -p "next(LINE:$LINENO)>> $BASH_COMMAND"' DEBUG;
 fi
+set -u

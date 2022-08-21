@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+#
+# bash wrapper.
+# * always euo pipefail (error, undefined, pipe fail)
+# * debug shell loading (see _debug)
+# e.g. MY_OWN__DEBUG=1 bash_wrapper echo hello
 
 [ "$#" -lt 1 ] && exit 1;
 
@@ -7,6 +12,6 @@ set -euo pipefail
 if [ "$(command -v $1)" ]; then
   _command=$1
   shift
-  eval "$_command" "$@"
+  eval ". _debug; $_command" "$@"
   unset _command
 fi
