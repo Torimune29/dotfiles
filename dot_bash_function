@@ -6,7 +6,7 @@
 ##############################################################################
 
 #######################################
-# inflate any file
+# decompress any file
 # Arguments:
 #   file
 # Returns:
@@ -14,7 +14,7 @@
 # Details:
 #   see: https://github.com/paulirish/dotfiles/blob/4708afc97acd00554aa69093ee591cfcc501d73f/.functions#L97
 #######################################
-inflate () {
+decompress () {
 	if [ -f "$1" ] ; then
 		local filename=$(basename "$1")
 		local foldername="${filename%%.*}"
@@ -50,13 +50,13 @@ inflate () {
 }
 
 #######################################
-# deflate any file/directory to tar.gz
+# compress any file/directory to tar.gz
 # Arguments:
 #   file or directory
 # Returns:
 #   0 is ok, non-zero on error.
 #######################################
-deflate () {
+compress () {
 	if [ ! -e "$1" ] ; then
 		echo "'$1' is not a valid file" >2
   fi
