@@ -143,3 +143,9 @@ if [ "$SHLVL" = "1" ] && [ ! -z "$PS1" ] ; then
     # script -tfq --timing="$MY_OWN_LOG_DIR/terminal/$TIMESTAMP.timing" >(awk '{print strftime("%F %T ") $0}{fflush() }'>> $MY_OWN_LOG_DIR/terminal/$TIMESTAMP)
     record_script "$MY_OWN_LOG_DIR/terminal/"
 fi
+
+# GoLang
+export GOROOT=/home/naoto/.go
+export PATH=$GOROOT/bin:$PATH
+export GOPATH=/home/naoto/go
+export PATH=$GOPATH/bin:$PATH
