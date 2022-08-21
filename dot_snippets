@@ -8,7 +8,8 @@
 [utility  : open+push snippets   ] code --wait ~/.snippets && chezmoi add ~/.snippets
 
 # windows
-[windows  : open user home dir    ] code $WINDOWS_USER_HOME_WSL_PATH/
+[windows  : open home dir        ] code $WINDOWS_USER_HOME_WSL_PATH/
+[windows  : open workspace dir   ] code $WINDOWS_USER_HOME_WSL_PATH/00.workspace
 
 # ssh
 [ssh      : choose host          ] sshp

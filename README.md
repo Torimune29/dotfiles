@@ -70,3 +70,21 @@
 ### secrets
 
 * \*/secrets/\*
+
+## TODO
+
+* chezmoi template
+  * 特に、windows/wsl を確認している部分
+    * code, vim選択
+    * wsl.exe, powershell有無
+  * (os-releaseをパースする必要あり)
+* 全開発環境向けリポジトリ作成とそのfetch
+
+---
+
+* chezmoi template
+  * especially windows/wsl checking
+    * code, vim selection
+    * wsl. exe with or without powershell
+  * (must parse os-release)
+* Create a repository for all development environments and fetch it
