@@ -1,6 +1,8 @@
 #!/bin/sh
-
+#
 # color log.
+# log_(success|error|warning|note) uses stdout(color) only
+# logger_(success|error|warning|note) uses stdout(color) and syslog(no-color)
 
 . _color
 
