@@ -6,21 +6,32 @@
 
 ### common function/binary
 
-* bash
-  * interactive and non-interactive use: $HOME/.bash_function
+* handmade bash
+  * interactive use: $HOME/.bash_function
     * e.g. open browser, move backup, ...
-  * non-interactive use only: $HOME/.local/bin
+  * non-interactive use: $HOME/.local/bin/my_own
     * e.g. logger, auto-log-rotation, ...
+* handmade other executables
+  * $HOME/.local/bin/my_own
 
 ### config
 
-* path: $HOME/.config
+* non handmade application
+  * $HOME/.config
   * move other config to $HOME/.config as far as possible
     * e.g. don't use $HOME/.gitconfig, use $HOME/.config/git/config
+* handmade application/function
+  * $HOME/.config/my_own
+
+### any data
+
+* handmade application/function
+  * $HOME/.local/share/my_own
 
 ### log
 
-* path: $HOME/.local/state
+* handmade application/function
+  * $HOME/.local/state/my_own
   * <https://stackoverflow.com/questions/25897836/where-should-i-write-a-user-specific-log-file-to-and-be-xdg-base-directory-comp>
 
 ### secrets
