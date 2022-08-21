@@ -2,11 +2,14 @@
 # sharp, [.*] strip automatically.
 
 # utility
-[utility  : open ~/snippets      ] code ~/.snippets
+[utility  : open+push snippets   ] code --wait ~/.snippets && chezmoi add ~/.snippets
 [utility  : generate random words] head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo ''
 [utility  : open file as windows ] open ~/.snippets
 [utility  : search word on google] google hello
 [utility  : check alias          ] alias | peco
+
+# ssh
+[ssh      : choose host          ] sshp
 
 # stats
 [stats    : vmstat with timestamp] vmstat 1 | awk '{print strftime("%y/%m/%d %H:%M:%S"), $0}'
