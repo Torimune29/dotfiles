@@ -14,3 +14,5 @@ fi
 trap "rm -rf $(wslpath $WINDOWS_TMP_PATH)/$(basename $NOTIFY_PS_PATH)" INT PIPE TERM EXIT
 
 powershell.exe -Sta -NoProfile -WindowStyle Hidden -ExecutionPolicy RemoteSigned -File $WINDOWS_TMP_PATH/$(basename "$NOTIFY_PS_PATH") $1 $2
+
+rm -rf $(wslpath $WINDOWS_TMP_PATH)/$(basename $NOTIFY_PS_PATH)
