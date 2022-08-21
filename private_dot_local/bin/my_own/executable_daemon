@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#
+# bash wrapper.
+# * always eo pipefail (error, pipe fail)
+# * debug shell loading (see _debug)
+# * log loading (see _log)
+# e.g. MY_OWN__DEBUG=1 bash_wrapper echo hello
+
+[ "$#" -lt 1 ] && exit 1;
+
+set -eo pipefail
+
+. _log
+
+if [ "$(command -v $1)" ]; then
+  _command=$1
+  shift
+  eval ". _debug; $_command" "$@"
+  unset _command
+fi
