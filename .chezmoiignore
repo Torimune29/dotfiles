@@ -4,4 +4,5 @@ chezmoistate.boltdb
 .config/gh
 
 # common
+.local/state/my_own/log/**
 secret/**
