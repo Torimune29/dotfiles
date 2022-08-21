@@ -2,19 +2,16 @@
 # sharp, [.*] strip automatically.
 
 # utility
-[utility  : open file as windows ] open ~/.snippets
 [utility  : search word on google] google hello
 [utility  : check alias          ] alias | peco
 [utility  : open+push snippets   ] code --wait ~/.snippets && chezmoi add ~/.snippets
+[utility  : clip history         ] history | sort -rn | sed -e 's/ *[0-9][0-9]* *//' | peco | pbcopy
 [utility  : copy linux to win    ] cat file | pbcopy
 [utility  : paste win to linux   ] pbpaste | cat > file
 
 # windows
-[windows  : open home dir        ] code $WINDOWS_USER_HOME_WSL_PATH/
 [windows  : open workspace dir   ] code $WINDOWS_USER_HOME_WSL_PATH/00.workspace
-
-# ssh
-[ssh      : choose host          ] sshp
+[windows  : open file as windows ] open ~/.snippets
 
 # stats
 [stats    : vmstat with timestamp] vmstat 1 | awk '{print strftime("%y/%m/%d %H:%M:%S"), $0}'
@@ -25,3 +22,4 @@
 
 # my_own
 [my_own   : check log dir        ] ls -al $MY_OWN_LOG_PATH/terminal
+

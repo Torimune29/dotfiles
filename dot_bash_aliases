@@ -67,11 +67,25 @@ if [ "$(command -v peco)" ]; then
   ### common
   alias p='peco --layout=bottom-up'
   alias peco='peco --layout=bottom-up'
+  ### cd from dir
+  cdfd () {
+    local path=$(fd --type d  . ${1:-.} | peco)
+    if [ ! -d ${path} ]; then
+      echo "path is not a directory."
+      return 1
+    else
+      z ${path:?path not found}
+    fi
+  }
   ### open file from dir
   opfd () {
     if [ -f "${1:-.}" ]; then code $1; return; fi
     local path=$(fd -HI . ${1:-.} | peco)
     code ${path:?is empty} || true
+  }
+  ### copy path from dir
+  pathfd () {
+    fd -a . ${1:-.} | peco | pbcopy
   }
   ### history
   _peco_search_history() {  ## Ctrl + r history search with peco
