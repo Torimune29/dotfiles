@@ -6,8 +6,6 @@
 #
 # see: https://qiita.com/rsooo/items/ef1d036bcc7282a66d7d
 
-set +u
 if [ ! -z "$MY_OWN__DEBUG" ]; then
   trap 'read -p "next(LINE:$LINENO)>> $BASH_COMMAND"' DEBUG;
 fi
-set -u

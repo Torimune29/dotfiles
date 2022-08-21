@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# shell bundler.
+# concats sh/bash files to stdout, with cut shebang and ./source directives.
+# This is argument order sensitive. Input in consideration of loading shell.
 
 
 if [ $# -lt 1 ]; then
@@ -12,7 +16,10 @@ for i; do
   fi
 done
 for i; do
-  < "$i" sed 's/^#!\/[^ ]*\/\(ba\|\)sh\( *\)//'
+  < "$i" sed \
+  -e 's/^#!\/[^ ]*\/\(ba\|\)sh\( *\)//' \
+  -e 's/^#!\/[^ ]*\/env.*$//' \
+  -e 's/^\(\.\|source\) .*$//'
   echo ""
 done
 

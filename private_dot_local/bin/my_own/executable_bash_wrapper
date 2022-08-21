@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #
 # bash wrapper.
-# * always euo pipefail (error, undefined, pipe fail)
+# * always euo pipefail (error, pipe fail)
 # * debug shell loading (see _debug)
 # e.g. MY_OWN__DEBUG=1 bash_wrapper echo hello
 
 [ "$#" -lt 1 ] && exit 1;
 
-set -euo pipefail
+set -eo pipefail
 
 if [ "$(command -v $1)" ]; then
   _command=$1
