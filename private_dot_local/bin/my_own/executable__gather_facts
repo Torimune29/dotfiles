@@ -7,7 +7,7 @@
 # Returns:
 #   0 is ok, non-zero on error.
 # Outputs:
-#   Write systemname("Linux", "Mac", "Windows", "Other") to stdout
+#   Write system name("Linux", "Mac", "Windows", "Other") to stdout
 # Details:
 #   see: https://stackoverflow.com/a/27776822/9982477
 #   see: https://github.com/ouch-org/ouch/blob/main/install.sh
@@ -59,5 +59,33 @@ get_fetch_method () {
   if [ -x "$(command -v curl)" ];  then echo "curl --silent --retry 3";
   elif [ -x "$(command -v wget)" ];    then echo "wget --quiet --tries=3 -O -";
   else echo "Error: fetch method not found." >&2; return 1;
+  fi
+}
+
+#######################################
+# get package management method information
+# Arguments:
+#   None
+# Returns:
+#   0 is ok
+#   1 is error. can't parse package manager.
+# Outputs:
+#   Write space-separated variable-like string("A=a; B=b;") to stdout
+#     _facts_manager=(apt|yum|dnf|zypper|apk)
+#     _facts_install=(apt-get install|yum install|dnf~|zypper~|apk~)
+#     _facts_update=(apt-get update|yum check-update|dnf~|zypper~|apk~)
+# Details:
+#   use stdout with eval.
+#   e.g. eval $(get_package_manager); eval $_facts_install git
+#   see: https://stackoverflow.com/questions/2488715/idioms-for-returning-multiple-values-in-shell-scripting
+#######################################
+get_package_management_method () {
+  if [ -x "$(command -v apt-get)" ];    then  echo "_facts_manager=\"apt\";       _facts_install=\"apt-get install -y\";     _facts_update=\"apt-get update\" "
+  elif [ -x "$(command -v yum)" ];      then  echo "_facts_manager=\"yum\";       _facts_install=\"yum install -y\";         _facts_update=\"yum check-update\" "
+  elif [ -x "$(command -v dnf)" ];      then  echo "_facts_manager=\"dnf\";       _facts_install=\"dnf install -y\";         _facts_update=\"dnf check-update\" "
+  elif [ -x "$(command -v microdnf)" ]; then  echo "_facts_manager=\"microdnf\";  _facts_install=\"microdnf install -y\";    _facts_update=\"microdnf update\" "
+  elif [ -x "$(command -v zypper)" ];   then  echo "_facts_manager=\"zypper\"     _facts_install=\"zypper install -y\";      _facts_update=\"zypper refresh\" "
+  elif [ -x "$(command -v apk)" ];      then  echo "_facts_manager=\"apk\";       _facts_install=\"apk add --no-cache\";     _facts_update=\"apk update\" "
+  else return 1
   fi
 }
