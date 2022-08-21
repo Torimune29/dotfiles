@@ -46,3 +46,16 @@ if [ "$(command -v wsl.exe)" ]; then
         sudo service docker start > /dev/null 2>&1
     fi
 fi
+## start record log
+if [ -n "$SSH_CLIENT" ]; then
+    TOPPROCESS_JUDGE_TOKEN='sshd:'
+else
+    TOPPROCESS_JUDGE_TOKEN='login'
+fi
+if [ "$(ps -eo 'pid,args' | grep "$PPID" | grep "$TOPPROCESS_JUDGE_TOKEN" | awk '{print $2}')" = "$TOPPROCESS_JUDGE_TOKEN" ]; then  # for avoid dup
+    SCRIPTLOGFILE="/tmp/script_$(whoami)_$(date +%Y%m%d%H%M%S).log"
+    touch $SCRIPTLOGFILE
+    chmod 600 $SCRIPTLOGFILE
+
+    script $SCRIPTLOGFILE
+fi
