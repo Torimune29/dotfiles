@@ -2,14 +2,15 @@
 # sharp, [.*] strip automatically.
 
 # utility
-[open ~/snippets      ] code ~/.snippets
-[generate random words] head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo ''
-[open file as windows ] open ~/.snippets
-[search word on google] google hello
+[utility  : open ~/snippets      ] code ~/.snippets
+[utility  : generate random words] head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo ''
+[utility  : open file as windows ] open ~/.snippets
+[utility  : search word on google] google hello
+[utility  : check alias          ] alias | peco
 
 # stats
-[vmstat with timestamp] vmstat 1 | awk '{print strftime("%y/%m/%d %H:%M:%S"), $0}'
-[listen ports         ] lsof -Pan -i tcp -i udp
+[stats    : vmstat with timestamp] vmstat 1 | awk '{print strftime("%y/%m/%d %H:%M:%S"), $0}'
+[stats    : listen ports         ] lsof -Pan -i tcp -i udp
 
 # dotfiles
-[open dotfiles workdir] code $(chezmoi source-path)
+[dotfiles : open dotfiles workdir] code $(chezmoi source-path)

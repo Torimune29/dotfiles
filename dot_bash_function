@@ -198,8 +198,8 @@ replay_user_script() {
 	# https://nobwak.github.io/posts/2008-02-19-%E3%82%B7%E3%82%A7%E3%83%AB%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%90%8D%E3%81%8B%E3%82%89%E6%8B%A1%E5%BC%B5%E5%AD%90%E3%82%92%E5%88%A4%E5%AE%9A%E3%81%99%E3%82%8B/
 	if [ "$(basename $path .gz)" = "$(basename $path)" ] \
 		&& [ "$(basename $path .gzip)" = "$(basename $path)" ]; then
-		scriptreplay --divisor 1000 -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
+		scriptreplay --divisor 2 -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
 	else
-		scriptreplay --divisor 1000 -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | gzip -d | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
+		scriptreplay --divisor 2 -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | gzip -d | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
 	fi
 }

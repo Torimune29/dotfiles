@@ -95,6 +95,8 @@ if [ "$(command -v peco)" ]; then
     READLINE_POINT=${#READLINE_LINE}
   }
   bind -x '"\C-x\C-x": _peco_snippets'
+  ### ssh
+  alias sshp='ssh $(grep -riE "^host[[:space:]]+[^*]" ~/.ssh/ --include="config"|peco|awk "{print \$2}")'
 fi
 ## jq to gojq
 if [ "$(command -v gojq)" ]; then
