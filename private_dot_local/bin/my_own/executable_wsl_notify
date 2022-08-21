@@ -4,15 +4,13 @@
 [ $# -lt 2 ] && exit 1
 [ ! "$(command -v powershell.exe)" ] && exit 2
 
-WINDOWS_USENAME=$(powershell.exe '$env:USERNAME' | sed -e 's/^M//g' | tr -d \\r)
-WINDOWS_TMP_PATH="C:/Users/${WINDOWS_USENAME}/AppData/Local/Temp"
-NOTIFY_PS_PATH="$HOME/.local/share/my_own/notify.ps1"
+NOTIFY_PS_PATH="$MY_OWN_SHARE_PATH/notify.ps1"
 
-if [ ! -e "$WINDOWS_TMP_PATH/$(basename $NOTIFY_PS_PATH)" ]; then
-  cp -f $NOTIFY_PS_PATH $(wslpath $WINDOWS_TMP_PATH)
+if [ ! -e "$WINDOWS_USER_TMP_WSL_PATH)/$(basename $NOTIFY_PS_PATH)" ]; then
+  cp -f $NOTIFY_PS_PATH $WINDOWS_USER_TMP_WSL_PATH
 fi
-trap "rm -rf $(wslpath $WINDOWS_TMP_PATH)/$(basename $NOTIFY_PS_PATH)" INT PIPE TERM EXIT
+trap "rm -rf $WINDOWS_USER_TMP_WSL_PATH/$(basename $NOTIFY_PS_PATH)" INT PIPE TERM EXIT
 
-powershell.exe -Sta -NoProfile -WindowStyle Hidden -ExecutionPolicy RemoteSigned -File $WINDOWS_TMP_PATH/$(basename "$NOTIFY_PS_PATH") $1 $2
+powershell.exe -Sta -NoProfile -WindowStyle Hidden -ExecutionPolicy RemoteSigned -File $WINDOWS_USER_TMP_PATH/$(basename "$NOTIFY_PS_PATH") $1 $2
 
-rm -rf $(wslpath $WINDOWS_TMP_PATH)/$(basename $NOTIFY_PS_PATH)
+rm -rf $WINDOWS_TMP_WSL_PATH/$(basename $NOTIFY_PS_PATH)
