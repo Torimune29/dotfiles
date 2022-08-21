@@ -130,7 +130,7 @@ sw () {
 record_script () {
 	[ ! -d "$1" ] && return 1
   TIMESTAMP=$(date '+%Y%m%d%H%M%S')
-  script -tfq --timing="$1.timing" >(awk '{print strftime("%F %T ") $0}{fflush() }'>> "$1/$TIMESTAMP")
+  script -tfq --timing="$1/$TIMESTAMP.timing" >(awk '{print strftime("%F %T ") $0}{fflush() }'>> "$1/$TIMESTAMP")
 }
 
 
