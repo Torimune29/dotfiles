@@ -116,6 +116,22 @@ sw () {
   elif [ $1 = "fr" ]; then mv -i $2{.bak,};
   else echo "sw: argument parse error $1." >&2 ; fi
 }
+#######################################
+# open record script session
+# Arguments:
+#   $1: base directory path.
+# Returns:
+#   0 is ok, non-zero on error.
+# Outputs:
+#   Write $1/$(date '+%Y%m%d%H%M%S'){,.timing} for scriptreplay
+# Details:
+#   https://orebibou.com/ja/home/201705/20170523_002/
+#######################################
+record_script () {
+	[ ! -d "$1" ] && return 1
+  TIMESTAMP=$(date '+%Y%m%d%H%M%S')
+  script -tfq --timing="$1.timing" >(awk '{print strftime("%F %T ") $0}{fflush() }'>> "$1/$TIMESTAMP")
+}
 
 
 ##############################################################################
@@ -153,4 +169,29 @@ google() {
   _browser="/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe --incognito"
   [ -z "$1" ] && searchWord=$(clip.exe) || searchWord=$1
   eval "$_browser" https://www.google.co.jp/search\?q\=$searchWord
+}
+
+#######################################
+# replay script session
+# Arguments:
+#   $1: script file path.
+# Returns:
+#   0 is ok, non-zero on error.
+# Outputs:
+#   Write $1/$(date '+%Y%m%d%H%M%S'){,.timing} for scriptreplay
+# Details:
+#   search $1{,.timing}
+#   https://orebibou.com/ja/home/201705/20170523_002/
+#######################################
+replay_user_script() {
+  $HOME/.local/state/my_own/log
+	local path=""
+  if [ -z "$1" ]; then
+		if [ "$(command -v peco)" ]; then
+  		path=$(find $HOME/.local/state/my_own/log/terminal | peco)
+		fi
+	else
+		path=$1
+	fi
+	scriptreplay --divisor 2 -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
 }
