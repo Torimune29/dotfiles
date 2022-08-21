@@ -56,7 +56,7 @@ export USER_STATE_PATH=$HOME/.local/state
 export USER_LOG_PATH=$HOME/.local/state/log
 export USER_SHARE_PATH=$HOME/.local/share
 export MY_OWN_BIN_PATH=$HOME/.local/bin/my_own
-export MY_OWN_LOG_PATH=$HOME/.local/state/log/my_own
+export MY_OWN_LOG_PATH=$HOME/.local/state/my_own/log
 export MY_OWN_SHARE_PATH=$HOME/.local/share/my_own
 if [ "$(command -v wsl.exe)" ] && [ "$(command -v powershell.exe)" ]; then
     # wslpath command is too slow.

@@ -17,3 +17,6 @@
 
 # dotfiles
 [dotfiles : open dotfiles workdir] code $(chezmoi source-path)
+
+# my_own
+[my_own   : check log dir        ] exa -T $MY_OWN_LOG_PATH/terminal | cat
