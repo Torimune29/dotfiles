@@ -3,13 +3,16 @@
 
 # utility
 [utility  : search word on google] google hello
-[utility  : check alias          ] alias | peco
+[utility  : check alias          ] alias | fzf
 [utility  : open+push snippets   ] code --wait ~/.snippets && chezmoi add ~/.snippets
-[utility  : clip history         ] history | sort -rn | sed -e 's/ *[0-9][0-9]* *//' | peco | pbcopy
+[utility  : clip history         ] history | sort -rn | sed -e 's/ *[0-9][0-9]* *//' | fzf | pbcopy
 [utility  : copy linux to win    ] cat file | pbcopy
 [utility  : paste win to linux   ] pbpaste | cat > file
 [utility  : get specific raw     ] cat file | grep URL | cut -d " " -f 2
 [utility  : change tab to space 2] expand -t 2 file.txt
+
+# ssh
+[ssh      : choose ssh host      ] ssh $(grep -riE "^host[[:space:]]+[^*]" ~/.ssh/ --include="config"|fzf|awk "{print \$2}")
 
 # markdown
 [markdown : conv space-sv 2 table] pbpaste | sed -e 's/\ /|/g' -e 2i$(pbpaste | head -n 1 | sed -e 's/ /|/g' -e 's/\w*/--/g')

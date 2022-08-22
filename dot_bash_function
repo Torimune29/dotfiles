@@ -186,8 +186,8 @@ google() {
 replay_user_script() {
   local path=""
   if [ -z "$1" ]; then
-    if [ "$(command -v peco)" ]; then
-      path=$(find $HOME/.local/state/my_own/log/terminal | peco)
+    if [ "$(command -v fzf)" ]; then
+      path=$(find $HOME/.local/state/my_own/log/terminal | fzf)
     fi
   else
     path=$1
