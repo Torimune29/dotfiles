@@ -65,9 +65,13 @@ fi
 ## fzf
 if [ "$(command -v fzf)" ]; then
   ### common
+  export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse'
+  # fzf completion
+  if [ -e "$HOME/.local/share/fzf/fzf-bash-completion.sh" ]; then
+    . $HOME/.local/share/fzf/fzf-bash-completion.sh
+    bind -x '"\t\t": fzf_bash_completion'
+  fi
   alias f='fzf'
-  alias fzf='fzf'
-  alias _fzf_dir='fzf --preview "exa -T -L 2 {}"'
   ### cd from dir
   cdfd () {
     local path=$(fd --type d  . ${1:-.} | fzf --preview "exa -T -L 2 {}")

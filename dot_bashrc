@@ -142,9 +142,3 @@ if [ "$SHLVL" = "1" ] && [ ! -z "$PS1" ] ; then
     record_script "$MY_OWN_LOG_DIR/terminal/"
 fi
 
-# fzf completion
-## must write last line of bashrc
-if [ -e "$HOME/.local/share/fzf/fzf-bash-completion.sh" ]; then
-  . $HOME/.local/share/fzf/fzf-bash-completion.sh
-  bind -x '"\t\t": fzf_bash_completion'
-fi
