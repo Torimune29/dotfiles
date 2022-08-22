@@ -129,7 +129,7 @@ if [ -f $HOME/.enhancd/init.sh ]; then
     . $HOME/.enhancd/init.sh
 fi
 ## record log
-### if display color, screen corruption. use with screenreplay
+### if display color, screen corruption. use with scriptreplay
 ### see:
 ### https://zenn.dev/book000/articles/linux-logging-by-script
 ### https://techracho.bpsinc.jp/yamasita-taisuke/2014_04_03/16278
@@ -143,9 +143,3 @@ if [ "$SHLVL" = "1" ] && [ ! -z "$PS1" ] ; then
     # script -tfq --timing="$MY_OWN_LOG_DIR/terminal/$TIMESTAMP.timing" >(awk '{print strftime("%F %T ") $0}{fflush() }'>> $MY_OWN_LOG_DIR/terminal/$TIMESTAMP)
     record_script "$MY_OWN_LOG_DIR/terminal/"
 fi
-
-# GoLang
-export GOROOT=/home/naoto/.go
-export PATH=$GOROOT/bin:$PATH
-export GOPATH=/home/naoto/go
-export PATH=$GOPATH/bin:$PATH
