@@ -65,7 +65,7 @@ fi
 ## fzf
 if [ "$(command -v fzf)" ]; then
   ### common
-  export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse'
+  export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse --info=hidden'
   # fzf completion
   if [ -e "$HOME/.local/share/fzf/fzf-bash-completion.sh" ]; then
     . $HOME/.local/share/fzf/fzf-bash-completion.sh
