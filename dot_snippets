@@ -8,6 +8,7 @@
 [utility  : clip history         ] history | sort -rn | sed -e 's/ *[0-9][0-9]* *//' | peco | pbcopy
 [utility  : copy linux to win    ] cat file | pbcopy
 [utility  : paste win to linux   ] pbpaste | cat > file
+[utility  : get specific raw     ] cat file | grep URL | cut -d " " -f 2
 
 # windows
 [windows  : open workspace dir   ] code $WINDOWS_USER_HOME_WSL_PATH/00.workspace
