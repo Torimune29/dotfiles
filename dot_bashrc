@@ -136,7 +136,7 @@ fi
 ###
 if [ "$SHLVL" = "1" ] && [ ! -z "$PS1" ] ; then
     MY_OWN_LOG_DIR=$HOME/.local/state/my_own/log
-    [ -d "$MY_OWN_LOG_DIR"/terminal ] || mkdir "$MY_OWN_LOG_DIR"/terminal
+    [ -d "$MY_OWN_LOG_DIR"/terminal ] || mkdir -p "$MY_OWN_LOG_DIR"/terminal
     find "$MY_OWN_LOG_DIR"/terminal -type f -name "*.gz" -mtime +5 -delete
     find "$MY_OWN_LOG_DIR"/terminal -type f -not -name "*.gz" -mtime +1 -print0 | xargs -0 gzip -f
     record_script "$MY_OWN_LOG_DIR/terminal/"
