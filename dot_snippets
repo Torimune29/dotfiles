@@ -10,6 +10,10 @@
 [utility  : paste win to linux   ] pbpaste | cat > file
 [utility  : get specific raw     ] cat file | grep URL | cut -d " " -f 2
 
+# markdown
+[markdown : conv space-sv 2 table] pbpaste | sed -e 's/\ /|/g' -e 2i$(pbpaste | head -n 1 | sed -e 's/ /|/g' -e 's/\w*/--/g')
+
+
 # windows
 [windows  : open workspace dir   ] code $WINDOWS_USER_HOME_WSL_PATH/00.workspace
 [windows  : open file as windows ] open ~/.snippets
