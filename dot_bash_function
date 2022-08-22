@@ -15,38 +15,38 @@
 #   see: https://github.com/paulirish/dotfiles/blob/4708afc97acd00554aa69093ee591cfcc501d73f/.functions#L97
 #######################################
 decompress () {
-	if [ -f "$1" ] ; then
-		local filename=$(basename "$1")
-		local foldername="${filename%%.*}"
-		local fullpath="$(readlink -f $1)"
-		local didfolderexist=false
-		if [ -d "$foldername" ]; then
-			didfolderexist=true
-			read -p "$foldername already exists, do you want to overwrite it? (y/n) " -n 1
-			echo
-			if [[ $REPLY =~ ^[Nn]$ ]]; then
-				return
-			fi
-		fi
-		mkdir -p "$foldername" && cd "$foldername"
-		case $1 in
-			*.tar.bz2) tar xjf "$fullpath" ;;
-			*.tar.gz) tar xzf "$fullpath" ;;
-			*.tar.xz) tar Jxvf "$fullpath" ;;
-			*.tar.Z) tar xzf "$fullpath" ;;
-			*.tar) tar xf "$fullpath" ;;
-			*.taz) tar xzf "$fullpath" ;;
-			*.tb2) tar xjf "$fullpath" ;;
-			*.tbz) tar xjf "$fullpath" ;;
-			*.tbz2) tar xjf "$fullpath" ;;
-			*.tgz) tar xzf "$fullpath" ;;
-			*.txz) tar Jxvf "$fullpath" ;;
-			*.zip) unzip "$fullpath" ;;
-			*) echo "'$1' cannot be extracted via extract()" >2 && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
-		esac
-	else
-		echo "'$1' is not a valid file" >2
-	fi
+  if [ -f "$1" ] ; then
+    local filename=$(basename "$1")
+    local foldername="${filename%%.*}"
+    local fullpath="$(readlink -f $1)"
+    local didfolderexist=false
+    if [ -d "$foldername" ]; then
+      didfolderexist=true
+      read -p "$foldername already exists, do you want to overwrite it? (y/n) " -n 1
+      echo
+      if [[ $REPLY =~ ^[Nn]$ ]]; then
+        return
+      fi
+    fi
+    mkdir -p "$foldername" && cd "$foldername"
+    case $1 in
+      *.tar.bz2) tar xjf "$fullpath" ;;
+      *.tar.gz) tar xzf "$fullpath" ;;
+      *.tar.xz) tar Jxvf "$fullpath" ;;
+      *.tar.Z) tar xzf "$fullpath" ;;
+      *.tar) tar xf "$fullpath" ;;
+      *.taz) tar xzf "$fullpath" ;;
+      *.tb2) tar xjf "$fullpath" ;;
+      *.tbz) tar xjf "$fullpath" ;;
+      *.tbz2) tar xjf "$fullpath" ;;
+      *.tgz) tar xzf "$fullpath" ;;
+      *.txz) tar Jxvf "$fullpath" ;;
+      *.zip) unzip "$fullpath" ;;
+      *) echo "'$1' cannot be extracted via extract()" >2 && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
+    esac
+  else
+    echo "'$1' is not a valid file" >2
+  fi
 }
 
 #######################################
@@ -57,14 +57,14 @@ decompress () {
 #   0 is ok, non-zero on error.
 #######################################
 compress () {
-	if [ ! -e "$1" ] ; then
-		echo "'$1' is not a valid file" >2
+  if [ ! -e "$1" ] ; then
+    echo "'$1' is not a valid file" >2
   fi
-	local path
-	if [ -d "$1" ]; then
-		path="$(basename $(realpath -s $1))"
-	else
-		path=$1
+  local path
+  if [ -d "$1" ]; then
+    path="$(basename $(realpath -s $1))"
+  else
+    path=$1
   fi
   tar -cvzf "$path".tar.gz "$path"
 }
@@ -128,7 +128,7 @@ sw () {
 #   https://orebibou.com/ja/home/201705/20170523_002/
 #######################################
 record_script () {
-	[ ! -d "$1" ] && return 1
+  [ ! -d "$1" ] && return 1
   TIMESTAMP=$(date '+%Y%m%d%H%M%S')
   script -tfq --timing="$1/$TIMESTAMP.timing" >(awk '{print strftime("%F %T ") $0}{fflush() }'>> "$1/$TIMESTAMP")
 }
@@ -184,22 +184,22 @@ google() {
 #   https://orebibou.com/ja/home/201705/20170523_002/
 #######################################
 replay_user_script() {
-	local path=""
+  local path=""
   if [ -z "$1" ]; then
-		if [ "$(command -v peco)" ]; then
-  		path=$(find $HOME/.local/state/my_own/log/terminal | peco)
-		fi
-	else
-		path=$1
-	fi
+    if [ "$(command -v peco)" ]; then
+      path=$(find $HOME/.local/state/my_own/log/terminal | peco)
+    fi
+  else
+    path=$1
+  fi
   [ ! -e "$path" ] && return 1
 
-	# if gz or gzip, extract
-	# https://nobwak.github.io/posts/2008-02-19-%E3%82%B7%E3%82%A7%E3%83%AB%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%90%8D%E3%81%8B%E3%82%89%E6%8B%A1%E5%BC%B5%E5%AD%90%E3%82%92%E5%88%A4%E5%AE%9A%E3%81%99%E3%82%8B/
-	if [ "$(basename $path .gz)" = "$(basename $path)" ] \
-		&& [ "$(basename $path .gzip)" = "$(basename $path)" ]; then
-		scriptreplay --divisor 2 -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
-	else
-		scriptreplay --divisor 2 -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | gzip -d | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
-	fi
+  # if gz or gzip, extract
+  # https://nobwak.github.io/posts/2008-02-19-%E3%82%B7%E3%82%A7%E3%83%AB%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%90%8D%E3%81%8B%E3%82%89%E6%8B%A1%E5%BC%B5%E5%AD%90%E3%82%92%E5%88%A4%E5%AE%9A%E3%81%99%E3%82%8B/
+  if [ "$(basename $path .gz)" = "$(basename $path)" ] \
+    && [ "$(basename $path .gzip)" = "$(basename $path)" ]; then
+    scriptreplay --divisor 2 -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
+  else
+    scriptreplay --divisor 2 -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | gzip -d | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
+  fi
 }
