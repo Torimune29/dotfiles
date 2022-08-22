@@ -80,7 +80,7 @@ if [ "$(command -v peco)" ]; then
   ### open file from dir
   opfd () {
     if [ -f "${1:-.}" ]; then code $1; return; fi
-    local path=$(fd -HI . ${1:-.} | peco)
+    local path=$(fd -I . ${1:-.} | peco)
     code ${path:?is empty} || true
   }
   ### copy path from dir
