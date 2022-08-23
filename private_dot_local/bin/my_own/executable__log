@@ -9,7 +9,7 @@
 _log() {
    __template="$1"
    shift
-   printf "$__template" "$@" >&2
+   echo "$(printf "$__template" "$@")" >&2
    unset __template
 }
 
