@@ -14,6 +14,9 @@
 # markdown
 [markdown : conv space-sv 2 table] pbpaste | sed -e 's/\ /|/g' -e 2i$(pbpaste | head -n 1 | sed -e 's/ /|/g' -e 's/\w*/--/g')
 
+# code
+[code     : open remote directory] code --file-uri vscode-remote://ssh-remote+host/home/user
+
 
 # windows
 [windows  : open workspace dir   ] code $WINDOWS_USER_HOME_WSL_PATH/00.workspace
