@@ -6,7 +6,19 @@
 [core]
   autocrlf = false
   excludesfile = "~/.gitignore"
-  pager = "bat"
+  pager = "delta"
+[interactive]
+  diffFilter=delta --color-only
+[add.interactive]
+  useBuiltin=false
+[delta]
+  navigate=true
+  side-by-side=true
+[merge]
+  conflictstyle=diff3
+[diff]
+  indentHeuristic = true
+  colorMoved=default
 
 [ghq]
   root = ~/ghq
