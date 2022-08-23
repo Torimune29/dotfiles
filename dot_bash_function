@@ -174,25 +174,22 @@ google() {
 #######################################
 # replay script session
 # Arguments:
-#   $1: script file path.
+#   divisor
 # Returns:
 #   0 is ok, non-zero on error.
 # Outputs:
-#   Write $1/$(date '+%Y%m%d%H%M%S'){,.timing} for scriptreplay
+#   Input $1/$(date '+%Y%m%d%H%M%S'){,.timing} to scriptreplay
 # Details:
 #   search $1{,.timing}
 #   https://orebibou.com/ja/home/201705/20170523_002/
 #######################################
 replay_user_script() {
   local path=""
-  if [ -z "$1" ]; then
-    if [ "$(command -v fzf)" ]; then
-      path=$(find $HOME/.local/state/my_own/log/terminal | fzf)
-    fi
-  else
-    path=$1
+  [ -z "$1" ] && return 1
+  if [ "$(command -v fzf)" ]; then
+    path=$(find $HOME/.local/state/my_own/log/terminal | fzf)
   fi
   [ ! -e "$path" ] && return 1
   # https://nobwak.github.io/posts/2008-02-19-%E3%82%B7%E3%82%A7%E3%83%AB%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%90%8D%E3%81%8B%E3%82%89%E6%8B%A1%E5%BC%B5%E5%AD%90%E3%82%92%E5%88%A4%E5%AE%9A%E3%81%99%E3%82%8B/
-  scriptreplay --divisor 2 -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
+  scriptreplay --divisor ${1:-1} -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
 }
