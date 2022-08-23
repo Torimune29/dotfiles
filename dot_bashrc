@@ -133,11 +133,12 @@ fi
 ### see:
 ### https://zenn.dev/book000/articles/linux-logging-by-script
 ### https://techracho.bpsinc.jp/yamasita-taisuke/2014_04_03/16278
+### https://www.greptips.com/posts/617/
 ###
 if [ "$SHLVL" = "1" ] && [ ! -z "$PS1" ] ; then
     local log_path="$HOME/.local/state/my_own/log"
     [ -d "$log_path"/terminal ] || mkdir -p "$log_path"/terminal
-    find "$log_path"/terminal -type f -name "*.gz" -mtime +5 -delete
-    find "$log_path"/terminal -type f -not -name "*.gz" -mtime +1 -print0 | xargs -0 gzip -f
+    find "$log_path"/terminal -type f -name "*.gz" -mmin +7200 -delete  # 5 day later
+    find "$log_path"/terminal -type f -not -name "*.gz" -mmin +1440 -print0 | xargs -0 gzip -f  # 1 day later
     record_script "$log_path/terminal/"
 fi
