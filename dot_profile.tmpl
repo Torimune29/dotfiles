@@ -53,7 +53,7 @@ export XDG_STATE_HOME=$HOME/.local/state
 export MY_OWN_BIN_PATH=$HOME/.local/bin/my_own
 export MY_OWN_SHARE_PATH=$XDG_DATA_HOME/my_own
 export MY_OWN_LOG_PATH=$XDG_STATE_HOME/my_own/log
-{{ if and (contains "WSL" .chezmoi.kernel.osrelease)  }}
+{{ if contains "WSL" .chezmoi.kernel.osrelease }}
 ## boot docker service
 if [ "$(command -v docker)" ] && [ "$(command -v service)" ] \
     && service docker status 2>&1 | grep -q "is not running"; then
