@@ -120,11 +120,19 @@ fi
 if [ -f $HOME/.bash_function ]; then
     . $HOME/.bash_function
 fi
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
-eval "$(starship init bash)"
-eval "$(zoxide init bash)"
+if [ -f $HOME/.asddf/asdf.sh ]; then
+    . $HOME/.asdf/asdf.sh
+    . $HOME/.asdf/completions/asdf.bash
+fi
+if [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc ]; then
+    source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
+fi
+if [ "$(command -v starship)" ]; then
+    eval "$(starship init bash)"
+fi
+if [ "$(command -v zoxide)" ]; then
+    eval "$(zoxide init bash)"
+fi
 if [ -f $HOME/.enhancd/init.sh ]; then
     . $HOME/.enhancd/init.sh
 fi
