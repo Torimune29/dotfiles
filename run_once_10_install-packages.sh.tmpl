@@ -1,0 +1,76 @@
+#!/bin/bash
+
+set -e
+
+. $HOME/.asdf/asdf.sh
+
+# dienv
+asdf plugin-add direnv || true
+asdf direnv setup --shell bash --version latest
+asdf global direnv latest
+
+# bat
+asdf plugin add bat || true
+asdf install bat latest
+asdf global bat latest
+
+# ripgrep
+asdf plugin add ripgrep || true
+asdf install ripgrep latest
+asdf global ripgrep latest
+
+# exa
+asdf plugin add exa || true
+asdf install exa latest
+asdf global exa latest
+
+# zoxide
+asdf plugin add zoxide https://github.com/nyrst/asdf-zoxide.git || true
+asdf install zoxide latest
+asdf global zoxide latest
+
+# delta
+asdf plugin add delta || true
+asdf install delta latest
+asdf global delta latest
+
+# starship
+asdf plugin add starship || true
+asdf install starship latest
+asdf global starship latest
+
+# fd
+asdf plugin add fd || true
+asdf install fd latest 1>/dev/null
+asdf global fd latest
+
+# fzf
+asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git || true
+asdf install fzf latest
+asdf global fzf latest
+# fzf-tab-completion
+mkdir -p $HOME/.local/share/fzf
+curl --silent -o $HOME/.local/share/fzf/fzf-bash-completion.sh https://raw.githubusercontent.com/lincheney/fzf-tab-completion/master/bash/fzf-bash-completion.sh
+
+# ghq
+asdf plugin-add ghq https://github.com/kajisha/asdf-ghq || true
+asdf install ghq latest || true
+asdf global ghq latest || true
+
+# github-cli
+asdf plugin-add github-cli https://github.com/bartlomiejdanek/asdf-github-cli.git || true
+asdf install github-cli latest 1>/dev/null
+asdf global github-cli latest
+
+# gojq
+asdf plugin-add jq https://github.com/jimmidyson/asdf-gojq.git || true
+asdf install jq latest
+asdf global jq latest
+
+# watchexec
+asdf plugin add watchexec https://github.com/nyrst/asdf-watchexec.git || true
+asdf install watchexec latest
+asdf global watchexec latest
+
+# enhancd
+if [ ! -e "${HOME}/.enhancd" ]; then git clone https://github.com/b4b4r07/enhancd $HOME/.enhancd; fi

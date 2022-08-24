@@ -43,13 +43,16 @@ fi
 #########################################################
 # environment variable settings
 PATH="$HOME/.local/bin/my_own:$PATH"
-export USER_CONFIG_PATH=$HOME/.config
-export USER_STATE_PATH=$HOME/.local/state
-export USER_LOG_PATH=$HOME/.local/state/log
-export USER_SHARE_PATH=$HOME/.local/share
+
+# XDG Base Directory https://specifications.freedesktop.org/basedir-spec/latest/
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_STATE_HOME=$HOME/.local/state
+
 export MY_OWN_BIN_PATH=$HOME/.local/bin/my_own
-export MY_OWN_LOG_PATH=$HOME/.local/state/my_own/log
-export MY_OWN_SHARE_PATH=$HOME/.local/share/my_own
+export MY_OWN_SHARE_PATH=$XDG_DATA_HOME/my_own
+export MY_OWN_LOG_PATH=$XDG_STATE_HOME/my_own/log
 {{ if and (contains "WSL" .chezmoi.kernel.osrelease)  }}
 ## boot docker service
 if [ "$(command -v docker)" ] && [ "$(command -v service)" ] \
