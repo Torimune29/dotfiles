@@ -27,3 +27,7 @@ TAB: menu-complete
 set show-mode-in-prompt on
 set vi-ins-mode-string \1\e[34;1m\2(ins) \1\e[0m\2
 set vi-cmd-mode-string \1\e[31;1m\2(cmd) \1\e[0m\2
+
+# enable ctrl-p in insert mode
+"\C-p": history-search-backward
+"\C-n": history-search-forward
