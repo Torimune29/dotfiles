@@ -66,3 +66,7 @@ if [ "$(command -v wsl.exe)" ] && [ "$(command -v powershell.exe)" ]; then
     export WINDOWS_USER_TMP_PATH="C:/Users/${WINDOWS_USERNAME}/AppData/Local/Temp"
     export WINDOWS_USER_TMP_WSL_PATH="$(wslpath $WINDOWS_USER_TMP_PATH)"
 fi
+# for work: use specific svn
+if [ -d "/opt/misc/subversion/bin" ]; then
+  PATH=/opt/misc/subversion/bin:$PATH
+fi
