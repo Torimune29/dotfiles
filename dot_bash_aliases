@@ -1,4 +1,6 @@
-# !!! added
+#########################################################
+# add by user begin
+#########################################################
 # builtin-colorize
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
@@ -39,7 +41,8 @@ if [ "$(command -v exa)" ]; then
   alias tree='exa --tree'
 fi
 ## cat, less to bat
-if [ "$(command -v bat)" ]; then
+### not working on glibc < 2.29
+if [ "$(command -v bat)" ] && bat --version > /dev/null 2>&1 ; then
   alias cat='bat --paging=never'
   alias less='bat --paging=always'
 fi
@@ -143,3 +146,6 @@ alias dotfd='chezmoi diff'
 alias pbcopy='clip.exe'
 alias pbpaste='powershell.exe -Command Get-Clipboard'
 
+#########################################################
+# add by user end
+#########################################################
