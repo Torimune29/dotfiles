@@ -116,16 +116,18 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# !!! added
+#########################################################
+# add by user begin
+#########################################################
 if [ -f $HOME/.bash_function ]; then
     . $HOME/.bash_function
 fi
 if [ -f $HOME/.asdf/asdf.sh ]; then
     . $HOME/.asdf/asdf.sh
     . $HOME/.asdf/completions/asdf.bash
-fi
-if [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc ]; then
-    source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
+    if [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc ]; then
+        source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
+    fi
 fi
 if [ "$(command -v starship)" ]; then
     eval "$(starship init bash)"
@@ -136,13 +138,8 @@ fi
 if [ -f $HOME/.enhancd/init.sh ]; then
     . $HOME/.enhancd/init.sh
 fi
+{{ if not (contains "DESKTOP" .chezmoi.hostname) }}
 ## record log
-### if display color, screen corruption. use with scriptreplay
-### see:
-### https://zenn.dev/book000/articles/linux-logging-by-script
-### https://techracho.bpsinc.jp/yamasita-taisuke/2014_04_03/16278
-### https://www.greptips.com/posts/617/
-###
 if [ "$SHLVL" = "1" ] && [ ! -z "$PS1" ] ; then
     _log_path="$HOME/.local/state/my_own/log"
     [ -d "$_log_path"/terminal ] || mkdir -p "$_log_path"/terminal
@@ -151,3 +148,7 @@ if [ "$SHLVL" = "1" ] && [ ! -z "$PS1" ] ; then
     record_script "$_log_path/terminal/"
     unset _log_path
 fi
+{{ end }}
+#########################################################
+# add by user end
+#########################################################
