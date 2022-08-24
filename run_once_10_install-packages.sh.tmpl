@@ -2,75 +2,96 @@
 
 set -e
 
+declare -A versions=(
+        ["direnv"]="latest"
+        ["bat"]="latest"
+        ["ripgrep"]="latest"
+        ["exa"]="latest"
+        ["zoxide"]="latest"
+        ["delta"]="latest"
+        ["starship"]="latest"
+        ["fd"]="latest"
+        ["fzf"]="latest"
+        ["ghq"]="latest"
+        ["github-cli"]="latest"
+        ["gojq"]="latest"
+        ["watchexec"]="latest"
+        ["enhancd"]="master"
+        ["navi"]="v2.20.1"
+)
+
 . $HOME/.asdf/asdf.sh
 
 # dienv
 asdf plugin-add direnv || true
-asdf direnv setup --shell bash --version latest
-asdf global direnv latest
+asdf direnv setup --shell bash --version ${versions["direnv"]}
+asdf global direnv ${versions["direnv"]}
 
 # bat
 asdf plugin add bat || true
-asdf install bat latest
-asdf global bat latest
+asdf install bat ${versions["bat"]}
+asdf global bat ${versions["bat"]}
 
 # ripgrep
 asdf plugin add ripgrep || true
-asdf install ripgrep latest
-asdf global ripgrep latest
+asdf install ripgrep ${versions["ripgrep"]}
+asdf global ripgrep ${versions["ripgrep"]}
 
 # exa
 asdf plugin add exa || true
-asdf install exa latest
-asdf global exa latest
+asdf install exa ${versions["exa"]}
+asdf global exa ${versions["exa"]}
 
 # zoxide
 asdf plugin add zoxide https://github.com/nyrst/asdf-zoxide.git || true
-asdf install zoxide latest
-asdf global zoxide latest
+asdf install zoxide ${versions["zoxide"]}
+asdf global zoxide ${versions["zoxide"]}
 
 # delta
 asdf plugin add delta || true
-asdf install delta latest
-asdf global delta latest
+asdf install delta ${versions["delta"]}
+asdf global delta ${versions["delta"]}
 
 # starship
 asdf plugin add starship || true
-asdf install starship latest
-asdf global starship latest
+asdf install starship ${versions["starship"]}
+asdf global starship ${versions["starship"]}
 
 # fd
 asdf plugin add fd || true
-asdf install fd latest 1>/dev/null
-asdf global fd latest
+asdf install fd ${versions["fd"]} 1>/dev/null
+asdf global fd ${versions["fd"]}
 
 # fzf
 asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git || true
-asdf install fzf latest
-asdf global fzf latest
+asdf install fzf ${versions["fzf"]}
+asdf global fzf ${versions["fzf"]}
 # fzf-tab-completion
 mkdir -p $HOME/.local/share/fzf
 curl --silent -o $HOME/.local/share/fzf/fzf-bash-completion.sh https://raw.githubusercontent.com/lincheney/fzf-tab-completion/master/bash/fzf-bash-completion.sh
 
 # ghq
 asdf plugin-add ghq https://github.com/kajisha/asdf-ghq || true
-asdf install ghq latest || true
-asdf global ghq latest || true
+asdf install ghq ${versions["ghq"]} || true
+asdf global ghq ${versions["ghq"]} || true
 
 # github-cli
 asdf plugin-add github-cli https://github.com/bartlomiejdanek/asdf-github-cli.git || true
-asdf install github-cli latest 1>/dev/null
-asdf global github-cli latest
+asdf install github-cli ${versions["github-cli"]} 1>/dev/null
+asdf global github-cli ${versions["github-cli"]}
 
 # gojq
 asdf plugin-add jq https://github.com/jimmidyson/asdf-gojq.git || true
-asdf install jq latest
-asdf global jq latest
+asdf install jq ${versions["gojq"]}
+asdf global jq ${versions["gojq"]}
 
 # watchexec
 asdf plugin add watchexec https://github.com/nyrst/asdf-watchexec.git || true
-asdf install watchexec latest
-asdf global watchexec latest
+asdf install watchexec ${versions["watchexec"]}
+asdf global watchexec ${versions["watchexec"]}
 
 # enhancd
-if [ ! -e "${HOME}/.enhancd" ]; then git clone https://github.com/b4b4r07/enhancd $HOME/.enhancd; fi
+if [ ! -e "${HOME}/.enhancd" ]; then git clone https://github.com/b4b4r07/enhancd/tree/${versions[enhancd]} $HOME/.enhancd; fi
+
+# navi
+curl -L https://github.com/denisidoro/navi/releases/download/${versions["navi"]}/navi-${versions["navi"]}-x86_64-unknown-linux-musl.tar.gz | tar xz -C $HOME/.local/bin/
