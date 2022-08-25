@@ -2,6 +2,7 @@
 
 set -e
 
+readonly version_asdf="v0.10.2"
 declare -A versions=(
         ["direnv"]="latest"
         ["bat"]="latest"
@@ -20,6 +21,10 @@ declare -A versions=(
         ["navi"]="v2.20.1"
 )
 
+# install asdf
+if [ ! -x "$(command -v asdf)" ] && [ ! -e "$HOME/.asdf" ]; then
+  git clone --depth=1 https://github.com/asdf-vm/asdf.git $HOME/.asdf -b ${version_asdf}
+fi
 . $HOME/.asdf/asdf.sh
 
 # dienv
@@ -95,3 +100,4 @@ if [ ! -e "${HOME}/.enhancd" ]; then git clone https://github.com/b4b4r07/enhanc
 
 # navi
 curl -L https://github.com/denisidoro/navi/releases/download/${versions["navi"]}/navi-${versions["navi"]}-x86_64-unknown-linux-musl.tar.gz | tar xz -C $HOME/.local/bin/
+
