@@ -2,8 +2,8 @@
 
 set -e
 
-readonly version_asdf="v0.10.2"
 declare -A versions=(
+        ["asdf"]="v0.10.2"
         ["chezmoi"]="latest"
         ["direnv"]="latest"
         ["bat"]="latest"
@@ -24,14 +24,14 @@ declare -A versions=(
 
 # install asdf
 if [ ! -x "$(command -v asdf)" ] && [ ! -e "$HOME/.asdf" ]; then
-  git clone --depth=1 https://github.com/asdf-vm/asdf.git $HOME/.asdf -b ${version_asdf}
+  git clone --depth=1 https://github.com/asdf-vm/asdf.git $HOME/.asdf -b ${versions["asdf"]}
 fi
 . $HOME/.asdf/asdf.sh
 
 # chezmoi
 asdf plugin add chezmoi || true
-asdf install chezmoi latest
-asdf global chezmoi latest
+asdf install chezmoi ${versions["chezmoi"]}
+asdf global chezmoi ${versions["chezmoi"]}
 
 # dienv
 asdf plugin-add direnv || true
