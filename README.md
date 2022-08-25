@@ -1,12 +1,26 @@
 # dotfiles
 
+This is dotfiles repository, managed by [chezmoi](https://www.chezmoi.io/).
+
+## bootstrap
+
+* wget
+
+```sh
+sh -c $(wget --quiet --trust-server-names -O - https://chezmoi.io/get) -- init --apply Torimune29
+
+```
+
+* curl
+
+```sh
+sh -c $(curl -fsLS https://chezmoi.io/get) -- init --apply Torimune29
+
+```
+
 ## policy
 
 * follow [XDF Base Directory](https://wiki.archlinux.org/title/XDG_Base_Directory)
-
----
-
-* XDF Base Directory に従う
 
 ### common function/binary
 
@@ -20,17 +34,7 @@
 * details
   * [local/bin/my_own](my_ownhttps://github.com/Torimune29/dotfiles/tree/main/private_dot_local/bin/my_own)
 
----
-
-* 自作 bash
-  * インタラクティブ用途の場合は `$HOME/.bash_function`へ配置
-  * ノンインタラクティブ用途の場合は `$HOME/.local/bin/my_own`へ配置
-* 自作のその他実行ファイル
-  * `$HOME/.local/bin/my_own`
-* 詳細
-  * [local/bin/my_own](my_ownhttps://github.com/Torimune29/dotfiles/tree/main/private_dot_local/bin/my_own)
-
-### config
+## config
 
 * non handmade application
   * `$HOME/.config`
@@ -39,21 +43,9 @@
 * handmade application/function
   * $HOME/.config/my_own
 
----
-
-* 自作でないアプリケーションの設定
-  * $HOME/.config
-  * デフォルトで`$HOME/.config`を使わないものでも、可能な限り$HOME/.configへ配置していく
-    * e.g. gitの設定は、`$HOME/.gitconfig`を使わず、`$HOME/.config/git/config`を使用する
-
 ### any data
 
 * handmade application/function
-  * `$HOME/.local/share/my_own`
-
----
-
-* 自作アプリ・関数
   * `$HOME/.local/share/my_own`
 
 ### log
@@ -62,29 +54,11 @@
   * `$HOME/.local/state/my_own`
   * <https://stackoverflow.com/questions/25897836/where-should-i-write-a-user-specific-log-file-to-and-be-xdg-base-directory-comp>
 
----
-
-* 自作アプリ・関数
-  * `$HOME/.local/state/my_own`
-
 ### secrets
 
 * \*/secrets/\*
 
 ## TODO
 
-* chezmoi template
-  * 特に、windows/wsl を確認している部分
-    * code, vim選択
-    * wsl.exe, powershell有無
-  * (os-releaseをパースする必要あり)
 * 全開発環境向けリポジトリ作成とそのfetch
 
----
-
-* chezmoi template
-  * especially windows/wsl checking
-    * code, vim selection
-    * wsl. exe with or without powershell
-  * (must parse os-release)
-* Create a repository for all development environments and fetch it
