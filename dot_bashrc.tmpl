@@ -135,9 +135,6 @@ fi
 if [ "$(command -v zoxide)" ]; then
     eval "$(zoxide init bash)"
 fi
-if [ -f $HOME/.enhancd/init.sh ]; then
-    . $HOME/.enhancd/init.sh
-fi
 {{ if not (contains "DESKTOP" .chezmoi.hostname) }}
 ## record log
 if [ "$SHLVL" = "1" ] && [ ! -z "$PS1" ] ; then
