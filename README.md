@@ -7,14 +7,14 @@ This is dotfiles repository, managed by [chezmoi](https://www.chezmoi.io/).
 * wget
 
 ```sh
-sh -c $(wget --quiet --trust-server-names -O - https://chezmoi.io/get) -- init --apply Torimune29
+sh -c "$(wget --quiet --trust-server-names -O - https://chezmoi.io/get)" -- init --apply Torimune29
 
 ```
 
 * curl
 
 ```sh
-sh -c $(curl -fsLS https://chezmoi.io/get) -- init --apply Torimune29
+sh -c "$(curl -fsLS https://chezmoi.io/get)" -- init --apply Torimune29
 
 ```
 

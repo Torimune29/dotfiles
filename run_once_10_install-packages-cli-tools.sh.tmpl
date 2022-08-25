@@ -18,7 +18,6 @@ declare -A versions=(
         ["github-cli"]="latest"
         ["gojq"]="latest"
         ["watchexec"]="latest"
-        ["enhancd"]="master"
         ["navi"]="v2.20.1"
 )
 
@@ -100,9 +99,6 @@ asdf global jq ${versions["gojq"]}
 asdf plugin add watchexec https://github.com/nyrst/asdf-watchexec.git || true
 asdf install watchexec ${versions["watchexec"]}
 asdf global watchexec ${versions["watchexec"]}
-
-# enhancd
-if [ ! -e "${HOME}/.enhancd" ]; then git clone https://github.com/b4b4r07/enhancd/tree/${versions[enhancd]} $HOME/.enhancd; fi
 
 # navi
 curl -L https://github.com/denisidoro/navi/releases/download/${versions["navi"]}/navi-${versions["navi"]}-x86_64-unknown-linux-musl.tar.gz | tar xz -C $HOME/.local/bin/
