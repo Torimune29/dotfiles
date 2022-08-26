@@ -32,6 +32,9 @@ eval $(get_escalation_method) $_facts_install bash curl tar gzip unzip xz-utils 
 if [ -x "$(command -v amazon-linux-extras)" ]; then eval $(get_escalation_method) amazon-linux-extras install epel
 else eval $(get_escalation_method) $_facts_install epel-release; fi
 eval $(get_escalation_method) $_facts_install bash curl tar gzip unzip xz 1>/dev/null
+{{ else }}
+echo "This platform is unsupported." >2
+return 1
 {{ end }}
 
 
