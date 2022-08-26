@@ -101,28 +101,19 @@ get_package_management_method () {
   fi
 }
 
-
-echo ""
 log_note "[bootstrap start]"
-echo ""
-
 log_note "prerequisite package instal start"
-echo ""
 
-eval $(get_package_management_method)
-# update repository
-set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
 # install packages for chezmoi
+eval $(get_package_management_method)
+set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
 eval $(get_escalation_method) $_facts_install git curl tar 1>/dev/null
 
 log_success "prerequisite package instal finished."
-echo ""
 log_note "init scripts start"
-echo ""
 
+# apply dotfiles using chezmoi
 sh -c "$(curl -fsLS https://chezmoi.io/get)" -- init --apply Torimune29
 
 log_success "init script finished"
-echo ""
 log_success "[bootstrap finished]"
-echo ""

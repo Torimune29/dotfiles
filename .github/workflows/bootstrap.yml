@@ -4,13 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '.github/workflows/bootstrap.yml'
-      - 'bootstrap.sh'
   pull_request:
-    paths:
-      - '.github/workflows/bootstrap.yml'
-      - 'bootstrap.sh'
+
 jobs:
   native:
     runs-on: ${{ matrix.distro }}
