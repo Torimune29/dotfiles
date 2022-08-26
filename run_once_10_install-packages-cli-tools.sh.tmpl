@@ -21,6 +21,19 @@ declare -A versions=(
         ["navi"]="v2.20.1"
 )
 
+# install prerequisite packages
+. $HOME/.local/bin/my_own/_gather_facts
+eval $(get_package_management_method)
+set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
+{{ if eq "debian" .chezmoi.osRelease.idLike }}
+eval $(get_escalation_method) $_facts_install bash curl tar gzip unzip xz-utils 1>/dev/null
+{{ else if eq "redhat" .chezmoi.osRelease.idLike }}
+if [ -x "$(command -v amazon-linux-extras)" ]; then eval $(get_escalation_method) amazon-linux-extras install epel
+else eval $(get_escalation_method) $_facts_install epel-release; fi
+eval $(get_escalation_method) $_facts_install bash curl tar gzip unzip xz 1>/dev/null
+{{ end }}
+
+
 # install asdf
 if [ ! -x "$(command -v asdf)" ] && [ ! -e "$HOME/.asdf" ]; then
   git clone --depth=1 https://github.com/asdf-vm/asdf.git $HOME/.asdf -b ${versions["asdf"]}
