@@ -29,11 +29,16 @@ set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
 export DEBCONF_NOWARNINGS=yes
 eval $(get_escalation_method) $_facts_install bash curl tar gzip unzip xz-utils 1>/dev/null
 {{ else if contains "centos" .chezmoi.osRelease.idLike }}
-if [ -x "$(command -v amazon-linux-extras)" ]; then eval $(get_escalation_method) amazon-linux-extras install epel
-else eval $(get_escalation_method) $_facts_install epel-release; fi
+if [ -x "$(command -v amazon-linux-extras)" ]; then
+  eval $(get_escalation_method) amazon-linux-extras install epel
+else
+  eval $(get_escalation_method) $_facts_install epel-release
+fi
 eval $(get_escalation_method) $_facts_install bash curl tar gzip unzip xz 1>/dev/null
 {{ else }}
 echo "This platform is unsupported." >2
+echo "Please check chezmoi template:" >2
+chezmoi execute-template '{{ .chezmoi | toJson }}' >2
 return 1
 {{ end }}
 
