@@ -25,13 +25,9 @@ declare -A versions=(
 . $HOME/.local/bin/my_own/_gather_facts
 eval $(get_package_management_method)
 set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
-{{ if ne "debian" .chezmoi.osRelease.id }}
-  {{ if and .chezmoi.osRelease.idLike }}
-    {{ if contains "debian" .chezmoi.osRelease.idLike }}
+{{ if or (eq "debian" .chezmoi.osRelease.id) (and (.chezmoi.osRelease.idLike) (contains "debian" .chezmoi.osRelease.idLike)) }}
 export DEBCONF_NOWARNINGS=yes
 eval $(get_escalation_method) $_facts_install bash curl tar gzip unzip xz-utils 1>/dev/null
-    {{ end }}
-  {{ end }}
 {{ else if contains "centos" .chezmoi.osRelease.idLike }}
 if [ -x "$(command -v amazon-linux-extras)" ]; then eval $(get_escalation_method) amazon-linux-extras install epel
 else eval $(get_escalation_method) $_facts_install epel-release; fi
