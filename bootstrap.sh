@@ -113,7 +113,7 @@ eval $(get_package_management_method)
 # update repository
 set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
 # install packages for chezmoi
-eval $(get_escalation_method) $_facts_install git curl 1>/dev/null
+eval $(get_escalation_method) $_facts_install git curl tar 1>/dev/null
 
 log_success "prerequisite package instal finished."
 echo ""
