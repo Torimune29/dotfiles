@@ -2,19 +2,16 @@
 
 This is dotfiles repository, managed by [chezmoi](https://www.chezmoi.io/).
 
+## Testing Platform
+
+[![TestingPlatform](http://github-actions.40ants.com/Torimune29/dotfiles/matrix.svg)](https://github.com/Torimune29/dotfiles)
+
 ## bootstrap
-
-* wget
-
-```sh
-sh -c "$(wget --quiet --trust-server-names -O - https://chezmoi.io/get)" -- init --apply Torimune29
-
-```
 
 * curl
 
 ```sh
-sh -c "$(curl -fsLS https://chezmoi.io/get)" -- init --apply Torimune29
+curl --silent https://raw.githubusercontent.com/Torimune29/dotfiles/main/bootstrap.sh | sh
 
 ```
 

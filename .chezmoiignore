@@ -1,3 +1,4 @@
+.github/
 README.md
 chezmoistate.boltdb
 .config/direnv/lib/bash_function/

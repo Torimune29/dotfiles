@@ -1,9 +1,0 @@
-{
-  "recommendations": [
-    "timonwong.shellcheck",
-    "rubymaniac.vscode-direnv",
-    "dotiful.dotfiles-syntax-highlighting",
-    "mads-hartmann.bash-ide-vscode",
-    "sirmspencer.vscode-autohide"
-  ]
-}
