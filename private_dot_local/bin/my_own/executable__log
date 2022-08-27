@@ -6,8 +6,9 @@
 # separator uses stdout(color)
 # print_script_info uses stdout(color)
 
-. _color
-
+# search path in sourced script
+# see: https://qiita.com/yudoufu/items/48cb6fb71e5b498b2532
+. "$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)"/_color
 
 _log() {
   __template="$1"
