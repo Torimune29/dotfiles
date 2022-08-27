@@ -21,6 +21,7 @@ declare -A versions=(
         ["gojq"]="latest"
         ["watchexec"]="latest"
         ["navi"]="v2.20.1"
+        ["neovim"]="stable"
 )
 
 print_script_info
@@ -106,5 +107,10 @@ asdf global watchexec ${versions["watchexec"]}
 
 # navi
 curl -L https://github.com/denisidoro/navi/releases/download/${versions["navi"]}/navi-${versions["navi"]}-x86_64-unknown-linux-musl.tar.gz | tar xz -C $HOME/.local/bin/
+
+# neovim
+asdf plugin add neovim || true
+asdf install neovim ${versions["neovim"]}
+asdf global neovim ${versions["neovim"]}
 
 log_success "$0 done."

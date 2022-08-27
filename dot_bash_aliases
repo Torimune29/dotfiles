@@ -141,6 +141,12 @@ alias dotfile='chezmoi'
 alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 alias dotfd='chezmoi diff'
 
+# neovim
+if [ "$(command -v neovim)" ]; then
+  alias vim='nvim'
+  alias vi='nvim'
+fi
+
 # WSL
 ## share clipboard
 alias pbcopy='clip.exe'
