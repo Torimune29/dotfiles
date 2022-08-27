@@ -119,23 +119,24 @@ fi
 #########################################################
 # add by user begin
 #########################################################
-if [ -f $HOME/.bash_function ]; then
-    . $HOME/.bash_function
+{{ if stat (joinPath .chezmoi.homeDir ".bash_function") -}}
+. $HOME/.bash_function
+{{ end }}
+{{ if stat (joinPath .chezmoi.homeDir ".asdf") -}}
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
+if [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc ]; then
+    source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
 fi
-if [ -f $HOME/.asdf/asdf.sh ]; then
-    . $HOME/.asdf/asdf.sh
-    . $HOME/.asdf/completions/asdf.bash
-    if [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc ]; then
-        source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
-    fi
-fi
-if [ "$(command -v starship)" ]; then
-    eval "$(starship init bash)"
-fi
-if [ "$(command -v zoxide)" ]; then
-    eval "$(zoxide init bash)"
-fi
-{{ if not (contains "DESKTOP" .chezmoi.hostname) }}
+{{ end }}
+{{ if lookPath "starship" -}}
+eval "$(starship init bash)"
+{{ end -}}
+{{ if lookPath "zoxide" -}}
+eval "$(zoxide init bash)"
+{{ end }}
+
+{{- if and (not (contains "DESKTOP" .chezmoi.hostname)) (not (stat "/.dockerenv")) -}}
 ## record log
 if [ "$SHLVL" = "1" ] && [ ! -z "$PS1" ] ; then
     [ -d "$MY_OWN_LOG_PATH"/terminal ] || mkdir -p "$MY_OWN_LOG_PATH"/terminal

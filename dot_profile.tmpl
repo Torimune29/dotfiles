@@ -25,40 +25,43 @@ export MY_OWN_SHARE_PATH=$XDG_DATA_HOME/my_own
 export MY_OWN_LOG_PATH=$XDG_STATE_HOME/my_own/log
 
 # Editor settings
-{{ if contains "WSL" .chezmoi.kernel.osrelease }}export EDITOR='code --wait'
-{{ else if eq .chezmoi.os "linux" }}export EDITOR="vim"
-{{ else }}export EDITOR="vi"
+{{ if or (lookPath "wsl.exe") (lookPath "powershell.exe") -}}
+export EDITOR='code --wait'
+{{ else if eq .chezmoi.os "linux" -}}
+export EDITOR="vim"
+{{ else -}}
+export EDITOR="vi"
 {{ end }}
 
-{{ if contains "WSL" .chezmoi.kernel.osrelease }}
-# Windows settings
+{{ if and (lookPath "wsl.exe") (lookPath "powershell.exe") -}}
+# Windows/WSL settings
 # !!! wslpath command is too slow.
 export WINDOWS_USERNAME=$(powershell.exe '$env:USERNAME' | sed -e 's/^M//g' | tr -d \\r)
 export WINDOWS_USER_HOME_PATH="C:/Users/${WINDOWS_USERNAME}/"
-export WINDOWS_USER_HOME_WSL_PATH="$(wslpath $WINDOWS_USER_HOME_PATH)"
 export WINDOWS_USER_TMP_PATH="C:/Users/${WINDOWS_USERNAME}/AppData/Local/Temp"
+{{ if lookPath "wslpath" -}}
+export WINDOWS_USER_HOME_WSL_PATH="$(wslpath $WINDOWS_USER_HOME_PATH)"
 export WINDOWS_USER_TMP_WSL_PATH="$(wslpath $WINDOWS_USER_TMP_PATH)"
 {{ end }}
-{{ if not (contains "DESKTOP" .chezmoi.hostname) }}
-# For work: use specific svn
-if [ -d "/opt/misc/subversion/bin" ]; then
-  PATH=/opt/misc/subversion/bin:$PATH
-fi
-{{ end }}
-
-# Executing commands
-# Daily operation for dotfiles sync
-# for reload rc, execute on head.
-if [ "$(command -v chezmoi)" ]; then
-  chezmoi update || true
-fi
-{{ if contains "WSL" .chezmoi.kernel.osrelease }}
+{{ if and (lookPath "docker") (lookPath "service") -}}
 # WSL: boot docker service
-if [ "$(command -v docker)" ] && [ "$(command -v service)" ] \
-    && service docker status 2>&1 | grep -q "is not running"; then
+if service docker status 2>&1 | grep -q "is not running"; then
     echo "docker service is not running. service start."
     sudo service docker start > /dev/null 2>&1
 fi
+{{ end }}
+{{ end }}
+
+{{- if stat "/opt/misc/subversion/bin" -}}
+# For work: use specific svn
+PATH=/opt/misc/subversion/bin:$PATH
+{{ end }}
+
+{{- if lookPath "chezmoi" -}}
+# Executing commands
+# Daily operation for dotfiles sync
+# for reload rc, execute on head.
+chezmoi update || true
 {{ end }}
 #########################################################
 # add by user end
