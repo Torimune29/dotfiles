@@ -25,7 +25,7 @@ export MY_OWN_SHARE_PATH=$XDG_DATA_HOME/my_own
 export MY_OWN_LOG_PATH=$XDG_STATE_HOME/my_own/log
 
 # Editor settings
-{{ if or (lookPath "wsl.exe") (lookPath "powershell.exe") -}}
+{{ if and (lookPath "wsl.exe") (lookPath "powershell.exe") -}}
 export EDITOR='code --wait'
 {{ else if eq .chezmoi.os "linux" -}}
 export EDITOR="vim"
