@@ -63,6 +63,10 @@ PATH=/opt/misc/subversion/bin:$PATH
 # for reload rc, execute on head.
 chezmoi update || true
 {{ end }}
+{{- if lookPath "watchexec" -}}
+# Watch chezmoi directory and apply automatically
+nohup watchexec -r -w $(chezmoi source-path) -- chezmoi apply 1>/dev/null 2>/dev/null - /dev/null &
+{{ end }}
 #########################################################
 # add by user end
 #########################################################
