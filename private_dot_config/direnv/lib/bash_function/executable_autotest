@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-autotest () 
-{ 
-    watchexec -r --exts sh,bash "docker run --rm=true -v $(pwd):/tmp/toolkit -e ORDER=dev -e DOTFILES_GIT_AUTHOR_NAME=Torimune29 debian:stable-slim /bin/bash /tmp/toolkit/bootstrap.sh"
-}
-autotest "$@"

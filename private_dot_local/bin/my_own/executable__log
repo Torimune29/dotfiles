@@ -4,13 +4,15 @@
 # log_(success|error|warning|note) uses stdout(color) only
 # logger_(success|error|warning|note) uses stdout(color) and syslog(no-color)
 
-. _color
+# search path in sourced script
+# see: https://qiita.com/yudoufu/items/48cb6fb71e5b498b2532
+. "$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)"/_color
 
 _log() {
-   __template="$1"
-   shift
-   echo "$(printf "$__template" "$@")" >&2
-   unset __template
+  __template="$1"
+  shift
+  echo "$(printf "$__template" "$@")" >&2
+  unset __template
 }
 
 log_success() {  _log "$Green✔ %s$ResetColor\n" "$@"; }
@@ -18,7 +20,37 @@ log_error() {    _log "$Red✖ %s$ResetColor\n" "$@"; }
 log_warning() {  _log "$Yellow➜ %s$ResetColor\n" "$@"; }
 log_note() {     _log "$Blue%s$ResetColor\n" "$@"; }
 
+
 logger_success() {  _log "$Green✔ %s$ResetColor\n" "$@";  logger -p user.info "$@"; }
 logger_error() {    _log "$Red✖ %s$ResetColor\n" "$@";    logger -p user.err "$@"; }
 logger_warning() {  _log "$Yellow➜ %s$ResetColor\n" "$@"; logger -p user.warning "$@"; }
 logger_note() {     _log "$Blue%s$ResetColor\n" "$@";      logger -p user.notice "$@"; }
+
+
+separator() {
+  _width="48"  # minimum width
+  _character="${1:-#}"
+  [ "$(command -v tput)" ] && _width=$(tput cols)                           # Get terminal width
+  echo "$(seq $_width | xargs -I{} printf -- '%c' $_character)"
+  unset _width _character
+}
+
+
+print_script_info() {
+   log_note $(separator)
+   log_note "$0"
+   for arg; do
+      log_note "$arg"
+   done
+   log_note $(separator)
+}
+
+
+print_script_info_error() {
+   log_error $(separator)
+   log_error "$0"
+   for arg; do
+      log_error "$arg"
+   done
+   log_error $(separator)
+}

@@ -2,6 +2,8 @@
 
 set -e
 
+. $HOME/.local/bin/my_own/_log
+
 declare -A versions=(
         ["asdf"]="v0.10.2"
         ["chezmoi"]="latest"
@@ -21,6 +23,7 @@ declare -A versions=(
         ["navi"]="v2.20.1"
 )
 
+print_script_info
 
 # install asdf
 if [ ! -x "$(command -v asdf)" ] && [ ! -e "$HOME/.asdf" ]; then

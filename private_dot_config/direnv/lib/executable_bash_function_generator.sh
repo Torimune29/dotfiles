@@ -1,4 +1,4 @@
-ALIASES_DIR="$HOME/.config/direnv/lib/bash_function"
+ALIASES_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/direnv/lib/bash_function"
 export_function() {
   local name=$1
   local alias_dir=${ALIASES_DIR}

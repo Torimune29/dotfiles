@@ -18,7 +18,7 @@ decompress () {
   if [ -f "$1" ] ; then
     local filename=$(basename "$1")
     local foldername="${filename%%.*}"
-    local fullpath="$(readlink -f $1)"
+    local fullpath="$(cd $(dirname $1) && pwd)/$(basename $1)"
     local didfolderexist=false
     if [ -d "$foldername" ]; then
       didfolderexist=true

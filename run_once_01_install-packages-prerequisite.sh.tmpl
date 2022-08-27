@@ -1,8 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
 . $HOME/.local/bin/my_own/_gather_facts
+. $HOME/.local/bin/my_own/_log
 
 # gather facts
 eval $(get_package_management_method)
@@ -10,11 +11,11 @@ set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
 
 # install
 {{ if or (eq "debian" .chezmoi.osRelease.id) (and (.chezmoi.osRelease.idLike) (contains "debian" .chezmoi.osRelease.idLike)) }}
-echo "Platform: debian" >2
-export DEBCONF_NOWARNINGS=yes
+print_script_info "  Platform: debian"
+DEBCONF_NOWARNINGS=yes
 eval $(get_escalation_method) $_facts_install bash tar gzip unzip xz-utils 1>/dev/null
 {{ else if contains "centos" .chezmoi.osRelease.idLike }}
-echo "Platform: centos" >2
+print_script_info "  Platform: centos"
 if [ -x "$(command -v amazon-linux-extras)" ]; then
   eval $(get_escalation_method) amazon-linux-extras install epel
 else
@@ -22,9 +23,10 @@ else
 fi
 eval $(get_escalation_method) $_facts_install bash tar gzip unzip xz 1>/dev/null
 {{ else }}
-echo "Platform: not found" >2
-echo "This platform is unsupported." >2
-echo "Please check chezmoi template:" >2
-chezmoi execute-template '{{ .chezmoi | toJson }}' >2
+print_script_info_error \
+  "  Platform: not found" \
+  "  This platform is unsupported." \
+  "  Please check chezmoi template:" \
+  $(chezmoi execute-template '{{ .chezmoi | toJson }}')
 return 1
 {{ end }}
