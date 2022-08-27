@@ -28,11 +28,9 @@ logger_note() {     _log "$Blue%s$ResetColor\n" "$@";      logger -p user.notice
 
 
 separator() {
-  _width="48"  # minimum width
-  _character="${1:-#}"
-  [ -v TERM ] && [ -n "$TERM" ] && [ "$(command -v tput)" ] && _width=$(tput cols)                           # Get terminal width
-  echo "$(seq $_width | xargs -I{} printf -- '%c' $_character)"
-  unset _width _character
+  [ "$(command -v tput)" ] && _width=$(tput cols 2> /dev/null)
+  echo "$(seq ${_width:-48} | xargs -I{} printf -- '%c' ${1:-#})"  # default width:48, char: #
+  unset _width
 }
 
 
