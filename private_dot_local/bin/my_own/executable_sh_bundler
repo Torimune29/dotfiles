@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 #
 # shell bundler.
 # concats sh/bash files to stdout, with cut shebang and ./source directives.

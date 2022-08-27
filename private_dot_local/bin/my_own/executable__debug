@@ -1,11 +1,34 @@
 #!/usr/bin/env bash
 #
-# bash debug step executor. trap DEBUG signal.
-# If defined $MY_OWN__DEBUG environment variable, this is enabled.
+# bash debug step executor.
+# Always trap Err signal and print stacktrace[].
+# If defined $MY_OWN__DEBUG environment variable, trap DEBUG signal.
 # e.g. MY_OWN__DEBUG=1 echo hello
 #
 # see: https://qiita.com/rsooo/items/ef1d036bcc7282a66d7d
+# see: https://gist.github.com/moisei/4cb326101eae1d9d07244cfd9ee2ef5a
 
-if [ ! -z "$MY_OWN__DEBUG" ]; then
+function errexit() {
+    local err=$?
+    set +o xtrace
+    echo "Error in ${BASH_SOURCE[1]}:${BASH_LINENO[0]}." >&2
+    echo "'${BASH_COMMAND}' exited with status $err"     >&2
+    for ((i=1;i<${#FUNCNAME[@]};i++)); do
+        local script=${BASH_SOURCE[$i]}
+        local lineno=${BASH_LINENO[$i-1]}
+        local funcname=${FUNCNAME[$i]}
+        if [[ "${script:0:1}" != / && "${script:0:2}" != ~[/a-z] ]]; then
+            script="${SCRIPT_DIR}/$script"
+        fi
+        echo "$script:$funcname:$lineno"  >&2
+        awk 'NR>L-4 && NR<L+4 { printf "%-5d%3s%s\n",NR,(NR==L?">>>":""),$script }' L=$lineno $script  >&2
+    done
+    echo "Exiting with err:$err"  >&2
+    exit $err
+}
+
+trap 'errexit' ERR
+
+if [ -v MY_OWN__DEBUG ]; then
   trap 'read -p "next(LINE:$LINENO)>> $BASH_COMMAND"' DEBUG;
 fi

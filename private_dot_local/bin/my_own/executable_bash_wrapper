@@ -10,11 +10,4 @@
 
 set -eo pipefail
 
-. _log
-
-if [ "$(command -v $1)" ]; then
-  _command=$1
-  shift
-  eval ". _debug; $_command" "$@"
-  unset _command
-fi
+eval ". _debug; $*"

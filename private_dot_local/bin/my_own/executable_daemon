@@ -17,7 +17,7 @@ _stderr=$1
 shift
 
 logger_note "daemon starting... $*"
-nohup /bin/bash -c "$*" 1> $_stdout 2> $_stderr - /dev/null &
+nohup /usr/bin/env bash -c "$*" 1> $_stdout 2> $_stderr - /dev/null &
 if [ $? = 0 ]; then
   logger_success "daemon started."
 else
