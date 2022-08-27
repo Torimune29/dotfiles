@@ -34,27 +34,31 @@ alias rm='rm -i'
 alias reload='exec $SHELL -l'
 
 # modern cli tools
+{{ if lookPath "exa" -}}
 ## ls, tree to exa
-if [ "$(command -v exa)" ]; then
-  alias exa='exa -a -h -g'
-  alias ls='exa -a -h -g'
-  alias tree='exa --tree'
-fi
+alias exa='exa -a -h -g'
+alias ls='exa -a -h -g'
+alias tree='exa --tree'
+{{ end }}
+
+{{- if lookPath "bat" -}}
 ## cat, less to bat
 ### not working on glibc < 2.29
-if [ "$(command -v bat)" ] && bat --version > /dev/null 2>&1 ; then
+if bat --version > /dev/null 2>&1 ; then
   alias cat='bat --paging=never'
   alias less='bat --paging=always'
 fi
+{{ end }}
+
+{{- if lookPath "zoxide" -}}
 ## cd to z
-if [ "$(command -v zoxide)" ]; then
-  alias ..='z ..'
-  alias ...='z ../..'
-  alias ....='z ../../..'
-  alias .....='z ../../../..'
-  alias c='z'
-  # alias cd='z'  enhancd uses cd
-fi
+alias ..='z ..'
+alias ...='z ../..'
+alias ....='z ../../..'
+alias .....='z ../../../..'
+alias c='z'
+alias cd='z'  enhancd uses cd
+{{ end }}
 ## find to fd
 ### disable because fd has less compatible with find
 # if [ "$(command -v fd)" ]; then
@@ -65,69 +69,74 @@ fi
 # if [ "$(command -v delta)" ]; then
 #   alias diff='delta'
 # fi
-## fzf
-if [ "$(command -v fzf)" ]; then
-  ### common
-  export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse --info=hidden'
-  # fzf completion
-  if [ -e "$HOME/.local/share/fzf/fzf-bash-completion.sh" ]; then
-    . $HOME/.local/share/fzf/fzf-bash-completion.sh
-    bind -x '"\t\t": fzf_bash_completion'
-  fi
-  alias f='fzf'
-  ### cd from dir
-  cdfd () {
-    local path=$(fd --type d  . ${1:-.} | fzf --preview "exa -T -L 2 {}")
-    if [ ! -d ${path} ]; then
-      echo "path is not a directory."
-      return 1
-    else
-      z ${path:?path not found}
-    fi
-  }
-  ### open file from dir
-  opfd () {
-    if [ -f "${1:-.}" ]; then code $1; return; fi
-    local path=$(fd -I . ${1:-.} | fzf --preview "cat {}")
-    code ${path:?is empty} || true
-  }
-  ### copy path from dir
-  pathfd () {
-    fd -a . ${1:-.} | fzf | pbcopy
-  }
-  ### history
-  _fzf_search_history() {  ## Ctrl + r history search with fzf
-  	local l=$(HISTTIMEFORMAT= history | \
-  	sort -r | sed -E s/^\ *[0-9]\+\ \+// | \
-  	fzf --query "$READLINE_LINE")
-  	READLINE_LINE="$l"
-  	READLINE_POINT=${#l}
-  }
-  bind -x '"\C-r": _fzf_search_history'
-  ### singleline search
-  ### https://kohkimakimoto.hatenablog.com/entry/2014/06/28/163412
-  _fzf_snippets() {
-    if [ ! -e $HOME/.snippets ]; then
-        echo "$HOME/.snippets is not found." >&2
-        return 1
-    fi
-    local line
-    line=$(grep -v -e "^#" -e "^ *$"  ~/.snippets | fzf --query "$READLINE_LINE" | sed "s/^\[[^]]*\] *//g")
-    READLINE_LINE="$line"
-    READLINE_POINT=${#READLINE_LINE}
-  }
-  bind -x '"\C-x\C-x": _fzf_snippets'
-fi
-## jq to gojq
-if [ "$(command -v gojq)" ]; then
-  alias jq='gojq'
-fi
 
+{{ if lookPath "fzf" -}}
+## fzf
+### common
+export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse --info=hidden'
+# fzf completion
+if [ -e "$HOME/.local/share/fzf/fzf-bash-completion.sh" ]; then
+  . $HOME/.local/share/fzf/fzf-bash-completion.sh
+  bind -x '"\t\t": fzf_bash_completion'
+fi
+alias f='fzf'
+### cd from dir
+cdfd () {
+  local path=$(fd --type d  . ${1:-.} | fzf --preview "exa -T -L 2 {}")
+  if [ ! -d ${path} ]; then
+    echo "path is not a directory."
+    return 1
+  else
+    z ${path:?path not found}
+  fi
+}
+### open file from dir
+opfd () {
+  if [ -f "${1:-.}" ]; then code $1; return; fi
+  local path=$(fd -I . ${1:-.} | fzf --preview "cat {}")
+  code ${path:?is empty} || true
+}
+### copy path from dir
+pathfd () {
+  fd -a . ${1:-.} | fzf | pbcopy
+}
+### history
+_fzf_search_history() {  ## Ctrl + r history search with fzf
+	local l=$(HISTTIMEFORMAT= history | \
+	sort -r | sed -E s/^\ *[0-9]\+\ \+// | \
+	fzf --query "$READLINE_LINE")
+	READLINE_LINE="$l"
+	READLINE_POINT=${#l}
+}
+bind -x '"\C-r": _fzf_search_history'
+### singleline search
+### https://kohkimakimoto.hatenablog.com/entry/2014/06/28/163412
+_fzf_snippets() {
+  if [ ! -e $HOME/.snippets ]; then
+      echo "$HOME/.snippets is not found." >&2
+      return 1
+  fi
+  local line
+  line=$(grep -v -e "^#" -e "^ *$"  ~/.snippets | fzf --query "$READLINE_LINE" | sed "s/^\[[^]]*\] *//g")
+  READLINE_LINE="$line"
+  READLINE_POINT=${#READLINE_LINE}
+}
+bind -x '"\C-x\C-x": _fzf_snippets'
+{{ end }}
+
+{{ if lookPath "gojq" -}}
+## jq to gojq
+alias jq='gojq'
+{{ end }}
+
+{{ if lookPath "ghq" -}}
 ## ghq, hub
 alias ghql='cd $(ghq root)/$(ghq list | fzf)'
 alias ghqo='code $(cd $(ghq root)/$(ghq list | fzf) && pwd)'
 alias ghqv='$(cd $(ghq root)/$(ghq list | fzf) && gh browse)'
+{{ end }}
 
+{{ if lookPath "docker" -}}
 # docker
 alias dcu='docker-compose up -d'
 alias dcd='docker-compose down'
@@ -135,17 +144,19 @@ alias dcr='docker-compose restart'
 alias dp='docker ps'
 alias dx='docker exec -it'
 alias dr='docker run -it --rm=true'
+{{ end }}
+
 # chezmoi ("dotfile")
 alias dotf='chezmoi'
 alias dotfile='chezmoi'
 alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 alias dotfd='chezmoi diff'
 
+{{- if lookPath "nvim" -}}
 # neovim
-if [ "$(command -v nvim)" ]; then
-  alias vim='nvim'
-  alias vi='nvim'
-fi
+alias vim='nvim'
+alias vi='nvim'
+{{ end }}
 
 # WSL
 ## share clipboard
