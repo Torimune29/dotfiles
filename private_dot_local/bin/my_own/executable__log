@@ -5,12 +5,14 @@
 # logger_(success|error|warning|note) uses stdout(color) and syslog(no-color)
 # separator uses stdout(color)
 # print_script_info uses stdout(color)
+#
+# If defined MY_OWN__LOG_SILENT, output nothing without logger_* syslog
 
-# search path in sourced script
-# see: https://qiita.com/yudoufu/items/48cb6fb71e5b498b2532
-. "$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)"/_color
+. $HOME/.local/bin/my_own/_color
+
 
 _log() {
+  [ -v MY_OWN__LOG_SILENT ] && return 0
   __template="$1"
   shift
   echo "$(printf "$__template" "$@")" >&2
