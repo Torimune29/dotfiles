@@ -164,8 +164,8 @@ alias vi='nvim'
 
 {{- if lookPath "tmux" -}}
 alias tm='tmux'
-alias tmvs='tmux split-window -v'
-alias tmsp='tmux split-window -h'
+alias :vsp='tmux split-window -h'
+alias :sp='tmux split-window -v'
 {{ end }}
 
 # WSL
