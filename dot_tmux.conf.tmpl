@@ -7,6 +7,7 @@ unbind C-b  # disable default
 ### for nonoverwrite C-h backspace to move pane
 ### https://qiita.com/izumin5210/items/d2e352de1e541ff97079
 bind -n C-w switch-client -T NAVIGATOR
+bind -T NAVIGATOR C-w send-keys C-w  # for vim
 ## move pane
 ### Smart pane switching with awareness of Vim splits.
 ### See: https://github.com/christoomey/vim-tmux-navigator
@@ -16,12 +17,11 @@ bind -T NAVIGATOR h if-shell "$is_vim" 'send-keys C-h'  'select-pane -L'
 bind -T NAVIGATOR j if-shell "$is_vim" 'send-keys C-j'  'select-pane -D'
 bind -T NAVIGATOR k if-shell "$is_vim" 'send-keys C-k'  'select-pane -U'
 bind -T NAVIGATOR l if-shell "$is_vim" 'send-keys C-l'  'select-pane -R'
-bind -T NAVIGATOR \ if-shell "$is_vim" "send-keys C-w \\" "select-pane -l"
 ## resize pane
-bind -r H resize-pane -L 5
-bind -r J resize-pane -D 5
-bind -r K resize-pane -U 5
-bind -r L resize-pane -R 5
+bind -r H resize-pane -L 10
+bind -r J resize-pane -D 10
+bind -r K resize-pane -U 10
+bind -r L resize-pane -R 10
 
 
 # status line view
