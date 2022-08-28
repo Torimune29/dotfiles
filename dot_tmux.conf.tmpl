@@ -57,6 +57,9 @@ bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
 bind-key -T copy-mode-vi C-[ send-keys -X clear-selection
 
 # misc
+## disable login shell, for disable loading .profile
+## see: https://wiki.archlinux.jp/index.php/Tmux
+set -g default-command "${SHELL}"
 ## enable mouse
 set-option -g mouse on
 ## prefix+r for reload .tmux.conf
