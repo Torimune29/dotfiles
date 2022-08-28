@@ -3,6 +3,7 @@
 set -e
 
 . $HOME/.local/bin/my_own/_log
+. $HOME/.local/bin/my_own/_gather_facts
 
 declare -A versions=(
         ["asdf"]="v0.10.2"
@@ -22,7 +23,6 @@ declare -A versions=(
         ["watchexec"]="latest"
         ["navi"]="v2.20.1"
         ["neovim"]="stable"
-        ["tmux"]="latest"
 )
 
 print_script_info
@@ -149,8 +149,10 @@ asdf global neovim ${versions["neovim"]}
 {{ end -}}
 
 {{ if not (lookPath "tmux") -}}
-asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git
-asdf install tmux latest
+# gather facts
+eval $(get_package_management_method)
+set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
+eval $(get_escalation_method) $_facts_install tmux 1>/dev/null
 {{ end -}}
 
 log_success "$0 done."
