@@ -22,6 +22,7 @@ declare -A versions=(
         ["watchexec"]="latest"
         ["navi"]="v2.20.1"
         ["neovim"]="stable"
+        ["tmux"]="latest"
 )
 
 print_script_info
@@ -145,6 +146,11 @@ curl -L https://github.com/denisidoro/navi/releases/download/${versions["navi"]}
 asdf plugin add neovim || true
 asdf install neovim ${versions["neovim"]}
 asdf global neovim ${versions["neovim"]}
+{{ end -}}
+
+{{ if not (lookPath "tmux") -}}
+asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git
+asdf install tmux latest
 {{ end -}}
 
 log_success "$0 done."
