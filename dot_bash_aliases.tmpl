@@ -157,6 +157,12 @@ alias vim='nvim'
 alias vi='nvim'
 {{ end }}
 
+{{- if lookPath "tmux" -}}
+alias tm='tmux'
+alias tmvs='tmux split-window -v'
+alias tmsp='tmux split-window -h'
+{{ end }}
+
 # WSL
 ## share clipboard
 alias pbcopy='clip.exe'
