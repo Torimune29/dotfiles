@@ -194,7 +194,8 @@ open () {
 google() {
   local browser="/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe --incognito"
   [ $# -lt 1 ] && return 1
-  for term in $* ; do
+  local search=""
+  for term in "$@" ; do
     search="$search%20$term"
   done
   eval "$browser" https://www.google.co.jp/search\?q\=$search
