@@ -137,10 +137,10 @@ if [ -e "$HOME/.asdf/asdf.sh" ]; then
         source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
     fi
 fi
-if [ "$(command -v starship)" ]; then
+if [ "$(command -v starship)" ] && [ "$(starship --version)" ]; then
     eval "$(starship init bash)"
 fi
-if [ "$(command -v zoxide)" ]; then
+if [ "$(command -v zoxide)" ] && [ "$(zoxide --version)" ]; then
     eval "$(zoxide init bash)"
 fi
 

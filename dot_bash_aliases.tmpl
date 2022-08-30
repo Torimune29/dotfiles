@@ -44,100 +44,100 @@ alias rm='rm -i'
 alias reload='exec $SHELL -l'
 
 # modern cli tools
-if [ "$(command -v exa)" ]; then
+if [ "$(command -v exa)" ] && [ "$(exa --version)" ]; then
   ## ls, tree to exa
   alias exa='exa -a -h -g'
   alias ls='exa -a -h -g'
   alias tree='exa --tree'
 fi
 
-if [ "$(command -v bat)" ]; then
-## cat, less to bat
-### not working on glibc < 2.29
-alias cat='bat --paging=never'
-alias less='bat --paging=always'
+if [ "$(command -v bat)" ] && [ "$(bat --version)" ]; then
+  ## cat, less to bat
+  ### not working on glibc < 2.29
+  alias cat='bat --paging=never'
+  alias less='bat --paging=always'
 fi
 
-if [ "$(command -v zoxide)" ]; then
-## cd to z
-alias ..='z ..'
-alias ...='z ../..'
-alias ....='z ../../..'
-alias .....='z ../../../..'
-alias c='z'
-alias cd='z'
+if [ "$(command -v zoxide)" ] && [ "$(zoxide --version)" ]; then
+  ## cd to z
+  alias ..='z ..'
+  alias ...='z ../..'
+  alias ....='z ../../..'
+  alias .....='z ../../../..'
+  alias c='z'
+  alias cd='z'
 fi
 ## find to fd
 ### disable because fd has less compatible with find
-# if [ "$(command -v fd)" ]; then
+# if [ "$(command -v fd)" ] && [ "$(fd --version)" ]; then
 #   alias find='fd'
 # fi
 ## diff to delta
 ### disable because delta has less compatible with diff
-# if [ "$(command -v delta)" ]; then
+# if [ "$(command -v delta)2 ] && [ "$(delta --version)" ]; then
 #   alias diff='delta'
 # fi
 
-if [ "$(command -v fzf)" ]; then
-## fzf
-### common
-export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse --info=hidden'
-alias f='fzf'
-# fzf completion
-if [ -e "$HOME.local/share/fzf/fzf-bash-completion.sh" ]; then
-. $HOME/.local/share/fzf/fzf-bash-completion.sh
-bind -x '"\t\t": fzf_bash_completion'
-fi
-### open file from dir
-opfd () {
-  if [ -f "${1:-.}" ]; then code $1; return; fi
-  local path=$(fd -I . ${1:-.} | fzf --preview "cat {}")
-  code ${path:?is empty} || true
-}
-### history
-_fzf_search_history() {  ## Ctrl + r history search with fzf
-	local l=$(HISTTIMEFORMAT= history | \
-	sort -r | sed -E s/^\ *[0-9]\+\ \+// | \
-	fzf --query "$READLINE_LINE")
-	READLINE_LINE="$l"
-	READLINE_POINT=${#l}
-}
-bind -x '"\C-r": _fzf_search_history'
-### singleline search
-### https://kohkimakimoto.hatenablog.com/entry/2014/06/28/163412
-_fzf_snippets() {
-  if [ ! -e $HOME/.snippets ]; then
-      echo "$HOME/.snippets is not found." >&2
-      return 1
+if [ "$(command -v fzf)" ] && [ "$(fzf --version)" ]; then
+  ## fzf
+  ### common
+  export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse --info=hidden'
+  alias f='fzf'
+  # fzf completion
+  if [ -e "$HOME.local/share/fzf/fzf-bash-completion.sh" ]; then
+    . $HOME/.local/share/fzf/fzf-bash-completion.sh
+    bind -x '"\t\t": fzf_bash_completion'
   fi
-  local line
-  line=$(grep -v -e "^#" -e "^ *$"  ~/.snippets | fzf --query "$READLINE_LINE" | sed "s/^\[[^]]*\] *//g")
-  READLINE_LINE="$line"
-  READLINE_POINT=${#READLINE_LINE}
-}
-bind -x '"\C-x\C-x": _fzf_snippets'
+  ### open file from dir
+  opfd () {
+    if [ -f "${1:-.}" ]; then code $1; return; fi
+    local path=$(fd -I . ${1:-.} | fzf --preview "cat {}")
+    code ${path:?is empty} || true
+  }
+  ### history
+  _fzf_search_history() {  ## Ctrl + r history search with fzf
+  	local l=$(HISTTIMEFORMAT= history | \
+  	sort -r | sed -E s/^\ *[0-9]\+\ \+// | \
+  	fzf --query "$READLINE_LINE")
+  	READLINE_LINE="$l"
+  	READLINE_POINT=${#l}
+  }
+  bind -x '"\C-r": _fzf_search_history'
+  ### singleline search
+  ### https://kohkimakimoto.hatenablog.com/entry/2014/06/28/163412
+  _fzf_snippets() {
+    if [ ! -e $HOME/.snippets ]; then
+        echo "$HOME/.snippets is not found." >&2
+        return 1
+    fi
+    local line
+    line=$(grep -v -e "^#" -e "^ *$"  ~/.snippets | fzf --query "$READLINE_LINE" | sed "s/^\[[^]]*\] *//g")
+    READLINE_LINE="$line"
+    READLINE_POINT=${#READLINE_LINE}
+  }
+  bind -x '"\C-x\C-x": _fzf_snippets'
 fi
 
-if [ "$(command -v gojq)" ]; then
-## jq to gojq
-alias jq='gojq'
+if [ "$(command -v gojq)" ] && [ "$(gojq --version)" ]; then
+  ## jq to gojq
+  alias jq='gojq'
 fi
 
-if [ "$(command -v ghq)" ]; then
-## ghq, hub
-alias ghql='cd $(ghq root)/$(ghq list | fzf)'
-alias ghqo='code $(cd $(ghq root)/$(ghq list | fzf) && pwd)'
-alias ghqv='$(cd $(ghq root)/$(ghq list | fzf) && gh browse)'
+if [ "$(command -v ghq)" ] && [ "$(ghq --version)" ]; then
+  ## ghq, hub
+  alias ghql='cd $(ghq root)/$(ghq list | fzf)'
+  alias ghqo='code $(cd $(ghq root)/$(ghq list | fzf) && pwd)'
+  alias ghqv='$(cd $(ghq root)/$(ghq list | fzf) && gh browse)'
 fi
 
-if [ "$(command -v docker)" ]; then
-# docker
-alias dcu='docker-compose up -d'
-alias dcd='docker-compose down'
-alias dcr='docker-compose restart'
-alias dp='docker ps'
-alias dx='docker exec -it'
-alias dr='docker run -it --rm=true'
+if [ "$(command -v docker)" ] && [ "$(docker --version)" ]; then
+  # docker
+  alias dcu='docker-compose up -d'
+  alias dcd='docker-compose down'
+  alias dcr='docker-compose restart'
+  alias dp='docker ps'
+  alias dx='docker exec -it'
+  alias dr='docker run -it --rm=true'
 fi
 
 # chezmoi ("dotfile")
@@ -146,24 +146,24 @@ alias dotfile='chezmoi'
 alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 alias dotfd='chezmoi diff'
 
-if [ "$(command -v nvim)" ]; then
+if [ "$(command -v nvim)" ] && [ "$(nvim --version)" ]; then
 # nvim
-alias vim='nvim'
-alias vi='nvim'
+  alias vim='nvim'
+  alias vi='nvim'
 fi
 
-if [ "$(command -v tmux)" ]; then
+if [ "$(command -v tmux)" ] && [ "$(tmux -V)" ]; then
 # tmux
-alias tm='tmux'
-alias :vsp='tmux split-window -h'
-alias :sp='tmux split-window -v'
+  alias tm='tmux'
+  alias :vsp='tmux split-window -h'
+  alias :sp='tmux split-window -v'
 fi
 
 if [ "$(command -v clip.exe)" ]; then
-# WSL
-## share clipboard
-alias pbcopy='clip.exe'
-alias pbpaste='powershell.exe -Command Get-Clipboard'
+  # WSL
+  ## share clipboard
+  alias pbcopy='clip.exe'
+  alias pbpaste='powershell.exe -Command Get-Clipboard'
 fi
 
 #########################################################
