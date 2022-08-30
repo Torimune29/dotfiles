@@ -43,13 +43,13 @@ export WINDOWS_USER_TMP_PATH="C:/Users/${WINDOWS_USERNAME}/AppData/Local/Temp"
 export WINDOWS_USER_HOME_WSL_PATH="$(wslpath $WINDOWS_USER_HOME_PATH)"
 export WINDOWS_USER_TMP_WSL_PATH="$(wslpath $WINDOWS_USER_TMP_PATH)"
 {{ end }}
-{{ if and (lookPath "docker") (lookPath "service") -}}
-# WSL: boot docker service
-if service docker status 2>&1 | grep -q "is not running"; then
-    echo "docker service is not running. service start."
-    sudo service docker start > /dev/null 2>&1
+if [ "$(command -v docker)" ] && [ "$(command -v service)" ] ; then
+    # WSL: boot docker service
+    if service docker status 2>&1 | grep -q "is not running"; then
+        echo "docker service is not running. service start."
+        sudo service docker start > /dev/null 2>&1
+    fi
 fi
-{{ end }}
 {{ end }}
 
 {{- if stat "/opt/misc/subversion/bin" -}}
@@ -57,12 +57,12 @@ fi
 PATH=/opt/misc/subversion/bin:$PATH
 {{ end }}
 
-{{- if lookPath "chezmoi" -}}
-# Executing commands
-# Daily operation for dotfiles sync
-# for reload rc, execute on head.
-chezmoi update || true
-{{ end }}
+if [ "$(command -v chezmoi)" ]; then
+    # Executing commands
+    # Daily operation for dotfiles sync
+    # for reload rc, execute on head.
+    chezmoi update || true
+fi
 #########################################################
 # add by user end
 #########################################################

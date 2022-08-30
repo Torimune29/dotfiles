@@ -119,7 +119,6 @@ fi
 #########################################################
 # add by user begin
 #########################################################
-{{ if lookPath "tmux" -}}
 if [ -z "$TMUX" ]; then
     ID="$( tmux ls | grep -vm1 attached | cut -d: -f1 )" # get the id of a deattached session
     if [ -z "$ID" ] ;then # if not available create a new one
@@ -128,24 +127,22 @@ if [ -z "$TMUX" ]; then
         tmux attach-session -t "$ID" # if available attach to it
     fi
 fi
-{{ end }}
 
-{{ if stat (joinPath .chezmoi.homeDir ".bash_function") -}}
-. $HOME/.bash_function
-{{ end }}
-{{ if stat (joinPath .chezmoi.homeDir ".asdf") -}}
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
-if [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc ]; then
-    source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
+if [ -e "$HOME/.bash_function" ]; then
+    . $HOME/.bash_function
 fi
-{{ end }}
-{{ if lookPath "starship" -}}
-eval "$(starship init bash)"
-{{ end -}}
-{{ if lookPath "zoxide" -}}
-eval "$(zoxide init bash)"
-{{ end }}
+if [ -e "$HOME/.asdf/asdf.sh" ]; then
+    . $HOME/.asdf/completions/asdf.bash
+    if [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc ]; then
+        source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
+    fi
+fi
+if [ "$(command -v starship)" ]; then
+    eval "$(starship init bash)"
+fi
+if [ "$(command -v zoxide)" ]; then
+    eval "$(zoxide init bash)"
+fi
 
 {{- if and (not (contains "DESKTOP" .chezmoi.hostname)) (not (stat "/.dockerenv")) -}}
 ## record log
