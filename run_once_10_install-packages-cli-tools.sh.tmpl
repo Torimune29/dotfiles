@@ -35,23 +35,82 @@ fi
 # color log.
 # log_(success|error|warning|note) uses stdout(color) only
 # logger_(success|error|warning|note) uses stdout(color) and syslog(no-color)
+# separator uses stdout(color)
+# print_script_info uses stdout(color)
+#
+# If defined MY_OWN__LOG_SILENT, output nothing without logger_* syslog
+
+
+
+
 _log() {
-   __template="$1"
-   shift
-   echo "$(printf "$__template" "$@")" >&2
-   unset __template
+  [ -v MY_OWN__LOG_SILENT ] && return 0
+  __template="$1"
+  shift
+  echo "$(printf "$__template" "$@")" >&2
+  unset __template
 }
+
 
 log_success() {  _log "$Green✔ %s$ResetColor\n" "$@"; }
 log_error() {    _log "$Red✖ %s$ResetColor\n" "$@"; }
 log_warning() {  _log "$Yellow➜ %s$ResetColor\n" "$@"; }
 log_note() {     _log "$Blue%s$ResetColor\n" "$@"; }
 
+
 logger_success() {  _log "$Green✔ %s$ResetColor\n" "$@";  logger -p user.info "$@"; }
 logger_error() {    _log "$Red✖ %s$ResetColor\n" "$@";    logger -p user.err "$@"; }
 logger_warning() {  _log "$Yellow➜ %s$ResetColor\n" "$@"; logger -p user.warning "$@"; }
 logger_note() {     _log "$Blue%s$ResetColor\n" "$@";      logger -p user.notice "$@"; }
 
+
+separator() {
+  [ "$(command -v tput)" ] && _width=$(tput cols 2> /dev/null)
+  echo "$(seq ${_width:-48} | xargs -I{} printf -- '%c' ${1:-#})"  # default width:48, char: #
+  unset _width
+}
+
+
+print_script_info() {
+   log_note $(separator)
+   log_note "$0"
+   for arg; do
+      log_note "$arg"
+   done
+   log_note $(separator)
+}
+
+
+print_script_info_error() {
+   log_error $(separator)
+   log_error "$0"
+   for arg; do
+      log_error "$arg"
+   done
+   log_error $(separator)
+}
+
+
+#######################################
+# get_system
+# Arguments:
+#   None
+# Returns:
+#   0 is ok, non-zero on error.
+# Outputs:
+#   Write system name("Linux", "Mac", "Windows", "Other") to stdout
+# Details:
+#   see: https://stackoverflow.com/a/27776822/9982477
+#   see: https://github.com/ouch-org/ouch/blob/main/install.sh
+#######################################
+get_system () {
+  case "$(uname -s)" in
+    Linux) echo "Linux" ;;
+    Darwin) echo "Mac" ;;
+    CYGWIN*|MINGW32*|MSYS*|MINGW*) echo "Windows" ;;
+    *) echo "Other" ;;
+  esac
+}
 
 #######################################
 # get escalation method(sudo, or su) if needed
@@ -72,6 +131,27 @@ get_escalation_method() {
   fi
 }
 
+#######################################
+# get fetch method(curl, wget) if needed
+# Arguments:
+#   None
+# Returns:
+#   0 is ok
+#   1 is error, fetch method not found.
+# Outputs:
+#   Write method("curl~", "wget~") to stdout
+#   Write error message to stderr if fetch method not found
+# Details:
+#   Priority: 1st curl, 2nd wget.
+#   Each method will do output result to stdout.
+#   Each method will try to retry if needed.
+#######################################
+get_fetch_method () {
+  if [ -x "$(command -v curl)" ];  then echo "curl --silent --retry 3";
+  elif [ -x "$(command -v wget)" ];    then echo "wget --quiet --tries=3 -O -";
+  else echo "Error: fetch method not found." >&2; return 1;
+  fi
+}
 
 #######################################
 # get package management method information
