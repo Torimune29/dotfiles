@@ -1,7 +1,3 @@
-#!/usr/bin/env bash
-
-set -e
-
 # see: https://stackoverflow.com/questions/16843382/colored-shell-script-output-library
 
 ## Enable our easy to read Colour Flags as long as --no-colors hasn't been passed or the NO_COLOR Env Variable is set.
@@ -180,33 +176,3 @@ get_package_management_method () {
   else return 1
   fi
 }
-
-
-# gather facts
-eval $(get_package_management_method)
-set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
-
-# install
-{{ if or (eq "debian" .chezmoi.osRelease.id) (and (.chezmoi.osRelease.idLike) (contains "debian" .chezmoi.osRelease.idLike)) }}
-print_script_info "  Distribution: debian"
-DEBCONF_NOWARNINGS=yes
-eval $(get_escalation_method) $_facts_install bash tar gzip unzip xz-utils 1>/dev/null
-{{ else if or (contains "centos" .chezmoi.osRelease.idLike) (contains "fedora" .chezmoi.osRelease.idLike) }}
-{{ if eq "amzn" .chezmoi.osRelease.id }}
-print_script_info "  Distribution: centos/fedora id:amzn"
-eval $(get_escalation_method) amazon-linux-extras install epel 1>/dev/null
-{{ else }}
-print_script_info "  Distribution: centos/fedora"
-eval $(get_escalation_method) $_facts_install epel-release 1>/dev/null
-{{ end }}
-eval $(get_escalation_method) $_facts_install bash tar gzip unzip xz 1>/dev/null
-{{ else }}
-print_script_info_error \
-  "  Distribution: not found" \
-  "  This platform is unsupported." \
-  "  Check chezmoi template:" \
-  $(chezmoi execute-template '{{ .chezmoi | toJson }}')
-return 1
-{{ end }}
-
-log_success "$0 done."
