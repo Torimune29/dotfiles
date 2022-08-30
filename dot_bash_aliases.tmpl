@@ -44,21 +44,21 @@ alias rm='rm -i'
 alias reload='exec $SHELL -l'
 
 # modern cli tools
-{{ if lookPath "exa" -}}
-## ls, tree to exa
-alias exa='exa -a -h -g'
-alias ls='exa -a -h -g'
-alias tree='exa --tree'
-{{ end }}
+if [ "$(command -v exa)" ]; then
+  ## ls, tree to exa
+  alias exa='exa -a -h -g'
+  alias ls='exa -a -h -g'
+  alias tree='exa --tree'
+fi
 
-{{- if and (lookPath "bat") (output "bat" "--version") -}}
+if [ "$(command -v bat)" ]; then
 ## cat, less to bat
 ### not working on glibc < 2.29
 alias cat='bat --paging=never'
 alias less='bat --paging=always'
-{{ end }}
+fi
 
-{{- if and (lookPath "zoxide") (output "zoxide" "--version") -}}
+if [ "$(command -v zoxide)" ]; then
 ## cd to z
 alias ..='z ..'
 alias ...='z ../..'
@@ -66,7 +66,7 @@ alias ....='z ../../..'
 alias .....='z ../../../..'
 alias c='z'
 alias cd='z'
-{{ end }}
+fi
 ## find to fd
 ### disable because fd has less compatible with find
 # if [ "$(command -v fd)" ]; then
@@ -78,7 +78,7 @@ alias cd='z'
 #   alias diff='delta'
 # fi
 
-{{- if and (lookPath "fzf") (output "fzf" "--version") -}}
+if [ "$(command -v fzf)" ]; then
 ## fzf
 ### common
 export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse --info=hidden'
@@ -116,21 +116,21 @@ _fzf_snippets() {
   READLINE_POINT=${#READLINE_LINE}
 }
 bind -x '"\C-x\C-x": _fzf_snippets'
-{{ end }}
+fi
 
-{{- if and (lookPath "gojq") (output "gojq" "--version") -}}
+if [ "$(command -v gojq)" ]; then
 ## jq to gojq
 alias jq='gojq'
-{{ end }}
+fi
 
-{{- if and (lookPath "ghq") (output "ghq" "--version") -}}
+if [ "$(command -v ghq)" ]; then
 ## ghq, hub
 alias ghql='cd $(ghq root)/$(ghq list | fzf)'
 alias ghqo='code $(cd $(ghq root)/$(ghq list | fzf) && pwd)'
 alias ghqv='$(cd $(ghq root)/$(ghq list | fzf) && gh browse)'
-{{ end }}
+fi
 
-{{- if and (lookPath "docker") (output "docker" "--version") -}}
+if [ "$(command -v docker)" ]; then
 # docker
 alias dcu='docker-compose up -d'
 alias dcd='docker-compose down'
@@ -138,7 +138,7 @@ alias dcr='docker-compose restart'
 alias dp='docker ps'
 alias dx='docker exec -it'
 alias dr='docker run -it --rm=true'
-{{ end }}
+fi
 
 # chezmoi ("dotfile")
 alias dotf='chezmoi'
@@ -146,25 +146,25 @@ alias dotfile='chezmoi'
 alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 alias dotfd='chezmoi diff'
 
-{{ if and (lookPath "nvim") (output "nvim" "--version") -}}
+if [ "$(command -v nvim)" ]; then
 # nvim
 alias vim='nvim'
 alias vi='nvim'
-{{ end }}
+fi
 
-{{- if and (lookPath "tmux") (output "tmux" "-V") -}}
+if [ "$(command -v tmux)" ]; then
 # tmux
 alias tm='tmux'
 alias :vsp='tmux split-window -h'
 alias :sp='tmux split-window -v'
-{{ end }}
+fi
 
-{{- if and (lookPath "clip.exe") (lookPath "powershell.exe") -}}
+if [ "$(command -v clip.exe)" ]; then
 # WSL
 ## share clipboard
 alias pbcopy='clip.exe'
 alias pbpaste='powershell.exe -Command Get-Clipboard'
-{{ end }}
+fi
 
 #########################################################
 # add by user end
