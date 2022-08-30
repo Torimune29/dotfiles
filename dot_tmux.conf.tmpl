@@ -1,5 +1,3 @@
-{{ if lookPath "tmux" -}}
-{{ if le (semver "3.0" | (semver (output "tmux" "-V" | replaceAllRegex "(tmux|[a-z])" "" | trim)).Compare) 0 -}}
 # for tmux >= 3.0
 
 # change prefix
@@ -72,6 +70,3 @@ bind r source-file ~/.tmux.conf \; display "Reloaded!"
 ## code
 set-option -ga update-environment ' VSCODE_GIT_ASKPASS_NODE VSCODE_GIT_ASKPASS_MAIN VSCODE_IPC_HOOK_CLI PATH GIT_ASKPASS'
 {{ end }}
-
-{{- end -}}
-{{- end -}}
