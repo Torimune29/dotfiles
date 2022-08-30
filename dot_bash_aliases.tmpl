@@ -84,7 +84,7 @@ alias cd='z'
 export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse --info=hidden'
 alias f='fzf'
 # fzf completion
-{{- if stat (joinPath .chezmoi.homeDir ".local/share/fzf/fzf-bash-completion.sh") -}}
+{{ if stat (joinPath .chezmoi.homeDir ".local/share/fzf/fzf-bash-completion.sh") -}}
 . $HOME/.local/share/fzf/fzf-bash-completion.sh
 bind -x '"\t\t": fzf_bash_completion'
 {{ end }}
