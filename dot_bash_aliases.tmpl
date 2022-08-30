@@ -12,6 +12,11 @@ alias ll='ls -alF'
 alias la='ls -a'
 alias l='ls'
 # builtin-utility
+## cd
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 ## search
 alias 'psa'='ps ax'
 alias 'lsofi'='lsof -i -P'
@@ -46,16 +51,14 @@ alias ls='exa -a -h -g'
 alias tree='exa --tree'
 {{ end }}
 
-{{- if lookPath "bat" -}}
+{{- if and (lookPath "bat") (output "bat" "--version") -}}
 ## cat, less to bat
 ### not working on glibc < 2.29
-if bat --version > /dev/null 2>&1 ; then
-  alias cat='bat --paging=never'
-  alias less='bat --paging=always'
-fi
+alias cat='bat --paging=never'
+alias less='bat --paging=always'
 {{ end }}
 
-{{- if lookPath "zoxide" -}}
+{{- if and (lookPath "zoxide") (output "zoxide" "--version") -}}
 ## cd to z
 alias ..='z ..'
 alias ...='z ../..'
@@ -75,35 +78,21 @@ alias cd='z'
 #   alias diff='delta'
 # fi
 
-{{ if lookPath "fzf" -}}
+{{- if and (lookPath "fzf") (output "fzf" "--version") -}}
 ## fzf
 ### common
 export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse --info=hidden'
-# fzf completion
-if [ -e "$HOME/.local/share/fzf/fzf-bash-completion.sh" ]; then
-  . $HOME/.local/share/fzf/fzf-bash-completion.sh
-  bind -x '"\t\t": fzf_bash_completion'
-fi
 alias f='fzf'
-### cd from dir
-cdfd () {
-  local path=$(fd --type d  . ${1:-.} | fzf --preview "exa -T -L 2 {}")
-  if [ ! -d ${path} ]; then
-    echo "path is not a directory."
-    return 1
-  else
-    z ${path:?path not found}
-  fi
-}
+# fzf completion
+{{- if stat (joinPath .chezmoi.homeDir ".local/share/fzf/fzf-bash-completion.sh") -}}
+. $HOME/.local/share/fzf/fzf-bash-completion.sh
+bind -x '"\t\t": fzf_bash_completion'
+{{ end }}
 ### open file from dir
 opfd () {
   if [ -f "${1:-.}" ]; then code $1; return; fi
   local path=$(fd -I . ${1:-.} | fzf --preview "cat {}")
   code ${path:?is empty} || true
-}
-### copy path from dir
-pathfd () {
-  fd -a . ${1:-.} | fzf | pbcopy
 }
 ### history
 _fzf_search_history() {  ## Ctrl + r history search with fzf
@@ -129,19 +118,19 @@ _fzf_snippets() {
 bind -x '"\C-x\C-x": _fzf_snippets'
 {{ end }}
 
-{{ if lookPath "gojq" -}}
+{{- if and (lookPath "gojq") (output "gojq" "--version") -}}
 ## jq to gojq
 alias jq='gojq'
 {{ end }}
 
-{{ if lookPath "ghq" -}}
+{{- if and (lookPath "ghq") (output "ghq" "--version") -}}
 ## ghq, hub
 alias ghql='cd $(ghq root)/$(ghq list | fzf)'
 alias ghqo='code $(cd $(ghq root)/$(ghq list | fzf) && pwd)'
 alias ghqv='$(cd $(ghq root)/$(ghq list | fzf) && gh browse)'
 {{ end }}
 
-{{ if lookPath "docker" -}}
+{{- if and (lookPath "docker") (output "docker" "--version") -}}
 # docker
 alias dcu='docker-compose up -d'
 alias dcd='docker-compose down'
@@ -157,21 +146,25 @@ alias dotfile='chezmoi'
 alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 alias dotfd='chezmoi diff'
 
-{{- if lookPath "nvim" -}}
+{{ if and (lookPath "nvim") (output "nvim" "--version") -}}
+# nvim
 alias vim='nvim'
 alias vi='nvim'
 {{ end }}
 
-{{- if lookPath "tmux" -}}
+{{- if and (lookPath "tmux") (output "tmux" "-V") -}}
+# tmux
 alias tm='tmux'
 alias :vsp='tmux split-window -h'
 alias :sp='tmux split-window -v'
 {{ end }}
 
+{{- if and (lookPath "clip.exe") (lookPath "powershell.exe") -}}
 # WSL
 ## share clipboard
 alias pbcopy='clip.exe'
 alias pbpaste='powershell.exe -Command Get-Clipboard'
+{{ end }}
 
 #########################################################
 # add by user end
