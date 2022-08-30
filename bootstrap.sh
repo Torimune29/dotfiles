@@ -114,7 +114,6 @@ log_note "init scripts start"
 
 # apply dotfiles using chezmoi
 sh -c "$(curl -fsLSk https://chezmoi.io/get)" -- init --apply Torimune29
-sh -c "$(curl -fsLSk https://chezmoi.io/get)" -- apply --force
 
 log_success "init script finished"
 log_success "[bootstrap finished]"
