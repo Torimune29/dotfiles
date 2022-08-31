@@ -132,6 +132,7 @@ if [ -e "$HOME/.bash_function" ]; then
     . $HOME/.bash_function
 fi
 if [ -e "$HOME/.asdf/asdf.sh" ]; then
+    . $HOME/.asdf/asdf.sh
     . $HOME/.asdf/completions/asdf.bash
     if [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc ]; then
         source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
