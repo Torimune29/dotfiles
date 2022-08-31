@@ -23,6 +23,7 @@ declare -A versions=(
         ["watchexec"]="latest"
         ["navi"]="v2.20.1"
         ["neovim"]="stable"
+        ["fpp"]="0.9.5"
 )
 
 print_script_info
@@ -153,6 +154,13 @@ asdf global neovim ${versions["neovim"]}
 eval $(get_package_management_method)
 set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
 eval $(get_escalation_method) $_facts_install tmux 1>/dev/null
+{{ end -}}
+
+{{ if not (lookPath "fpp") }}
+# fpp
+git clone --depth=1 https://github.com/facebook/PathPicker.git ${XDG_DATA_HOME:-$HOME/.local/share} -b ${versions["fpp"]}
+pushd ${XDG_DATA_HOME:-$HOME/.local/share} > /dev/null 2>&1 || exit
+ln -s "$(pwd)/fpp" $HOME/.local/bin/fpp
 {{ end -}}
 
 log_success "$0 done."
