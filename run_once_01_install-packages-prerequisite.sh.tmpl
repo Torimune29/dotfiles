@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
-set -e
-
 . $HOME/.local/bin/my_own/_log
 . $HOME/.local/bin/my_own/_gather_facts
 
 # gather facts
 eval $(get_package_management_method)
-set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
+eval $(get_escalation_method) $_facts_update 1>/dev/null
 
 # install
 {{ if or (eq "debian" .chezmoi.osRelease.id) (and (.chezmoi.osRelease.idLike) (contains "debian" .chezmoi.osRelease.idLike)) }}
