@@ -150,7 +150,7 @@ asdf global neovim ${versions["neovim"]}
 
 {{ if not (lookPath "tmux") -}}
 # tmux
-curl -o $HOME/.local/bin/tmux https://github.com/pythops/tmux-linux-binary/releases/download/${versions["tmux"]}/tmux
+curl -L -o $HOME/.local/bin/tmux https://github.com/pythops/tmux-linux-binary/releases/download/${versions["tmux"]}/tmux
 chmod +x $HOME/.local/bin/tmux
 {{ end -}}
 
