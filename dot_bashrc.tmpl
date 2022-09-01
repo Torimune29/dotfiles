@@ -145,7 +145,7 @@ if [ "$(command -v zoxide)" ] && [ "$(zoxide --version)" ]; then
     eval "$(zoxide init bash)"
 fi
 
-{{- if and (not (contains "DESKTOP" .chezmoi.hostname)) (not (stat "/.dockerenv")) -}}
+{{ if and (not (contains "DESKTOP" .chezmoi.hostname)) (not (stat "/.dockerenv")) -}}
 ## record log
 if [ "$SHLVL" = "1" ] && [ ! -z "$PS1" ] ; then
     [ -d "$MY_OWN_LOG_PATH"/terminal ] || mkdir -p "$MY_OWN_LOG_PATH"/terminal
