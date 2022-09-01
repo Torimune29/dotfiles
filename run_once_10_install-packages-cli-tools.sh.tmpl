@@ -23,7 +23,7 @@ declare -A versions=(
         ["watchexec"]="latest"
         ["navi"]="v2.20.1"
         ["neovim"]="stable"
-        ["zellij"]="latest"
+        ["tmux"]="v3.2"
         ["fpp"]="0.9.5"
 )
 
@@ -148,11 +148,10 @@ asdf install neovim ${versions["neovim"]}
 asdf global neovim ${versions["neovim"]}
 {{ end -}}
 
-{{ if not (lookPath "zellij") -}}
-# zellij
-asdf plugin add zellij https://github.com/chessmango/asdf-zellij.git
-asdf install zellij latest
-asdf global zellij latest
+{{ if not (lookPath "tmux") -}}
+# tmux
+wget -O $HOME/.local/bin/tmux https://github.com/pythops/tmux-linux-binary/releases/download/${versions["tmux"]}/tmux
+chmod +x $HOME/.local/bin/tmux
 {{ end -}}
 
 {{ if not (lookPath "fpp") }}
