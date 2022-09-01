@@ -105,9 +105,11 @@ log_note "[bootstrap start]"
 log_note "prerequisite package instal start"
 
 # install packages for chezmoi
+set +e
 eval $(get_package_management_method)
-set +e; eval $(get_escalation_method) $_facts_update 1>/dev/null ; set -e
+eval $(get_escalation_method) $_facts_update 1>/dev/null
 eval $(get_escalation_method) $_facts_install git curl tar bash 1>/dev/null
+set -e
 
 log_success "prerequisite package instal finished."
 log_note "init scripts start"
