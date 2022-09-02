@@ -63,6 +63,13 @@ if [ "$(command -v chezmoi)" ] && [ "$(chezmoi --version)" ]; then
     # for reload rc, execute on head.
     chezmoi update || true
 fi
+
+# set PATH so it includes user's private bin if it exists
+# for executables in bashrc
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
 #########################################################
 # add by user end
 #########################################################
@@ -80,7 +87,7 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
+# # set PATH so it includes user's private bin if it exists
+# if [ -d "$HOME/.local/bin" ] ; then
+#     PATH="$HOME/.local/bin:$PATH"
+# fi
