@@ -22,8 +22,8 @@ alias 'psa'='ps ax'
 alias 'lsofi'='lsof -i -P'
 ## git
 alias g='git'
-alias ga='git add'
-alias gd='git diff'
+alias ga='fga'
+alias gd='fgd'
 alias gs='git status'
 alias gp='git push'
 alias gb='git branch'
@@ -42,19 +42,19 @@ alias rm='rm -i'
 alias reload='exec $SHELL -l'
 
 # replace commands to modern cli tools
-if [ "$(command -v exa)" ] && [ "$(exa --version)" ]; then
+if [ "$(command -v exa)" ] && exa --version > /dev/null 2>&1; then
   ## ls, tree to exa
   alias exa='exa -a --time-style long-iso'
   alias ls='exa -a'
   alias tree='exa --tree'
 fi
-if [ "$(command -v bat)" ] && [ "$(bat --version)" ]; then
+if [ "$(command -v bat)" ] && bat --version > /dev/null 2>&1; then
   ## cat, less to bat
   ### not working on glibc < 2.29
   alias cat='bat --paging=never --color=always'
   alias less='bat --paging=always --color=always'
 fi
-if [ "$(command -v zoxide)" ] && [ "$(zoxide --version)" ]; then
+if [ "$(command -v zoxide)" ] && zoxide --version > /dev/null 2>&1; then
   ## cd to z
   alias ..='z ..'
   alias ...='z ../..'
@@ -63,7 +63,7 @@ if [ "$(command -v zoxide)" ] && [ "$(zoxide --version)" ]; then
   alias c='z'
   alias cd='z'
 fi
-if [ "$(command -v fzf)" ] && [ "$(fzf --version)" ]; then
+if [ "$(command -v fzf)" ] && fzf --version > /dev/null 2>&1; then
   ## fzf
   ### common
   export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse --info=hidden --select-1 --exit-0'
@@ -83,11 +83,11 @@ if [ "$(command -v fzf)" ] && [ "$(fzf --version)" ]; then
   }
   bind -x '"\C-r": _fzf_search_history'
 fi
-if [ "$(command -v gojq)" ] && [ "$(gojq --version)" ]; then
+if [ "$(command -v gojq)" ] && gojq --version > /dev/null 2>&1; then
   ## jq to gojq
   alias jq='gojq'
 fi
-if [ "$(command -v nvim)" ] && [ "$(nvim --version)" ]; then
+if [ "$(command -v nvim)" ] && nvim --version > /dev/null 2>&1; then
   ## vim to nvim
   alias vim='nvim'
   alias vi='nvim'
@@ -136,15 +136,15 @@ fga () {
   fi
 }
 ### diff
-fgdiff () {
-  if [ "$(command -v delta)" ] && [ "$(delta --version)" ]; then
+fgd () {
+  if [ "$(command -v delta)" ] && delta --version > /dev/null 2>&1; then
     fselectgitcommit | xargs -n 2 git --no-pager diff | delta
   else
     fselectgitcommit | xargs -n 2 git diff
   fi
 }
 #### checkout branch/tag
-fgco() {
+fgco () {
   local tags branches target
   branches=$(
     git --no-pager branch --all \
@@ -159,7 +159,7 @@ fgco() {
   git checkout $(awk '{print $2}' <<<"$target" )
 }
 #### checkout commit
-fgcoc() {
+fgcoc () {
   fselectgitcommit | xargs -n 1 git checkout
 }
 ### reset

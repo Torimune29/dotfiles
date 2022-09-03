@@ -153,7 +153,7 @@ record_script () {
 replay_user_script() {
   local path=""
   [ -z "$1" ] && return 1
-  if [ "$(command -v fzf)" ] && [ "$(fzf --version)" ]; then
+  if [ "$(command -v fzf)" ] && fzf --version > /dev/null 2>&1; then
     path=$(find $MY_OWN_LOG_PATH/terminal | fzf)
   fi
   [ ! -e "$path" ] && return 1

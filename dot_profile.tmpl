@@ -57,7 +57,7 @@ fi
 PATH=/opt/misc/subversion/bin:$PATH
 {{ end }}
 
-if [ "$(command -v chezmoi)" ] && [ "$(chezmoi --version)" ]; then
+if [ "$(command -v chezmoi)" ] && chezmoi --version > /dev/null 2>&1; then
     # Executing commands
     # Daily operation for dotfiles sync
     # for reload rc, execute on head.
