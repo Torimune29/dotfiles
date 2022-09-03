@@ -45,7 +45,8 @@ log_success "validating cli tools done."
 
 # validate shell profile
 log_note "validating .profile on interactive"
-/bin/bash -i -c "set -e; . $HOME/.profile" > /dev/null
+## TMUX=true for testing profile on docker
+/bin/bash -i -c "TMUX=true ; set -ex; . $HOME/.profile" > /dev/null
 if [ $? != 0 ]; then
   log_error ".profile"
   exit 1
