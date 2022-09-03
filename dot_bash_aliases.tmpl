@@ -94,16 +94,37 @@ if [ "$(command -v nvim)" ] && [ "$(nvim --version)" ]; then
   alias vi='nvim'
 fi
 
-# cd from dir
-cdd () {
-  local path=$(fd -I --type directory --max-depth 3 . ${1:-.} | fzf)
-  z ${path:?is empty} || true
-}
 # fuzzy command
 ## defined on $HOME/.bash_function
 ### edit
+fe () {
+  IFS=$'\n' files=$(fselectfiles $@)
+  [ -n "$files" ] && eval ${EDITOR:-vim} "${files[*]}"
+}
 alias edit='fe'
 alias fedit='fe'
+### cd from dir
+fcd () {
+  local paths
+  paths=$(fselectdirectories $@)
+  z ${paths:?is empty} || true
+}
+### diff
+fdiff () {
+  IFS=$'\n' files=$(fselectfiles $@)
+  [ -n "$files" ] && echo ${files[*]} | xargs -n 2 delta
+}
+### kill
+fkill() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $pid | xargs kill -${1:-9}
+  fi
+}
+
 # ghq, hub
 alias ghql='cd $(ghq root)/$(ghq list | fzf)'
 alias ghqo='code $(cd $(ghq root)/$(ghq list | fzf) && pwd)'

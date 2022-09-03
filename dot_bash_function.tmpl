@@ -203,23 +203,34 @@ google() {
 {{ end }}
 
 #######################################
-# fuzzy edit
+# fuzzy files selector
 # Arguments:
 #   query and/or directory path.
 # Returns:
 #   0 is ok, non-zero on error.
 # Details:
 #######################################
-fe () {
-  local dir query files
+fselectfiles () {
+  local dir query
   for arg; do
-    if [ -d "$arg" ]; then
-      dir=$arg
-    else
-      query=$arg
-    fi
+    if [ -d "$arg" ]; then dir=$arg ; else query=$arg ; fi
   done
-  IFS=$'\n' files=($(fd -HI --type file --max-depth 3 . ${dir:-.} | fzf --query="${query}"))
-  [ -n "$files" ] && eval ${EDITOR:-vim} "${files[@]}"
+  echo $(fd -HI --type file --max-depth 3 . ${dir:-.} | fzf --query="${query}" --preview 'bat --color=always -p {}')
+}
+
+#######################################
+# fuzzy directories selector
+# Arguments:
+#   query and/or directory path.
+# Returns:
+#   0 is ok, non-zero on error.
+# Details:
+#######################################
+fselectdirectories () {
+  local dir query
+  for arg; do
+    if [ -d "$arg" ]; then dir=$arg ; else query=$arg ; fi
+  done
+  echo $(fd -I --type directory --max-depth 3 . ${dir:-.} | fzf --query="${query}" --preview 'exa --tree --level 3 {}')
 }
 
