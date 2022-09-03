@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
 . $HOME/.local/bin/my_own/_log
 
 . $HOME/.asdf/asdf.sh
@@ -36,17 +34,18 @@ result_table=
 for i in "${!validator[@]}"
 do
   return_value=1
-  eval "${array[$i]}"
+  eval "${array[$i]}" > /dev/null 2>&1
   return_value=$?
   if [ $return_value = 0 ]; then
-    result_table="$result_table$i valid\n"
+    result_table="$result_table$(log_success "$i")"
   else
-    result_table="$result_table$i invalid\n"
+    result_table="$result_table$(log_error "$i")"
   fi
   unset return_value
 done
 
-echo -e $result_table | column -t
+echo $result_table | column -t
 unset result_table
 
+echo ""
 log_success "$0 done."
