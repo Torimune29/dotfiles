@@ -234,3 +234,25 @@ fselectdirectories () {
   echo $(fd -I --type directory --max-depth 3 . ${dir:-.} | fzf --query="${query}" --preview 'exa --tree --level 3 {}')
 }
 
+#######################################
+# fuzzy git commit sha selector
+# Arguments:
+#   none
+# Returns:
+#   0 is ok, non-zero on error.
+# Details:
+#######################################
+fselectgitcommit () {
+  local commits commit
+  commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+  commit=$(echo "$commits" | fzf --tac +s -m -e --preview 'f() {
+      set -- $(echo "$@" | grep -o "[a-f0-9]\{7\}" | head -1);
+      if [ $1 ]; then
+        git show --color $1
+      else
+        echo "blank"
+      fi
+    }; f {}' | sed "s/ .*//")
+  echo "$commit"
+}
+

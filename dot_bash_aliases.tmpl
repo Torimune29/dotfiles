@@ -33,8 +33,6 @@ alias gf='git fetch'
 alias gc='git commit'
 alias gcfg='git config'
 alias gqp='git add . && git commit -m fix && git push'
-alias gcop='git rev-parse --is-inside-git-dir > /dev/null 2>&1 \
-  && git checkout $(git branch -a | grep -v "/HEAD" | fzf | sed -r "s#^\\s+remotes/origin/##" | sed -r "s#^\*\s+##")'
 alias cdg='cd $(git rev-parse --show-toplevel)'  # cd to .git project root
 ## safety
 alias cp='cp -i'
@@ -53,7 +51,7 @@ fi
 if [ "$(command -v bat)" ] && [ "$(bat --version)" ]; then
   ## cat, less to bat
   ### not working on glibc < 2.29
-  alias cat='bat --color=always'
+  alias cat='bat --paging=never --color=always'
   alias less='bat --paging=always --color=always'
 fi
 if [ "$(command -v zoxide)" ] && [ "$(zoxide --version)" ]; then
@@ -69,6 +67,7 @@ if [ "$(command -v fzf)" ] && [ "$(fzf --version)" ]; then
   ## fzf
   ### common
   export FZF_DEFAULT_OPTS='--height 40% +s --multi --cycle --reverse --info=hidden --select-1 --exit-0'
+  export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
   # fzf completion
   if [ -e "$HOME/.local/share/fzf/fzf-bash-completion.sh" ]; then
     . $HOME/.local/share/fzf/fzf-bash-completion.sh
@@ -95,8 +94,9 @@ if [ "$(command -v nvim)" ] && [ "$(nvim --version)" ]; then
 fi
 
 # fuzzy command
-## defined on $HOME/.bash_function
+## https://github.com/junegunn/fzf/wiki/Examples
 ### edit
+#### defined on $HOME/.bash_function
 fe () {
   IFS=$'\n' files=$(fselectfiles $@)
   [ -n "$files" ] && eval ${EDITOR:-vim} "${files[*]}"
@@ -123,6 +123,50 @@ fkill() {
   then
     echo $pid | xargs kill -${1:-9}
   fi
+}
+### git
+#### add
+fga () {
+  local selected
+  selected=$(git status -s | fzf -m --ansi --preview="echo {} | awk '{print \$2}' | xargs git diff --color" | awk '{print $2}')
+  if [ -n "$selected" ]; then
+      selected=$(tr '\n' ' ' <<< "$selected")
+      git add $selected
+      echo "Completed: git add $selected"
+  fi
+}
+### diff
+fgdiff () {
+  if [ "$(command -v delta)" ] && [ "$(delta --version)" ]; then
+    fselectgitcommit | xargs -n 2 git --no-pager diff | delta
+  else
+    fselectgitcommit | xargs -n 2 git diff
+  fi
+}
+#### checkout branch/tag
+fgco() {
+  local tags branches target
+  branches=$(
+    git --no-pager branch --all \
+      --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
+    | sed '/^$/d') || return
+  tags=$(
+    git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
+  target=$(
+    (echo "$branches"; echo "$tags") |
+    fzf --no-hscroll --no-multi -n 2 \
+        --ansi --preview="git --no-pager log -150 --pretty=format:%s '..{2}'") || return
+  git checkout $(awk '{print $2}' <<<"$target" )
+}
+#### checkout commit
+fgcoc() {
+  fselectgitcommit | xargs -n 1 git checkout
+}
+### reset
+fgreset () {
+  local flag
+  flag=${1:?input --hard/--soft}
+  fselectgitcommit | xargs -n 1 git reset ${flag}
 }
 
 # ghq, hub
