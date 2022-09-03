@@ -57,11 +57,13 @@ fi
 PATH=/opt/misc/subversion/bin:$PATH
 {{ end }}
 
-if [ "$(command -v chezmoi)" ] && chezmoi --version > /dev/null 2>&1; then
+if [ "$(command -v chezmoi)" ] \
+    && chezmoi --version > /dev/null 2>&1 \
+    && [ "$(ps aux | grep chezmoi | wc -l 2>/dev/null)" == "1" ]; then  # for chezmoi recursive call
     # Executing commands
     # Daily operation for dotfiles sync
     # for reload rc, execute on head.
-    chezmoi update || true
+    chezmoi update
 fi
 
 # set PATH so it includes user's private bin if it exists
