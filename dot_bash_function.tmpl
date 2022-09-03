@@ -205,36 +205,21 @@ google() {
 #######################################
 # fuzzy edit
 # Arguments:
-#   query and directory path.
+#   query and/or directory path.
 # Returns:
 #   0 is ok, non-zero on error.
 # Details:
 #######################################
 fe () {
-  OPTIND=1  # reset OPTIND to enable reentranting getopts
-
-  local dir
-  while getopts "d:" OPT; do
-    case "$OPT" in
-      d) dir="${OPTARG}" ;;
-      *) /bin/cat << EOS
-fuzzy edit
-USAGE:
- fe [OPTIONS] [ARGS]
-OPTIONS:
- -d <directory>
-    (optional) search directory
- -h
-    show help
-ARGS:
- query for fzf
-EOS
-        return 0 ;;
-    esac
+  local dir query files
+  for arg; do
+    if [ -d "$arg" ]; then
+      dir=$arg
+    else
+      query=$arg
+    fi
   done
-  shift $((OPTIND - 1))
-  IFS=$'\n' files=($(fd -I --type file --max-depth 3 . ${dir:-.} | fzf --query="${1}"))
+  IFS=$'\n' files=($(fd -HI --type file --max-depth 3 . ${dir:-.} | fzf --query="${query}"))
   [ -n "$files" ] && eval ${EDITOR:-vim} "${files[@]}"
-  unset files
 }
 
