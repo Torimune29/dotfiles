@@ -104,6 +104,7 @@ asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git || true
 asdf install fzf ${versions["fzf"]}
 asdf global fzf ${versions["fzf"]}
 # fzf-tab-completion
+rm -rf $HOME/.local/share/fzf > /dev/null 2>&1
 mkdir -p $HOME/.local/share/fzf
 curl --silent -o $HOME/.local/share/fzf/fzf-bash-completion.sh https://raw.githubusercontent.com/lincheney/fzf-tab-completion/master/bash/fzf-bash-completion.sh
 {{ end -}}
@@ -156,7 +157,7 @@ chmod +x $HOME/.local/bin/tmux
 
 {{ if not (lookPath "fpp") }}
 # fpp
-rm -rf ${XDG_DATA_HOME:-$HOME/.local/share}/PathPicker > /dev/null 2>&1
+rm -rf $HOME/.local/bin/fpp ${XDG_DATA_HOME:-$HOME/.local/share}/PathPicker > /dev/null 2>&1
 git clone --depth=1 https://github.com/facebook/PathPicker.git ${XDG_DATA_HOME:-$HOME/.local/share}/PathPicker -b ${versions["fpp"]}
 pushd ${XDG_DATA_HOME:-$HOME/.local/share}/PathPicker > /dev/null 2>&1 || exit
 ln -s "$(pwd)/fpp" $HOME/.local/bin/fpp

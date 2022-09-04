@@ -1,6 +1,7 @@
 # global
 [log]
   decorate = short
+  date = iso
 [color]
   ui = auto
 [core]
@@ -16,6 +17,8 @@
 [diff]
   indentHeuristic = true
   colorMoved=default
+[alias]
+  graph=log --graph --oneline --date-order --pretty=\"%C(yellow)%h%Creset %C(cyan)%ad%Creset %Cgreen%d%Creset%s\"
 
 [ghq]
   root = ~/ghq

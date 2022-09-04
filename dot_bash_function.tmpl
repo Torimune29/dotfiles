@@ -244,11 +244,11 @@ fselectdirectories () {
 #######################################
 fselectgitcommit () {
   local commits commit
-  commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+  commits=$(git log --oneline --date-order --pretty="%C(yellow)%h%Creset %C(cyan)%ad%Creset %Cgreen%d%Creset%s" --reverse) &&
   commit=$(echo "$commits" | fzf --tac +s -m -e --preview 'f() {
       set -- $(echo "$@" | grep -o "[a-f0-9]\{7\}" | head -1);
       if [ $1 ]; then
-        git show --color $1
+        git show --oneline --color $1
       else
         echo "blank"
       fi
