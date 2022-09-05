@@ -17,6 +17,8 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
+## mkdir
+alias mkdir='mkcd'
 ## search
 alias 'psa'='ps ax'
 alias 'lsofi'='lsof -i -P'
@@ -60,7 +62,6 @@ if [ "$(command -v zoxide)" ] && zoxide --version > /dev/null 2>&1; then
   alias ...='z ../..'
   alias ....='z ../../..'
   alias .....='z ../../../..'
-  alias c='z'
   alias cd='z'
 fi
 if [ "$(command -v fzf)" ] && fzf --version > /dev/null 2>&1; then
@@ -193,7 +194,6 @@ alias dotfile='chezmoi'
 alias dotfcd='pushd $(chezmoi source-path) > /dev/null 2>&1 || exit'
 alias dotfd='chezmoi diff'
 # tmux
-alias tm='tmux'
 alias :vsp='tmux split-window -h'
 alias :sp='tmux split-window -v'
 
