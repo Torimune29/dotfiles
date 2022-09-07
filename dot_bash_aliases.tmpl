@@ -1,6 +1,15 @@
 #########################################################
 # add by user begin
 #########################################################
+# command availability check
+is-available() {
+  if [ "$(command -v ${1:?argument error})" ]; then
+    [ -z "$2" ] && return 0
+    eval $* > /dev/null 2>&1 && return 0
+  fi
+  return 1
+}
+
 # builtin-colorize
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
@@ -44,27 +53,28 @@ alias rm='rm -i'
 alias reload='exec $SHELL -l'
 
 # replace commands to modern cli tools
-if [ "$(command -v exa)" ] && exa --version > /dev/null 2>&1; then
+if is-available exa --version; then
   ## ls, tree to exa
   alias exa='exa -a --time-style long-iso'
   alias ls='exa -a'
   alias tree='exa --tree'
 fi
-if [ "$(command -v bat)" ] && bat --version > /dev/null 2>&1; then
+if is-available bat --version; then
   ## cat, less to bat
   ### not working on glibc < 2.29
   alias cat='bat --paging=never --color=always'
   alias less='bat --paging=always --color=always'
 fi
-if [ "$(command -v zoxide)" ] && zoxide --version > /dev/null 2>&1; then
+if is-available zoxide --version; then
   ## cd to z
   alias ..='z ..'
   alias ...='z ../..'
   alias ....='z ../../..'
   alias .....='z ../../../..'
   alias cd='z'
+  alias zls='zoxide query --interactive'
 fi
-if [ "$(command -v fzf)" ] && fzf --version > /dev/null 2>&1; then
+if is-available fzf --version; then
   ## fzf
   ### common
   export FZF_DEFAULT_OPTS='--height 50% +s --multi --cycle --reverse --info=hidden --select-1 --exit-0'
@@ -85,11 +95,11 @@ if [ "$(command -v fzf)" ] && fzf --version > /dev/null 2>&1; then
   }
   bind -x '"\C-r": _fzf_search_history'
 fi
-if [ "$(command -v gojq)" ] && gojq --version > /dev/null 2>&1; then
+if is-available gojq --version; then
   ## jq to gojq
   alias jq='gojq'
 fi
-if [ "$(command -v nvim)" ] && nvim --version > /dev/null 2>&1; then
+if is-available nvim --version; then
   ## vim to nvim
   alias vim='nvim'
   alias vi='nvim'
@@ -101,12 +111,18 @@ fi
 #### defined on $HOME/.bash_function
 fe () {
   IFS=$'\n' files=$(fselectfiles $@)
-  [ -n "$files" ] && eval ${EDITOR:-vim} "${files[*]}"
+  [ -z "$files" ] && return 1
+  if is-is-available code; then
+    code "${files[*]}"
+  else
+    eval ${EDITOR} "${files[*]}"
+  fi
 }
 alias edit='fe'
 alias fedit='fe'
 ### cd from dir
 fcd () {
+  [ $# = 0 ] && zls ; return 0
   local paths
   paths=$(fselectdirectories $@)
   z ${paths:?is empty} || true
@@ -115,7 +131,7 @@ fcd () {
 fdiff () {
   IFS=$'\n' files=$(fselectfiles $@)
   [ -z "$files" ] && return 1
-  if [ "$(command -v delta)" ] && delta --version > /dev/null 2>&1; then
+  if is-available delta --version; then
     echo ${files[*]} | xargs -n 2 delta
   else
     echo ${files[*]} | xargs -n 2 diff
@@ -139,7 +155,7 @@ fga () {
   if [ -n "$selected" ]; then
       selected=$(tr '\n' ' ' <<< "$selected")
       selected=$(sed 's/\s*$//' <<< "$selected")
-      git add $selected
+      git add ${selected[*]}
       echo "Completed: git add $selected"
   fi
 }
@@ -203,6 +219,9 @@ alias :sp='tmux split-window -v'
 alias pbcopy='clip.exe'
 alias pbpaste='powershell.exe -Command Get-Clipboard'
 {{ end }}
+
+# code settings both local/remote
+alias codessh='code --file-uri vscode-remote://ssh-remote+$(fselectsshhost)/~/'
 
 #########################################################
 # add by user end

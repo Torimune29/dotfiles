@@ -1,3 +1,6 @@
 {
-  "autoHide.autoHideSideBar": false
+  "autoHide.autoHideSideBar": false,
+  "files.associations": {
+        "*.tmpl": "shellscript"
+  },
 }

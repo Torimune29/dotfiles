@@ -63,7 +63,7 @@ if [ "$(command -v chezmoi)" ] \
     # Executing commands
     # Daily operation for dotfiles sync
     # for reload rc, execute on head.
-    chezmoi update
+    nohup chezmoi update 1> /dev/null 2> /dev/null - /dev/null &
 fi
 
 # set PATH so it includes user's private bin if it exists

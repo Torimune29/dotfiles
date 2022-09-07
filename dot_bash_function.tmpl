@@ -215,7 +215,7 @@ fselectfiles () {
   for arg; do
     if [ -d "$arg" ]; then dir=$arg ; else query=$arg ; fi
   done
-  echo $(fd -HI --type file --max-depth 3 . ${dir:-.} | fzf --query="${query}" --preview 'bat --color=always -p {}')
+  echo $(fd -HI --type file --exclude '.git/' --max-depth 3 . ${dir:-.} | fzf --query="${query}" --preview 'bat --color=always -p {}')
 }
 
 #######################################
@@ -256,3 +256,15 @@ fselectgitcommit () {
   echo "$commit"
 }
 
+#######################################
+# fuzzy ssh host selector
+# Arguments:
+#   query and/or directory path.
+# Returns:
+#   0 is ok, non-zero on error.
+# Details:
+#  search $HOME/.ssh/config and $HOME/.ssh/*/config*
+#######################################
+fselectsshhost () {
+  echo -e "$(grep -E "^Host " $HOME/.ssh/config)\n$(grep -E "^Host " $HOME/.ssh/*/config*)" | sed -e 's/Host[ ]*//g' -e '/^\*$/d' | fzf +m --query=$*
+}
