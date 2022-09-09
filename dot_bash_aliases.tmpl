@@ -112,7 +112,7 @@ fi
 fe () {
   IFS=$'\n' files=$(fselectfiles $@)
   [ -z "$files" ] && return 1
-  if is-is-available code; then
+  if is-available code; then
     code "${files[*]}"
   else
     eval ${EDITOR} "${files[*]}"
