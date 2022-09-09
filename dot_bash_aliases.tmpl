@@ -129,9 +129,12 @@ fcd () {
 }
 ### diff
 fdiff () {
+  local files
   IFS=$'\n' files=$(fselectfiles $@)
   [ -z "$files" ] && return 1
-  if is-available delta --version; then
+  if is-available code; then
+    echo ${files[*]} | xargs -n 2 code --diff
+  elif is-available delta --version; then
     echo ${files[*]} | xargs -n 2 delta
   else
     echo ${files[*]} | xargs -n 2 diff
@@ -142,8 +145,7 @@ fkill() {
   local pid
   pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
-  if [ "x$pid" != "x" ]
-  then
+  if [ "x$pid" != "x" ]; then
     echo $pid | xargs kill -${1:-9}
   fi
 }
