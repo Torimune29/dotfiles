@@ -25,6 +25,7 @@ declare -A validator=(
   ["neovim"]="nvim --version"
   ["tmux"]="tmux -V"
   ["fpp"]="fpp --version"
+  ["semver"]="semver --version"
 )
 
 print_script_info
