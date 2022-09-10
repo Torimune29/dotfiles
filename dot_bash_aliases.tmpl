@@ -118,8 +118,6 @@ fe () {
     eval ${EDITOR} "${files[*]}"
   fi
 }
-alias edit='fe'
-alias fedit='fe'
 ### cd from dir
 fcd () {
   [ $# = 0 ] && zls || true
