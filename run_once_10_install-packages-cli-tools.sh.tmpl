@@ -165,7 +165,7 @@ ln -s "$(pwd)/fpp" $HOME/.local/bin/fpp
 {{ end -}}
 
 {{ if not (lookPath "semver") -}}
-# chezmoi
+# semver
 asdf plugin add semver || true
 asdf install semver ${versions["semver"]}
 asdf global semver ${versions["semver"]}
