@@ -215,7 +215,7 @@ fselectfiles () {
   for arg; do
     if [ -d "$arg" ]; then dir=$arg ; else query=$arg ; fi
   done
-  echo $(fd -HI --type file --exclude '.git/' --max-depth 3 . ${dir:-.} | fzf --query="${query}" --preview 'bat --color=always -p {}')
+  echo $(fd -HI --type file --exclude '.git/' --exclude 'node_modules' --max-depth 3 . ${dir:-.} | fzf --query="${query}" --preview 'bat --color=always -p {}')
 }
 
 #######################################
