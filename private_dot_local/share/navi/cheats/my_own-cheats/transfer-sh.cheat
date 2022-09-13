@@ -1,0 +1,4 @@
+% transfer.sh
+
+# transfer file
+curl --upload-file <file> https://transfer.sh/<file> -v

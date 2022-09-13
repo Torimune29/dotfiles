@@ -213,9 +213,9 @@ google() {
 fselectfiles () {
   local dir query
   for arg; do
-    if [ -d "$arg" ]; then dir=$arg ; else query=$arg ; fi
+    if [ -d "$arg" ]; then dir=$arg ; else query="$query $arg" ; fi
   done
-  echo $(fd -HI --type file --exclude '.git/' --exclude 'node_modules' --max-depth 3 . ${dir:-.} | fzf --query="${query}" --preview 'bat --color=always -p {}')
+  echo $(fd -HI --type file --exclude '.git/' --exclude 'node_modules' --max-depth 5 . ${dir:-.} | fzf --query="${query}" --preview 'bat --color=always -p {}')
 }
 
 #######################################
@@ -229,9 +229,9 @@ fselectfiles () {
 fselectdirectories () {
   local dir query
   for arg; do
-    if [ -d "$arg" ]; then dir=$arg ; else query=$arg ; fi
+    if [ -d "$arg" ]; then dir=$arg ; else query="$query $arg" ; fi
   done
-  echo $(fd -I --type directory --max-depth 3 . ${dir:-.} | fzf --query="${query}" --preview 'exa --tree --level 3 {}')
+  echo $(fd --type directory --max-depth 5 . ${dir:-.} | fzf --query="${query}" --preview 'exa --tree --level 3 {}')
 }
 
 #######################################
