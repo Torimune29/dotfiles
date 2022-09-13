@@ -38,6 +38,16 @@ fssh
 # code remote-ssh
 fcodessh
 
+# ghq cd
+ghql
+
+# ghq open code
+ghqo
+
+# ghq view github web
+ghqv
+
+
 % utility
 
 # decompress tar xz gz gzip zip

@@ -28,9 +28,6 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 ## mkdir
 alias mkdir='mkcd'
-## search
-alias 'psa'='ps ax'
-alias 'lsofi'='lsof -i -P'
 ## git
 alias g='git'
 alias ga='git add'
@@ -170,7 +167,7 @@ fga () {
 }
 ### diff
 fgd () {
-  if [ "$(command -v delta)" ] && delta --version > /dev/null 2>&1; then
+  if is-available delta --version; then
     fselectgitcommit | xargs -n 2 git --no-pager diff | delta
   else
     fselectgitcommit | xargs -n 2 git diff
@@ -215,9 +212,25 @@ fcodessh () {
 }
 
 # ghq, gh
-alias ghql='cd $(ghq root)/$(ghq list | fzf)'
-alias ghqo='code $(cd $(ghq root)/$(ghq list | fzf) && pwd)'
-alias ghqv='$(cd $(ghq root)/$(ghq list | fzf) && gh browse)'
+ghql () {
+  local repo_path
+  repo_path=$(ghq list | fzf)
+  [ -z "${repo_path}" ] && return 1
+  cd $(ghq root)/${repo_path:?is empty.}
+}
+ghqo () {
+  local repo_path
+  repo_path=$(ghq list | fzf)
+  [ -z "${repo_path}" ] && return 1
+  code $(cd $(ghq root)/${repo_path:?is empty.} && pwd)
+}
+ghqv () {
+  local repo_path
+  repo_path=$(ghq list | fzf)
+  [ -z "${repo_path}" ] && return 1
+  cd $(ghq root)/${repo_path:?is empty.} && gh browse
+}
+
 # docker
 alias dcu='docker-compose up -d'
 alias dcd='docker-compose down'
