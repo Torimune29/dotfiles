@@ -1,0 +1,7 @@
+% dotfiles
+
+# open dotfiles workdir
+code $(chezmoi source-path)
+
+# flush dotfiles
+chezmoi apply && reload
