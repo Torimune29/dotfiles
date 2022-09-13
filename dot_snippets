@@ -10,7 +10,6 @@
 [utility  : paste win to linux   ] pbpaste | cat > file
 [utility  : get specific raw     ] cat file | grep URL | cut -d " " -f 2
 [utility  : change tab to space 2] expand -t 2 file.txt
-[utility  : select z query       ] zoxide query --interactive
 
 # markdown
 [markdown : conv space-sv 2 table] pbpaste | sed -e 's/\ /|/g' -e 2i$(pbpaste | head -n 1 | sed -e 's/ /|/g' -e 's/\w*/--/g')

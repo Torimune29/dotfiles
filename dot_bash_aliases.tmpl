@@ -130,9 +130,12 @@ fopen () {
 }
 ### cd from dir
 fcd () {
-  [ $# = 0 ] && zls || true
   local paths
-  paths=$(fselectdirectories $@)
+  if [ $# = 0 ]; then
+    paths=$(zls)
+  else
+    paths=$(fselectdirectories $@)
+  fi
   z ${paths:?is empty} || true
 }
 ### diff
@@ -190,13 +193,25 @@ fgco () {
 }
 #### checkout commit
 fgcoc () {
-  fselectgitcommit | xargs -n 1 git checkout
+  fselectgitcommit ${1} | xargs -I {} -n 1 git checkout {} -- $1
 }
-### reset
+#### reset
 fgreset () {
   local flag
   flag=${1:?input --hard/--soft}
   fselectgitcommit | xargs -n 1 git reset ${flag}
+}
+### ssh
+fssh () {
+  local host
+  host=$(fselectsshhost)
+  ssh ${host:?is empty.}
+}
+### code remote-ssh both local/remote
+fcodessh () {
+  local host
+  host=$(fselectsshhost)
+  code --file-uri vscode-remote://ssh-remote+${host:?is empty.}/~/
 }
 
 # ghq, gh
@@ -213,6 +228,9 @@ alias dr='docker run -it --rm=true'
 # tmux
 alias :vsp='tmux split-window -h'
 alias :sp='tmux split-window -v'
+# navi
+## for bashrc
+alias navi='eval $(\navi --print)'
 
 {{ if and (lookPath "wsl.exe") (lookPath "powershell.exe") -}}
 # WSL
@@ -220,9 +238,6 @@ alias :sp='tmux split-window -v'
 alias pbcopy='clip.exe'
 alias pbpaste='powershell.exe -Command Get-Clipboard'
 {{ end }}
-
-# code settings both local/remote
-alias codessh='code --file-uri vscode-remote://ssh-remote+$(fselectsshhost)/~/'
 
 #########################################################
 # add by user end

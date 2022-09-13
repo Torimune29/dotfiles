@@ -1,0 +1,57 @@
+% fzf fuzzy cli
+
+# edit
+fe <directory> <query>
+
+# open
+fopen <directory> <query>
+
+# cd/z using zoxide query
+fcd
+
+# cd/z with directory
+fcd <directory> <query>
+
+# diff
+fdiff <directory> <query>
+
+# kill
+fkill
+
+# git add
+fga
+
+# git checkout branch/tag
+fgco
+
+# git checkout commit
+fgco <directory/file>
+
+# git reset --hard/sofut
+fgreset <reset-flag>
+
+$ reset-flag: echo 'hard soft' | tr ' ' '\n' --- --map "grep -q t && echo '--soft' || echo '--hard'"
+
+# ssh
+fssh
+
+# code remote-ssh
+fcodessh
+
+% utility
+
+# decompress tar xz gz gzip zip
+decompress <file>
+
+# compress tar.gz
+compress <file>
+
+# switch .bak, or recover
+sw <switch-flag> <file>
+$ switch-flag: echo 'bak fr' | tr ' ' '\n' --- --map "grep -q t && echo 'fr' || echo 'bak'"
+
+# open on windows
+open <file>
+
+# google search
+google <words>
