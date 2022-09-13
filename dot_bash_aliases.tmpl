@@ -55,7 +55,7 @@ alias reload='exec $SHELL -l'
 # replace commands to modern cli tools
 if is-available exa --version; then
   ## ls, tree to exa
-  alias exa='exa -a --time-style long-iso'
+  alias exa='exa -a --time-style long-iso --git'
   alias ls='exa -a'
   alias tree='exa --tree'
 fi
@@ -116,6 +116,16 @@ fe () {
     code "${files[*]}"
   else
     eval ${EDITOR} "${files[*]}"
+  fi
+}
+### open
+fopen () {
+  IFS=$'\n' files=$(fselectfiles $@)
+  [ -z "$files" ] && return 1
+  if is-available open; then
+    open "${files[*]}"
+  else
+    return 2
   fi
 }
 ### cd from dir
@@ -189,7 +199,7 @@ fgreset () {
   fselectgitcommit | xargs -n 1 git reset ${flag}
 }
 
-# ghq, hub
+# ghq, gh
 alias ghql='cd $(ghq root)/$(ghq list | fzf)'
 alias ghqo='code $(cd $(ghq root)/$(ghq list | fzf) && pwd)'
 alias ghqv='$(cd $(ghq root)/$(ghq list | fzf) && gh browse)'
