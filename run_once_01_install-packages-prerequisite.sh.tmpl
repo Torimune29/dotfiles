@@ -8,11 +8,11 @@ eval $(get_package_management_method)
 eval $(get_escalation_method) $_facts_update 1>/dev/null
 
 # install
-{{ if or (eq "debian" .chezmoi.osRelease.id) (and (.chezmoi.osRelease.idLike) (contains "debian" .chezmoi.osRelease.idLike)) }}
+{{ if or (eq "debian" .chezmoi.osRelease.id) (and (with .chezmoi.osRelease.idLike) (contains "debian" .chezmoi.osRelease.idLike)) }}
 print_script_info "  Distribution: debian"
 DEBCONF_NOWARNINGS=yes
 eval $(get_escalation_method) $_facts_install bash tar gzip unzip procps xz-utils 1>/dev/null
-{{ else if and (.chezmoi.osRelease.idLike) (or (contains "centos" .chezmoi.osRelease.idLike) (contains "fedora" .chezmoi.osRelease.idLike)) }}
+{{ else if and (with .chezmoi.osRelease.idLike) (or (contains "centos" .chezmoi.osRelease.idLike) (contains "fedora" .chezmoi.osRelease.idLike)) }}
 {{ if eq "amzn" .chezmoi.osRelease.id }}
 print_script_info "  Distribution: centos/fedora id:amzn"
 eval $(get_escalation_method) amazon-linux-extras install epel 1>/dev/null
