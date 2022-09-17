@@ -12,7 +12,7 @@ eval $(get_escalation_method) $_facts_update 1>/dev/null
 print_script_info "  Distribution: debian"
 DEBCONF_NOWARNINGS=yes
 eval $(get_escalation_method) $_facts_install bash tar gzip unzip procps xz-utils 1>/dev/null
-{{ else if (and (.chezmoi.osRelease.idLike) (or (contains "centos" .chezmoi.osRelease.idLike) (contains "fedora" .chezmoi.osRelease.idLike)) }}
+{{ else if and (.chezmoi.osRelease.idLike) (or (contains "centos" .chezmoi.osRelease.idLike) (contains "fedora" .chezmoi.osRelease.idLike)) }}
 {{ if eq "amzn" .chezmoi.osRelease.id }}
 print_script_info "  Distribution: centos/fedora id:amzn"
 eval $(get_escalation_method) amazon-linux-extras install epel 1>/dev/null
