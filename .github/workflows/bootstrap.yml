@@ -26,7 +26,6 @@ jobs:
     strategy:
       matrix:
         docker:
-        - "alpine:latest"
         - "ubuntu:latest"
         - "ubuntu:14.04"
         - "almalinux:latest"
