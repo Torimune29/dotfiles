@@ -58,9 +58,13 @@ if is-available exa --version; then
 fi
 if is-available bat --version; then
   ## cat, less to bat
-  ### not working on glibc < 2.29
   alias cat='bat --paging=never --color=always'
   alias less='bat --paging=always --color=always'
+  _colorize() {
+    eval \\"$@" | bat -l log --paging=never --plain
+  }
+  alias head='_colorize \head'
+  alias tail='_colorize \tail'
 fi
 if is-available zoxide --version; then
   ## cd to z
