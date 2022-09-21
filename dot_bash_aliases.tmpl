@@ -108,7 +108,7 @@ fi
 if is-available trash --help; then
   ## rm to trash
   alias rm='trash'
-  alias trash-list='cat ${XDG_DATA_HOME:-$HOME/.local/share}/Trash/info/* 2>/dev/null || true'
+  alias trash-list='cat ${XDG_DATA_HOME:-$HOME/.local/share}/Trash/info/* --color=always 2>/dev/null || true'
   alias trash-empty='empty-trash'
 fi
 # fuzzy command

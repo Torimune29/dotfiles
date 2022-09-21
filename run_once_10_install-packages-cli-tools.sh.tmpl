@@ -181,7 +181,7 @@ curl -sL https://github.com/tomnomnom/gron/releases/download/v${versions["gron"]
 
 {{ if not (lookPath "pandoc") -}}
 # pandoc
-curl -sL https://github.com/jgm/pandoc/releases/download/${versions["pandoc"]}/pandoc-${versions["pandoc"]}linux-amd64.tar.gz | tar xz -C /tmp
+curl -sL https://github.com/jgm/pandoc/releases/download/${versions["pandoc"]}/pandoc-${versions["pandoc"]}-linux-amd64.tar.gz | tar xz -C /tmp
 cp /tmp/pandoc-${versions["pandoc"]}/bin/* $HOME/.local/bin
 rm -rf /tmp/pandoc-${versions["pandoc"]}
 {{ end -}}
