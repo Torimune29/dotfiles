@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# set -e
+
+. $HOME/.local/bin/my_own/_log
+. $HOME/.local/bin/my_own/_gather_facts
+
+print_script_info
+
+. $HOME/.asdf/asdf.sh
+
+{{ if not (lookPath "node") -}}
+# install node, npm
+asdf plugin-add nodejs || true
+asdf install nodejs 16.17.0
+asdf global nodejs 16.17.0
+{{ end -}}
+##############################################################################
+# npm cli tools
+##############################################################################
+npm install -g \
+  # ttystudio  # record tty and generate gif
+  tmpin  # stdin to tmpfile
+  trash-cli empty-trash-cli  # for safe rm
+  jjo \  # create json object on cli
+  json2csv \
+  jsondiffpatch \
+  daff  # for csv diff
+
+log_success "$0 done."
+
+##############################################################################
+# memo
+##############################################################################
+# install thefuck
+# for any typo
+# pip3 install thefuck
+
+# install jc https://github.com/kellyjonbrazil/jc
+# for parsing command result to json object
+# pip3 install jc
+
+# npm install -g \
+  # ttystudio  # record tty and generate gif  python required?

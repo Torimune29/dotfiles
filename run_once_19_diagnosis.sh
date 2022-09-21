@@ -26,6 +26,8 @@ declare -A validator=(
   ["tmux"]="tmux -V"
   ["fpp"]="fpp --version"
   ["semver"]="semver --version"
+  ["gron"]="gron --version"
+  ["pandoc"]="pandoc --version"
 )
 
 print_script_info

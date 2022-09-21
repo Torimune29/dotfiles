@@ -26,6 +26,8 @@ declare -A versions=(
         ["tmux"]="v3.2"
         ["fpp"]="0.9.5"
         ["semver"]="latest"
+        ["gron"]="0.7.1"
+        ["pandoc"]="2.19.2"
 )
 
 print_script_info
@@ -170,6 +172,18 @@ popd > /dev/null 2>&1 || exit
 asdf plugin add semver || true
 asdf install semver ${versions["semver"]}
 asdf global semver ${versions["semver"]}
+{{ end -}}
+
+{{ if not (lookPath "gron") -}}
+# gron
+curl -sL https://github.com/tomnomnom/gron/releases/download/v${versions["gron"]}/gron-linux-amd64-${versions["gron"]}.tgz | tar xz -C $HOME/.local/bin/
+{{ end -}}
+
+{{ if not (lookPath "pandoc") -}}
+# pandoc
+curl -sL https://github.com/jgm/pandoc/releases/download/${versions["pandoc"]}/pandoc-${versions["pandoc"]}linux-amd64.tar.gz | tar xz -C /tmp
+cp /tmp/pandoc-${versions["pandoc"]}/bin/* $HOME/.local/bin
+rm -rf /tmp/pandoc-${versions["pandoc"]}
 {{ end -}}
 
 log_success "$0 done."
