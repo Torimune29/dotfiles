@@ -145,6 +145,13 @@ if [ "$(command -v zoxide)" ] && zoxide --version > /dev/null 2>&1; then
     eval "$(zoxide init bash)"
 fi
 
+# enable programmable local completion features
+if ! shopt -oq posix; then
+  if [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/bash_completion ]; then
+    . ${XDG_CONFIG_HOME:-$HOME/.config}/bash_completion
+  fi
+fi
+
 #########################################################
 # add by user end
 #########################################################

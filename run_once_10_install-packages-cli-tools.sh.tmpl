@@ -27,6 +27,7 @@ declare -A versions=(
         ["fpp"]="0.9.5"
         ["semver"]="latest"
         ["gron"]="0.7.1"
+        ["jc"]="1.21.1"
         ["pandoc"]="2.19.2"
 )
 
@@ -177,6 +178,11 @@ asdf global semver ${versions["semver"]}
 {{ if not (lookPath "gron") -}}
 # gron
 curl -sL https://github.com/tomnomnom/gron/releases/download/v${versions["gron"]}/gron-linux-amd64-${versions["gron"]}.tgz | tar xz -C $HOME/.local/bin/
+{{ end -}}
+
+{{ if not (lookPath "jc") -}}
+# jc
+curl -sL https://github.com/kellyjonbrazil/jc/releases/download/v${versions["jc"]}/jc-${versions["jc"]}-linux-x86_64.tar.gz | tar xz -C $HOME/.local/bin/
 {{ end -}}
 
 {{ if not (lookPath "pandoc") -}}

@@ -1,0 +1,8 @@
+# https://github.com/scop/bash-completion/blob/aa3652b6b7de9aabfafa79f52c70825f23f967ab/bash_completion#L2143
+compat_dir="${XDG_CONFIG_HOME:-$HOME/.config}/bash_completion.d"
+if [[ -d $compat_dir && -r $compat_dir && -x $compat_dir ]]; then
+    for i in "$compat_dir"/*; do
+        [[ ${i##*/} != @($_backup_glob|Makefile*|$_blacklist_glob) \
+            && -f $i && -r $i ]] && . "$i"
+    done
+fi
