@@ -27,6 +27,7 @@ declare -A validator=(
   ["fpp"]="fpp --version"
   ["semver"]="semver --version"
   ["gron"]="gron --version"
+  ["jc"]="jc --version"
   ["pandoc"]="pandoc --version"
 )
 
