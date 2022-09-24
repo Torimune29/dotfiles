@@ -58,6 +58,12 @@ fi
 PATH=/opt/misc/subversion/bin:$PATH
 {{ end }}
 
+# enable proxy
+# use ${MY_OWN_BIN_PATH}/proxy_switch to toggle on/off
+if [ -e "${MY_OWN_SHARE_PATH}/secret/proxy.env" ]; then 
+  set -a; . "${MY_OWN_SHARE_PATH}/secret/proxy.env"; set +a;
+fi
+
 if [ "$(command -v chezmoi)" ] \
     && chezmoi --version > /dev/null 2>&1 \
     && [ "$(ps aux | grep chezmoi | wc -l 2>/dev/null)" == "1" ]; then  # for chezmoi recursive call

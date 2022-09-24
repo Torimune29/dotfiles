@@ -152,19 +152,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# enable proxy
-# use ${MY_OWN_BIN_PATH}/proxy_switch to toggle on/off
-if [ -e "${MY_OWN_SHARE_PATH}/secret/proxy" ]; then 
-  eval "$(${MY_OWN_SHARE_PATH}/secret/proxy)"
-  export http_proxy=$http_proxy
-  export HTTP_PROXY=$HTTP_PROXY
-  export https_proxy=$https_proxy
-  export HTTPS_PROXY=$HTTPS_PROXY
-  export ftp_proxy=$ftp_proxy
-  export FTP_PROXY=$FTP_PROXY
-  export no_proxy=$no_proxy
-  export NO_PROXY=$NO_PROXY
-fi
 
 # finally, delete PATH var duplication
 PATH=$(printf %s "$PATH" | awk -v RS=: -v ORS=: '!arr[$0]++')
