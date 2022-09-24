@@ -4,5 +4,5 @@ chezmoistate.boltdb
 .config/direnv/lib/bash_function/
 
 # common
-.local/state/my_own/log/**
+.local/state/my_own/**
 secret/**
