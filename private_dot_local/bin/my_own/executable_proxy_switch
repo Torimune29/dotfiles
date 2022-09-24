@@ -50,14 +50,14 @@ if [ $# = 0 ]; then
   log_error "proxy_switch: No args"
   exit 1
 elif [ $1 != "on" ] && [ $1 != "off" ]; then
-  log_warning "proxy_switch: Invalid arg. set 'on' or 'off'"
-  exit 2
+  log_error "proxy_switch: Invalid arg. set 'on' or 'off'"
+  exit 1
 else
   log_note "backup dir: $BACKUP_DIR"
   if [ $1 = "on" ]; then
     if [ ! -e "${MY_OWN_SHARE_PATH}/secret/proxy.env.orig" ]; then 
       log_error "proxy_switch: proxy.env.orig not found."
-      exit 1
+      exit 2
     else
       log_note "edit proxy: $(print_proxy)"  # print proxy
     fi
