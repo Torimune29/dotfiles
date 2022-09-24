@@ -152,6 +152,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
+
 # finally, delete PATH var duplication
 PATH=$(printf %s "$PATH" | awk -v RS=: -v ORS=: '!arr[$0]++')
 #########################################################
