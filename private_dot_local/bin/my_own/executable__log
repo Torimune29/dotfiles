@@ -12,7 +12,9 @@
 
 
 _log() {
-  [ -v MY_OWN__LOG_SILENT ] && return 0
+  if [ -n "$MY_OWN__LOG_SILENT" ]; then
+    return 0
+  fi
   __template="$1"
   shift
   echo "$(printf "$__template" "$@")" >&2
