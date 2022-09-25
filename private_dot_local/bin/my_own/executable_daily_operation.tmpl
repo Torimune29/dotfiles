@@ -5,10 +5,10 @@
 
 TODAY="$(date '+%Y%m%d')"
 LAST_LOGIN_DAY=""
+OPERATION_DIR="${MY_OWN_STATE_PATH}/_daily_operation"
 
-
-if [ -e "${MY_OWN_STATE_PATH}/_daily_operation/last_login_date" ]; then 
-  LAST_LOGIN_DAY=$(cat ${MY_OWN_STATE_PATH}/_daily_operation/last_login_date)
+if [ -e "${OPERATION_DIR}" ]; then 
+  LAST_LOGIN_DAY=$(cat ${OPERATION_DIR}/last_login_date)
 fi
 
 if [ "$LAST_LOGIN_DAY" = "$TODAY" ]; then
@@ -33,14 +33,15 @@ if [ "$(command -v docker)" ] && [ "$(command -v service)" ] ; then
     nohup service docker start > /dev/null 2>&1 < /dev/null &
   fi
 fi
-
-# daily working directory
-{{ if and (lookPath "wsl.exe") (lookPath "powershell.exe") -}}
-OPERATION_DIR="${WINDOWS_USER_TMP_WSL_PATH}/_daily_operation/$TODAY"  # windos
-{{ else -}}
-OPERATION_DIR="${MY_OWN_STATE_PATH}/_daily_operation/$TODAY"  # linux
 {{ end }}
 
 # create daily working directory
+{{ if and (lookPath "wsl.exe") (lookPath "powershell.exe") -}}
+OPERATION_DIR="${WINDOWS_USER_TMP_WSL_PATH}/_daily_operation/$TODAY"  # windos
+{{ else -}}
+mkdir -p $OPERATION_DIR/$TODAY
+ln -sf $OPERATION_DIR/$TODAY  $OPERATION_DIR/_today
+{{ end }}
+
 mkdir -p "${OPERATION_DIR}"
 
