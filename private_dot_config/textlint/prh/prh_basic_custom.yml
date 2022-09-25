@@ -1975,8 +1975,8 @@ rules:
     pattern:  /\bPermalink\b|\bpermalink\b|\bpermanent link\b|パーマネントリンク/
   - expected: バッファ
     pattern:  /バッファー/
-  - expected: パス
-    pattern:  /\bpath\b|\bPath\b/
+  # - expected: パス
+  #   pattern:  /\bpath\b|\bPath\b/
   - expected: パターン
     pattern:  /パタン/
   - expected: ハッシュ
