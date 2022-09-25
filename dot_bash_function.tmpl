@@ -103,6 +103,17 @@ cheat () {
 }
 
 #######################################
+# wttr.in
+# Arguments:
+#   location you want to know weather
+# Returns:
+#   0 is ok, non-zero on error.
+#######################################
+wttr () {
+  curl -s -H "Accept-Language: ${LANG%_*}" v2d.wttr.in/${1:Tokyo} | less
+}
+
+#######################################
 # switch file to back/front
 # Arguments:
 #   $1: bak or fr

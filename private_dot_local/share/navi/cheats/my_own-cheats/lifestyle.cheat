@@ -1,0 +1,12 @@
+% weather
+
+# Show weather info for a specific location
+curl -s "wttr.in/<location>" | less
+
+# Show weather detail info for a specific location
+curl -s "v2d.wttr.in/<location>" | less
+
+% calendar
+
+# Show calernder
+cal
