@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+. ${MY_OWN_BIN_PATH}/_log
+. ${MY_OWN_BIN_PATH}/_gather_facts
+
+TODAY="$(date '+%Y%m%d')"
+LAST_LOGIN_DAY=""
+
+if [ -e "${MY_OWN_STATE_PATH}/daily_operation/last_login_date" ]; then 
+  LAST_LOGIN_DAY=$(cat ${MY_OWN_STATE_PATH}/daily_operation/last_login_date)
+fi
+
+if [ "$LAST_LOGIN_DAY" = "$TODAY" ]; then
+  # same day. do nothing
+  return 0
+fi
+
+# daily operation start
+log_note "Hello, $USER !"
+
+# dotfile sync
