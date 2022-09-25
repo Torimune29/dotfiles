@@ -7,15 +7,14 @@ set -e
 
 TODAY="$(date +%Y%m%d | cut -c 3-)"
 LAST_LOGIN_DAY=""
-OPERATION_DIR="${MY_OWN_STATE_PATH}/_daily_operation"
 
-if [ -e "${OPERATION_DIR}" ]; then 
-  LAST_LOGIN_DAY=$(cat ${OPERATION_DIR}/last_login_date)
+if [ -e "${MY_OWN_STATE_PATH}/_daily_operation/last_login_date" ]; then
+  LAST_LOGIN_DAY=$(cat ${MY_OWN_STATE_PATH}/_daily_operation/last_login_date)
 fi
 
 if [ "$LAST_LOGIN_DAY" = "$TODAY" ]; then
   # same day. do nothing
-  return 0
+  exit 1
 fi
 
 # daily operation start
@@ -41,8 +40,9 @@ fi
 {{ if and (lookPath "wslpath") (lookPath "cmd.exe") -}}
 OPERATION_DIR="${WINDOWS_USER_TMP_WSL_PATH}/_daily_operation"  # windos
 mkdir -p "${OPERATION_DIR}/${TODAY}"
-cmd.exe /c start $(wslpath -w ${OPERATION_DIR}) 2> /dev/null
+cmd.exe /c start $(wslpath -w $_) 2> /dev/null
 {{ else -}}
+OPERATION_DIR="${MY_OWN_STATE_PATH}/_daily_operation"
 mkdir -p "${OPERATION_DIR}/${TODAY}"
 code $_
 {{ end }}
@@ -53,5 +53,6 @@ find "${OPERATION_DIR}/" -type d -mmin +10080 -delete  # 7 day later
 # nb: create daily report boilerplate
 
 # finalize
+mkdir -p "${MY_OWN_STATE_PATH}/_daily_operation"
 echo "$TODAY" > "${MY_OWN_STATE_PATH}/_daily_operation/last_login_date"
 

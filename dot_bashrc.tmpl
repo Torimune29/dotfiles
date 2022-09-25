@@ -152,6 +152,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# daily operation
+if [ -e "${MY_OWN_BIN_PATH}/daily_operation" ]; then
+    ${MY_OWN_BIN_PATH}/daily_operation
+fi
 
 # finally, delete PATH var duplication
 PATH=$(printf %s "$PATH" | awk -v RS=: -v ORS=: '!arr[$0]++')
