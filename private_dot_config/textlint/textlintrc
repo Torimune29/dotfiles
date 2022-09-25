@@ -1,4 +1,7 @@
 {
+  // attension:
+  // discovery file path from relative path from textlintrc.
+  //
   // 参考にしたサイト
   // https://neos21.hatenablog.com/entry/2019/06/11/080000
   // https://qiita.com/azu/items/60764ed6f415d3c748bf
@@ -6,7 +9,7 @@
     "comments": true,
     "allowlist": {
       "allowlistConfigPaths": [
-        "~/.config/textlint/allowlist/allowlist.jsonc",
+        "./allowlist/allowlist.json",
       ],
     },
   },
@@ -194,9 +197,10 @@
     // proofread helper
     "prh": {
       "rulePaths" :[
-        "~/.config/textlint/prh/prh_basic_custom.yml",
-        "~/.config/textlint/prh/prh_software_development.yml",
+        "./prh/prh_basic_custom.yml",
+        "./prh/prh_software_development.yml",
       ],
     },
   }
 }
+
