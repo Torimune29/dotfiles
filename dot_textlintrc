@@ -198,16 +198,5 @@
         "~/.config/textlint/prh/prh_software_development.yml",
       ],
     },
-    // see: https://github.com/sapegin/textlint-rule-terminology
-    "terminology": {
-      // Load default terms (see terms.jsonc in the repository)
-      "defaultTerms": true,
-      // Syntax elements to skip. Overrides the default
-      // "skip": ["Blockquote"],
-      // "terms": "~/.config/textlint/terms.jsonc",  // not working
-      // "exclude": [
-      //   "CSS"
-      // ]
-    }
   }
 }
