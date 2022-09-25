@@ -6,7 +6,7 @@
     "comments": true,
     "allowlist": {
       "allowlistConfigPaths": [
-        ".config/textlint/allowlist/allowlist.jsonc",
+        "~/.config/textlint/allowlist/allowlist.jsonc",
       ],
     },
   },
@@ -149,7 +149,7 @@
     // 技術用語集。WEB+DB PRESSの用語集を含むらしい
     "spellcheck-tech-word": true,
     // 文章内の表記ゆれを指摘する
-    // "@textlint-ja/no-synonyms": true,
+    "@textlint-ja/no-synonyms": true,
     // 文章内の同一単語の回数をカウントし指摘する
     "textlint-rule-max-appearence-count-of-words": {
       "limit": 3
@@ -194,9 +194,20 @@
     // proofread helper
     "prh": {
       "rulePaths" :[
-        ".config/textlint/prh/prh_basic_custom.yml",
-        ".config/textlint/prh/prh_software_development.yml",
+        "~/.config/textlint/prh/prh_basic_custom.yml",
+        "~/.config/textlint/prh/prh_software_development.yml",
       ],
     },
+    // see: https://github.com/sapegin/textlint-rule-terminology
+    "terminology": {
+      // Load default terms (see terms.jsonc in the repository)
+      "defaultTerms": true,
+      // Syntax elements to skip. Overrides the default
+      // "skip": ["Blockquote"],
+      "terms": "~/.config/textlint/terms.jsonc",
+      // "exclude": [
+      //   "CSS"
+      // ]
+    }
   }
 }

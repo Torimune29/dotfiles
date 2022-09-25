@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+# set -e
+
+. $HOME/.local/bin/my_own/_log
+. $HOME/.local/bin/my_own/_gather_facts
+
+print_script_info
+
+. $HOME/.asdf/asdf.sh
+
+{{ if not (lookPath "node") -}}
+# install node, npm
+asdf plugin-add nodejs || true
+asdf install nodejs 16.17.0
+asdf global nodejs 16.17.0
+{{ end -}}
+##############################################################################
+# npm documentation tools
+##############################################################################
+npm install -g \
+   @textlint-ja/textlint-rule-no-synonyms \
+   sudachi-synonyms-dictionary \
+   textlint \
+   textlint-filter-rule-allowlist \
+   textlint-filter-rule-comments \
+   textlint-plugin-review \
+   textlint-rule-abbr-within-parentheses \
+   textlint-rule-general-novel-style-ja \
+   textlint-rule-incremental-headers \
+   textlint-rule-ja-hiragana-fukushi \
+   textlint-rule-ja-hiragana-hojodoushi \
+   textlint-rule-ja-hiragana-keishikimeishi \
+   textlint-rule-ja-unnatural-alphabet \
+   textlint-rule-max-appearence-count-of-words \
+   textlint-rule-no-empty-section \
+   textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet \
+   textlint-rule-period-in-list-item \
+   textlint-rule-prefer-tari-tari \
+   github:ics-creative/textlint-rule-preset-icsmedia \
+   textlint-rule-preset-ja-spacing \
+   textlint-rule-preset-ja-technical-writing \
+   textlint-rule-preset-japanese \
+   textlint-rule-preset-jtf-style \
+   textlint-rule-prh \
+   textlint-rule-spellcheck-tech-word \
+   textlint-rule-use-si-units \
+   textlint-rule-write-good \
+   textlint-rule-editorconfig	\
+   textlint-rule-terminology
+
+log_success "$0 done."
