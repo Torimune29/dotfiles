@@ -24,7 +24,17 @@ alias l='ls'
 ## date
 alias now='date +%Y%m%d%H%M%S'
 alias day='date +%Y%m%d'
+alias sday='date +%Y%m%d | cut -c 3-'
+alias isonow='date +%Y-%m-%dT%H:%M:%S%z'
+alias isoday='date +%Y-%m-%d'
+alias sisoday='date +%Y-%m-%d | cut -c 3-'
 alias epoch='date +%s'
+epochtoiso() {
+  date -d @${1:?input epoch} "+%Y-%m-%dT%H:%M:%S,%N%z"  
+}
+isotoepoch() {
+  date -d ${1:?input iso-format datetime} "+%s"  
+}
 ## cd
 alias ..='cd ..'
 alias ...='cd ../..'
