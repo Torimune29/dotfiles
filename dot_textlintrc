@@ -149,7 +149,7 @@
     // 技術用語集。WEB+DB PRESSの用語集を含むらしい
     "spellcheck-tech-word": true,
     // 文章内の表記ゆれを指摘する
-    "@textlint-ja/no-synonyms": true,
+    // "@textlint-ja/no-synonyms": true,
     // 文章内の同一単語の回数をカウントし指摘する
     "textlint-rule-max-appearence-count-of-words": {
       "limit": 3
