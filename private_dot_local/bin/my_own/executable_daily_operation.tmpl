@@ -6,8 +6,9 @@
 TODAY="$(date '+%Y%m%d')"
 LAST_LOGIN_DAY=""
 
-if [ -e "${MY_OWN_STATE_PATH}/daily_operation/last_login_date" ]; then 
-  LAST_LOGIN_DAY=$(cat ${MY_OWN_STATE_PATH}/daily_operation/last_login_date)
+
+if [ -e "${MY_OWN_STATE_PATH}/_daily_operation/last_login_date" ]; then 
+  LAST_LOGIN_DAY=$(cat ${MY_OWN_STATE_PATH}/_daily_operation/last_login_date)
 fi
 
 if [ "$LAST_LOGIN_DAY" = "$TODAY" ]; then
@@ -19,3 +20,27 @@ fi
 log_note "Hello, $USER !"
 
 # dotfile sync
+if [ "$(command -v chezmoi)" ] && chezmoi --version > /dev/null 2>&1 \
+  && [ "$(ps aux | grep chezmoi | wc -l 2>/dev/null)" == "1" ]; then  # for chezmoi recursive call
+  # for reload rc, execute on head.
+  nohup chezmoi update > /dev/null 2>&1 < /dev/null &
+fi
+
+{{ if and (lookPath "wsl.exe") (lookPath "powershell.exe") -}}
+if [ "$(command -v docker)" ] && [ "$(command -v service)" ] ; then
+  # WSL: boot docker service
+  if service docker status 2>&1 | grep -q "is not running"; then
+    nohup service docker start > /dev/null 2>&1 < /dev/null &
+  fi
+fi
+
+# daily working directory
+{{ if and (lookPath "wsl.exe") (lookPath "powershell.exe") -}}
+OPERATION_DIR="${WINDOWS_USER_TMP_WSL_PATH}/_daily_operation/$TODAY"  # windos
+{{ else -}}
+OPERATION_DIR="${MY_OWN_STATE_PATH}/_daily_operation/$TODAY"  # linux
+{{ end }}
+
+# create daily working directory
+mkdir -p "${OPERATION_DIR}"
+
