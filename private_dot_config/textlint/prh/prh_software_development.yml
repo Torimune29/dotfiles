@@ -1,0 +1,23 @@
+# Software Development Rules
+meta:
+  reviewer:
+    - nk
+
+version: 1
+
+rules:
+  # 一般
+  - expected: Ctrl
+    pattern: /\bctrl/
+  - expected: Caps
+    pattern: /\bcaps/
+  # プログラミング
+  - expected: C\+\+
+    pattern: /\bc\+\+|\bCpp/
+  # vcs等
+  - expected: Trac
+    pattern: /\btrac/
+  - expected: Wiki
+    pattern: /\wiki/
+  - expected: DokuWiki
+    pattern: /\b[d|D]oku[w|W]iki/

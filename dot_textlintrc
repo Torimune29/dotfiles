@@ -1,0 +1,202 @@
+{
+  // 参考にしたサイト
+  // https://neos21.hatenablog.com/entry/2019/06/11/080000
+  // https://qiita.com/azu/items/60764ed6f415d3c748bf
+  "filters": {
+    "comments": true,
+    "allowlist": {
+      "allowlistConfigPaths": [
+        ".config/textlint/allowlist/allowlist.jsonc",
+      ],
+    },
+  },
+  "rules": {
+    "preset-ja-spacing": {
+      // カタカナ語間は中黒または半角スペースを用いてカタカナ語を区切る
+      "ja-nakaguro-or-halfwidth-space-between-katakana": true,
+      // カッコの外側・内側ともにスペースを入れない
+      "ja-no-space-around-parentheses": true,
+      // 全角文字同士の間にスペースを入れない
+      "ja-no-space-between-full-width": true,
+      // 半角文字と全角文字の間にスペースを入れる (句読点の前後には適用しない)
+      "ja-space-between-half-and-full-width": {
+        space: "always",
+        exceptPunctuation: true
+      },
+      // 文末の感嘆符の後ろに全角スペースを強制しない
+      "ja-space-after-exclamation": false,
+      // 文末の疑問符の後ろに全角スペースを強制しない
+      "ja-space-after-question": false,
+      // インラインコードの前後にスペースを入れる
+      "ja-space-around-code": {
+        "before": true,
+        "after": true
+      }
+    },
+    "preset-japanese": {
+      "sentence-length": {
+        "max":90
+      },
+      "max-ten": {
+        "max": 4
+      },
+      // 二重助詞の検出
+      "no-doubled-joshi": {
+        "min_interval" : 1,
+        "strict": false,
+        "allow": ["も", "や", "か"],
+        "separatorChars": ["、", "。", "?", "!", "？", "！", "「",  "」", "“", "”"]
+      },
+      // 二重否定の検出
+      "no-double-negative-ja": true,
+      // 同じ接続詞が連続して出現していないかどうか
+      "no-doubled-conjunction": true,
+      // ら抜き言葉を使用しない
+      "no-dropping-the-ra": true,
+      // 「ですます調」、「である調」を統一する
+      "no-mix-dearu-desumasu": {
+        "strict": false
+      },
+    },
+    "preset-ja-technical-writing": {
+      // preset-japaneseと競合するためfalse
+      "sentence-length": false,
+      "max-ten": false,
+      // 漢数字と算用数字を使い分ける
+      "arabic-kanji-numbers": true,
+      // 同一の単語を間違えて連続しているのをチェックする
+      "ja-no-successive-word": true,
+      // よくある日本語の誤用をチェックする
+      "ja-no-abusage": true,
+      // 冗長な表現を禁止する
+      "ja-no-redundant-expression": true,
+      // 文末の句点記号に「。」を使う (リスト中の句点記号は textlint-rule-period-in-list-item にて指定)
+      "ja-no-mixed-period": {
+        "periodMark": "。",
+        "forceAppendPeriod": true
+      },
+      // 感嘆符
+      "no-exclamation-question-mark": {             // 感嘆符「!！?？」の使用
+         "allowHalfWidthExclamation": false,        // + 半角!
+         "allowFullWidthExclamation": false,        // + 全角！
+         "allowHalfWidthQuestion": false,           // + 半角?
+         "allowFullWidthQuestion": true             // + 全角？
+      },
+    },
+    "preset-jtf-style": {
+      "1.1.1.本文": true,
+      "1.1.2.見出し": true,
+      // 箇条書き内の文体・文末の句点の有無に「統一感があるかどうか」で判断される
+      "1.1.3.箇条書き": true,
+      "1.1.5.図表のキャプション": true,
+      "1.2.1.句点(。)と読点(、)": true,
+      "1.2.2.ピリオド(.)とカンマ(,)": true,
+      // 常用漢字外として「脆 (弱性)」や「雛 (形)」がヒットするため無効化
+      "2.1.2.漢字": false,
+      // 辞書ベース : 「プラットフォーム」を「プラットホーム」に直そうとしたりするため無効化
+      "2.1.5.カタカナ": false,
+      // 辞書ベース : 長音記号を必須化するため無効化
+      "2.1.6.カタカナの長音": false,
+      "2.1.8.算用数字": true,
+      "2.1.9.アルファベット": true,
+      "2.1.10.算用数字の位取りの表記": true,
+      // 辞書ベース
+      "2.2.1.ひらがなと漢字の使い分け": true,
+      "2.2.2.算用数字と漢数字の使い分け": true,
+      // 辞書ベース
+      "2.2.3.一部の助数詞の表記": true,
+      // 全角文字と半角文字の間にスペースを入れるので無効化
+      "3.1.1.全角文字と半角文字の間": false,
+      "3.1.2.全角文字どうし": true,
+      "3.2.カタカナ語間のスペースの有無": true,
+      "3.3.かっこ類と隣接する文字の間のスペースの有無": true,
+      "4.1.1.句点(。)": true,
+      "4.1.3.ピリオド(.)、カンマ(,)": true,
+      "4.2.1.感嘆符(！)": true,
+      "4.2.2.疑問符(？)": true,
+      "4.2.4.中黒(・)": true,
+      "4.2.5.波線(〜)": true,
+      "4.2.6.ハイフン(-)": true,
+      // 全角表記
+      "4.2.7.コロン(：)": false,
+      "4.2.8.セミコロン(;)": true,
+      "4.2.9.ダッシュ(-)": true,
+      // 全角の丸カッコを強制されるので無効化
+      "4.3.1.丸かっこ（）": false,
+      // 全角の大カッコを強制されるので無効化
+      "4.3.2.大かっこ［］": false,
+      "4.3.3.かぎかっこ「」": true,
+      "4.3.4.二重かぎかっこ『』": true,
+      "4.3.5.二重引用符": true,
+      "4.3.6.中かっこ{ }": true,
+      "4.3.7.山かっこ<>": true,
+      "4.3.8.一重引用符": true
+    },
+    // 漢字よりもひらがなで表記したほうが読みやすいものを指摘する
+    "ja-hiragana-hojodoushi": true,
+    "ja-hiragana-fukushi": true,
+    "ja-hiragana-keishikimeishi": true,
+    // 不自然なアルファベットを検知する
+    "ja-unnatural-alphabet": true,
+    // 半角・全角アルファベットの混在チェック : デフォルトどおり半角を推奨する
+    "no-mixed-zenkaku-and-hankaku-alphabet": {
+      "prefer": "半角"
+    },
+    // リスト中の末尾に句点記号を書かないようにする
+    "period-in-list-item": true,
+    // 例示・並列表現の「～たり、(～たり) する」をチェックする
+    "prefer-tari-tari": true,
+    // 技術用語集。WEB+DB PRESSの用語集を含むらしい
+    "spellcheck-tech-word": true,
+    // 文章内の表記ゆれを指摘する
+    "@textlint-ja/no-synonyms": true,
+    // 文章内の同一単語の回数をカウントし指摘する
+    "textlint-rule-max-appearence-count-of-words": {
+      "limit": 3
+    },
+    // jtfのruleで非サポートなSI単位系の強制(IDを単位と認識するので無効化)
+    "use-si-units": false,
+    // 小説の規則からカスタムしたもの
+    "general-novel-style-ja": {
+      // 各段落の先頭に許可する文字 (false: チェックしない)
+      "chars_leading_paragraph": false,
+      // 閉じ括弧の手前に句読点(。、)を置かない(誤検知があるため外す)
+      "no_punctuation_at_closing_quote": false,
+      // 疑問符(？)と感嘆符(！)の直後にスペースを置く
+      "space_after_marks": true,
+      // 連続した三点リーダー(…)の数は偶数にする
+      "even_number_ellipsises": false,
+      // 連続したダッシュ(―)の数は偶数にする
+      "even_number_dashes": false,
+      // 連続した句読点(。、)を許可しない
+      "appropriate_use_of_punctuation": true,
+      // 連続した中黒(・)を許可しない
+      "appropriate_use_of_interpunct": true,
+      // 連続した長音符(ー)を許可しない
+      "appropriate_use_of_choonpu": true,
+      // マイナス記号(−)は数字の前にしか許可しない
+      "appropriate_use_of_minus_sign": true,
+      // アラビア数字の桁数は2桁まで (false: チェックしない)
+      "max_arabic_numeral_digits": false
+    },
+    // 略称表記を指摘する
+    "abbr-within-parentheses": true,
+
+    // 英語
+    "write-good": {
+      "passive": false,
+      "thereIs": false
+    },
+
+    // markdownにおいてセクションの乱れを指摘する(markdownlintが指摘するので無効)
+    "incremental-headers": false,
+    "no-empty-section": false,
+    // proofread helper
+    "prh": {
+      "rulePaths" :[
+        ".config/textlint/prh/prh_basic_custom.yml",
+        ".config/textlint/prh/prh_software_development.yml",
+      ],
+    },
+  }
+}
