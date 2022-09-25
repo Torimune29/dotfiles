@@ -21,6 +21,10 @@ alias ll='ls -alF'
 alias la='ls -a'
 alias l='ls'
 # builtin-utility
+## date
+alias now='date +%Y%m%d%H%M%S'
+alias day='date +%Y%m%d'
+alias epoch='date +%s'
 ## cd
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -42,6 +46,7 @@ alias gc='git commit'
 alias gcfg='git config'
 alias gqp='git add . && git commit -m fix && git push'
 alias cdg='cd $(git rev-parse --show-toplevel)'  # cd to .git project root
+
 ## safety
 alias cp='cp -i'
 alias mv='mv -i'
