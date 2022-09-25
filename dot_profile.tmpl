@@ -44,13 +44,6 @@ export WINDOWS_USER_TMP_PATH="C:/Users/${WINDOWS_USERNAME}/AppData/Local/Temp"
 export WINDOWS_USER_HOME_WSL_PATH="$(wslpath $WINDOWS_USER_HOME_PATH)"
 export WINDOWS_USER_TMP_WSL_PATH="$(wslpath $WINDOWS_USER_TMP_PATH)"
 {{ end }}
-if [ "$(command -v docker)" ] && [ "$(command -v service)" ] ; then
-    # WSL: boot docker service
-    if service docker status 2>&1 | grep -q "is not running"; then
-        echo "docker service is not running. service start."
-        sudo service docker start > /dev/null 2>&1
-    fi
-fi
 {{ end }}
 
 {{- if stat "/opt/misc/subversion/bin" -}}
@@ -62,15 +55,6 @@ PATH=/opt/misc/subversion/bin:$PATH
 # use ${MY_OWN_BIN_PATH}/proxy_switch to toggle on/off
 if [ -e "${MY_OWN_SHARE_PATH}/secret/proxy.env" ]; then 
   set -a; . "${MY_OWN_SHARE_PATH}/secret/proxy.env"; set +a;
-fi
-
-if [ "$(command -v chezmoi)" ] \
-    && chezmoi --version > /dev/null 2>&1 \
-    && [ "$(ps aux | grep chezmoi | wc -l 2>/dev/null)" == "1" ]; then  # for chezmoi recursive call
-    # Executing commands
-    # Daily operation for dotfiles sync
-    # for reload rc, execute on head.
-    nohup chezmoi update 1> /dev/null 2> /dev/null - /dev/null &
 fi
 
 # set PATH so it includes user's private bin if it exists
