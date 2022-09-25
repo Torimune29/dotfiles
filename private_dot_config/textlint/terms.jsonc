@@ -1,7 +1,0 @@
-[
-  // Computing
-  ["linux", "Linux"],
-  ["ssh", "SSH"],
-  // Enbedded
-  ["yocto", "Yocto"],
-]
