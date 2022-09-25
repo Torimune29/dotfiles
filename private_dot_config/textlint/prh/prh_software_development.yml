@@ -11,9 +11,13 @@ rules:
     pattern: /\bctrl/
   - expected: Caps
     pattern: /\bcaps/
-  # プログラミング
+  # ソフトウェア固有名称
+  - expected: Linux
+    pattern: /\blinux/
   - expected: C\+\+
-    pattern: /\bc\+\+|\bCpp/
+    pattern: /\bc\+\+|\b(c|C)pp/
+  - expected: SSH
+    pattern: /\bssh\b/
   # vcs等
   - expected: Trac
     pattern: /\btrac/
