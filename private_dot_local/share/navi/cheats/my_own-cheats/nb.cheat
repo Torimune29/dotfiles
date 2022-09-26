@@ -1,0 +1,27 @@
+% nb: note
+
+# list note
+nb l -t note
+
+% nb: todo
+
+# list todo
+nb t l
+
+# list todo with due
+nb t l -d <YYYY-MM-DD>
+
+# done|open todo
+nb t l <no> d
+
+# undone|close todo
+nb t l <no> d
+
+
+# Show weather detail info for a specific location
+curl -s "v2d.wttr.in/<location>" | less
+
+% calendar
+
+# Show calernder
+cal
