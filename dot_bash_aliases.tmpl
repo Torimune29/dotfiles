@@ -67,8 +67,8 @@ alias reload='exec $SHELL -l'
 # replace commands to modern cli tools
 if is-available exa --version; then
   ## ls, tree to exa
-  alias exa='exa -a --time-style long-iso --git'
-  alias ls='exa -a'
+  alias exa='exa --time-style long-iso --git'
+  alias ls='exa'
   alias tree='exa --tree'
 fi
 if is-available bat --version; then
