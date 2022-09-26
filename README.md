@@ -29,13 +29,21 @@ curl --silent https://raw.githubusercontent.com/Torimune29/dotfiles/main/bootstr
     }
     ```
 
+* Misc
+  * (MAINTAINER only) daily operation,
+    * Add daily_operation directory
+
+    ```bash
+    mkdir ~/.local/state/my_own/daily_operation
+    ```
+
 ## policy
 
 * Follow [XDF Base Directory](https://wiki.archlinux.org/title/XDG_Base_Directory)
 * Sets my own bin/lib in `my_own` dir. See env on [~/.profile](dot_profile.tmpl)
 * Ignore `*/secrets/*` like tokens, product-settings
 
-## TODO
+## ToDo
 
-* 全開発環境向けリポジトリ作成とそのfetch
+* 全開発環境向けリポジトリ作成とその fetch
 
