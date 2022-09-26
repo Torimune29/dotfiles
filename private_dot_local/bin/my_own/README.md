@@ -20,26 +20,6 @@
       * ユーザ定義のグローバルな環境変数(`$HOME/.profile`などで定義されるもの)は使用してもよい
         * モジュール可搬性を損ねるが、可搬なものを関数化する方針とする
 
----
-
-* bash
-  * Common
-    * shebang
-      * sh-capable vs. bash only, to distinguish whether sh-capable scripts can be created with sh _ bandler, etc.
-  * Function
-    * Naming Conventions
-      * _ (function name)
-        * To distinguish it from stand-alone scripts
-    * Implementation Policy
-      * Do not use user-defined global environment variables (such as those defined in ` $ HOME /. profile `)
-        * For greater module portability
-  * Script Body
-    * Naming Conventions
-      * (shell name)
-    * Implementation Policy
-      * User-defined global environment variables (such as those defined in ` $ HOME /. profile `) may be used
-        * Although module portability is impaired, it is a policy to make portable modules into functions.
-
 ## Description/idiom
 
 * bash
