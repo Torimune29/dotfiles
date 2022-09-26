@@ -21,7 +21,7 @@ curl --silent https://raw.githubusercontent.com/Torimune29/dotfiles/main/bootstr
 
 * Documentation settings
   * vscode-textlint
-    * Add **absolute path** `$HOME/.config/textlint/textlintrc` in vscode `settings.json` like,
+    * Add **full path** `$HOME/.config/textlint/textlintrc` in vscode `settings.json` like,
 
     ```json
     {
