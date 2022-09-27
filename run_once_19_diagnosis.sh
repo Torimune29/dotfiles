@@ -29,6 +29,7 @@ declare -A validator=(
   ["gron"]="gron --version"
   ["jc"]="jc --version"
   ["pandoc"]="pandoc --version"
+  ["git-crypt"]="git-crypt --version"
 )
 
 print_script_info

@@ -29,6 +29,7 @@ declare -A versions=(
         ["gron"]="0.7.1"
         ["jc"]="1.21.1"
         ["pandoc"]="2.19.2"
+        ["git-crypt"]="0.7.0"
 )
 
 print_script_info
@@ -191,5 +192,12 @@ curl -sL https://github.com/jgm/pandoc/releases/download/${versions["pandoc"]}/p
 cp /tmp/pandoc-${versions["pandoc"]}/bin/* $HOME/.local/bin
 rm -rf /tmp/pandoc-${versions["pandoc"]}
 {{ end -}}
+
+{{ if not (lookPath "git-crypt") -}}
+# git-crypt
+curl -sL https://github.com/AGWA/git-crypt/releases/download/${versions["git-crypt"]}/git-crypt-${versions["git-crypt"]}-linux-x86_64 -o $HOME/.local/bin/git-crypt
+chmod +x $HOME/.local/bin/git-crypt
+{{ end -}}
+
 
 log_success "$0 done."
