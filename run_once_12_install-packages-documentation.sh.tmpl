@@ -7,10 +7,6 @@
 
 print_script_info
 
-# gather facts
-eval $(get_package_management_method)
-eval $(get_escalation_method) $_facts_update 1>/dev/null
-
 . $HOME/.asdf/asdf.sh
 
 {{ if not (lookPath "node") -}}
@@ -55,4 +51,5 @@ npm install -g \
 log_success "$0 done."
 
 # gnupg for encrypt/decrypt documents
+eval $(get_package_management_method)
 eval $(get_escalation_method) $_facts_install gnupg 1>/dev/null
