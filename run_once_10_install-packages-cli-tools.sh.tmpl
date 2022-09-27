@@ -200,7 +200,7 @@ chmod +x $HOME/.local/bin/git-crypt
 if [ "$(ldd $HOME/.local/bin/git-crypt | grep libcrypto.so.1.1 | cut -d' ' -f3-)" = "not found" ]; then
   eval $(get_package_management_method)
   eval $(get_escalation_method) $_facts_install dpkg 1>/dev/null
-  curl -sL http://debian.mirror.ac.za/debian/pool/main/o/openssl/libssl1.1_1.1.1o-1_amd64.deb -o /tmp
+  curl -sL http://debian.mirror.ac.za/debian/pool/main/o/openssl/libssl1.1_1.1.1o-1_amd64.deb -o /tmp/libssl1.1_1.1.1o-1_amd64.deb
   eval $(get_escalation_method) dpkg -i /tmp/libssl1.1_1.1.1o-1_amd64.deb
   rm -rf libssl1.1_1.1.1o-1_amd64.deb
 fi
