@@ -29,6 +29,7 @@ declare -A versions=(
   ["gron"]="0.7.1"
   ["jc"]="1.21.1"
   ["pandoc"]="2.19.2"
+  ["wkhtmltopdf"]="0.12.4"
   ["git-crypt"]="0.7.0"
 )
 
@@ -191,6 +192,13 @@ curl -sL https://github.com/kellyjonbrazil/jc/releases/download/v${versions["jc"
 curl -sL https://github.com/jgm/pandoc/releases/download/${versions["pandoc"]}/pandoc-${versions["pandoc"]}-linux-amd64.tar.gz | tar xz -C /tmp
 cp /tmp/pandoc-${versions["pandoc"]}/bin/* $HOME/.local/bin
 rm -rf /tmp/pandoc-${versions["pandoc"]}
+{{ end -}}
+
+{{ if not (lookPath "wkhtmltopdf") -}}
+# wkhtmltoimage, wkhtmltopdf
+curl -sL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${versions["wkhtmltopdf"]}/wkhtmltox-${versions["wkhtmltopdf"]}_linux-generic-amd64.tar.xz | tar xJ -C /tmp
+cp /tmp/wkhtmltox/bin/* $HOME/.local/bin
+rm -rf /tmp/wkhtmltox
 {{ end -}}
 
 {{ if not (lookPath "git-crypt") -}}

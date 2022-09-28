@@ -29,6 +29,7 @@ declare -A validator=(
   ["gron"]="gron --version"
   ["jc"]="jc --version"
   ["pandoc"]="pandoc --version"
+  ["wkhtmltopdf"]="wkhtmltopdf --version"
   ["git-crypt"]="git-crypt --version"
 )
 
