@@ -204,21 +204,21 @@ chmod +x $HOME/.local/bin/git-crypt
 
 {{ if not (lookPath "mcfly") -}}
 # mcfly
-curl -sL https://github.com/cantino/mcfly/releases/download/v${versions["mcfly"]}/mcfly-v${versions["mcfly"]}-x86_64-unknown-linux-musl.tar.gz | tar xz -C $HOME/.local/bin/
+curl -L https://github.com/cantino/mcfly/releases/download/v${versions["mcfly"]}/mcfly-v${versions["mcfly"]}-x86_64-unknown-linux-musl.tar.gz | tar xz -C $HOME/.local/bin/
 {{ end -}}
 
 {{ if not (lookPath "monolith") -}}
 # monolith
-curl -sL https://github.com/Y2Z/monolith/releases/download/v${versions["monolith"]}/monolith-gnu-linux-x86_64 -o $HOME/.local/bin/monolith
+curl -L https://github.com/Y2Z/monolith/releases/download/v${versions["monolith"]}/monolith-gnu-linux-x86_64 -o $HOME/.local/bin/monolith
 chmod +x $HOME/.local/bin/monolith
 {{ end -}}
 
 {{ if not (lookPath "vifm") -}}
 # vifm
-curl -sL https://github.com/vifm/vifm/releases/download/v${versions["vifm"]}/vifm-v${versions["vifm"]}-x86_64.AppImage -o $HOME/.local/bin/vifm
+curl -L https://github.com/vifm/vifm/releases/download/v${versions["vifm"]}/vifm-v${versions["vifm"]}-x86_64.AppImage -o $HOME/.local/bin/vifm
 chmod +x $HOME/.local/bin/vifm
 # colorscheme
-curl -sL https://github.com/vifm/vifm-colors/raw/master/iceberg.vifm -o $HOME/.config/vifm/colors/iceberg.vifm
+curl -L https://github.com/vifm/vifm-colors/raw/master/iceberg.vifm -o $HOME/.config/vifm/colors/iceberg.vifm
 {{ end -}}
 
 
