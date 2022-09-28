@@ -269,6 +269,15 @@ alias :sp='tmux split-window -v'
 # navi
 ## for bashrc
 alias navi='eval $(\navi --print)'
+# vifm
+vicd() {
+  local dst="$(command vifm --choose-dir - "$@")"
+  if [ -z "$dst" ]; then
+    echo 'Directory picking cancelled/failed'
+    return 1
+  fi
+  cd "$dst"
+}
 
 # textlint
 alias tlc='fe $(chezmoi source-path)/private_dot_config/textlint'

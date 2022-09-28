@@ -159,14 +159,8 @@ asdf global neovim ${versions["neovim"]}
 
 {{ if not (lookPath "tmux") -}}
 # tmux
-curl -L -o $HOME/.local/bin/tmux https://github.com/pythops/tmux-linux-binary/releases/download/${versions["tmux"]}/tmux
+curl -sL -o $HOME/.local/bin/tmux https://github.com/pythops/tmux-linux-binary/releases/download/${versions["tmux"]}/tmux
 chmod +x $HOME/.local/bin/tmux
-{{ end -}}
-
-{{ if (not (stat (joinPath .chezmoi.homeDir ".tmux/plugins/tpm"))) -}}
-# tpm
-git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-$HOME/.local/bin/tmux run-shell ~/.tmux/plugins/tpm/bin/install_plugins
 {{ end -}}
 
 {{ if not (lookPath "fpp") }}
