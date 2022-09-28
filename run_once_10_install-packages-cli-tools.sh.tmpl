@@ -161,6 +161,12 @@ curl -L -o $HOME/.local/bin/tmux https://github.com/pythops/tmux-linux-binary/re
 chmod +x $HOME/.local/bin/tmux
 {{ end -}}
 
+{{ if (not (stat (joinPath .chezmoi.homeDir ".tmux/plugins/tpm"))) -}}
+# tpm
+git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+$HOME/.local/bin/tmux run-shell ~/.tmux/plugins/tpm/bin/install_plugins
+{{ end -}}
+
 {{ if not (lookPath "fpp") }}
 # fpp
 rm -rf $HOME/.local/bin/fpp ${XDG_DATA_HOME:-$HOME/.local/share}/PathPicker > /dev/null 2>&1
