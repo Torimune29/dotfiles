@@ -29,8 +29,8 @@ declare -A versions=(
   ["gron"]="0.7.1"
   ["jc"]="1.21.1"
   ["pandoc"]="2.19.2"
-  ["wkhtmltopdf"]="0.12.4"
   ["git-crypt"]="0.7.0"
+  ["mcfly"]="0.6.1"
 )
 
 print_script_info
@@ -194,18 +194,15 @@ cp /tmp/pandoc-${versions["pandoc"]}/bin/* $HOME/.local/bin
 rm -rf /tmp/pandoc-${versions["pandoc"]}
 {{ end -}}
 
-{{ if not (lookPath "wkhtmltopdf") -}}
-# wkhtmltoimage, wkhtmltopdf
-curl -sL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${versions["wkhtmltopdf"]}/wkhtmltox-${versions["wkhtmltopdf"]}_linux-generic-amd64.tar.xz | tar xJ -C /tmp
-cp /tmp/wkhtmltox/bin/* $HOME/.local/bin
-rm -rf /tmp/wkhtmltox
-{{ end -}}
-
 {{ if not (lookPath "git-crypt") -}}
 # git-crypt
 curl -sL https://github.com/AGWA/git-crypt/releases/download/${versions["git-crypt"]}/git-crypt-${versions["git-crypt"]}-linux-x86_64 -o $HOME/.local/bin/git-crypt
 chmod +x $HOME/.local/bin/git-crypt
 {{ end -}}
 
+{{ if not (lookPath "mcfly") -}}
+# mcfly
+curl -sL https://github.com/cantino/mcfly/releases/download/v${versions["mcfly"]}/mcfly-v${versions["mcfly"]}-x86_64-unknown-linux-musl.tar.gz | tar xz -C $HOME/.local/bin/
+{{ end -}}
 
 log_success "$0 done."
