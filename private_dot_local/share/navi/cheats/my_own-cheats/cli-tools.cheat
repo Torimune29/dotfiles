@@ -1,0 +1,15 @@
+% vifm
+
+# explorer file/directory using vim keybind
+vifm .
+
+% tmux
+
+# record start/stop terminal log
+echo "Ctrl Shift p"
+
+# capture current terminal log
+echo "Ctrl Alt p"
+
+# save terminal log history
+echo "Ctrl Shift Alt p"

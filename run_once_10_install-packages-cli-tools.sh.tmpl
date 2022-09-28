@@ -31,6 +31,8 @@ declare -A versions=(
   ["pandoc"]="2.19.2"
   ["git-crypt"]="0.7.0"
   ["mcfly"]="0.6.1"
+  ["monolith"]="2.6.2"
+  ["vifm"]="0.12.1"
 )
 
 print_script_info
@@ -210,5 +212,17 @@ chmod +x $HOME/.local/bin/git-crypt
 # mcfly
 curl -sL https://github.com/cantino/mcfly/releases/download/v${versions["mcfly"]}/mcfly-v${versions["mcfly"]}-x86_64-unknown-linux-musl.tar.gz | tar xz -C $HOME/.local/bin/
 {{ end -}}
+
+{{ if not (lookPath "monolith") -}}
+# monolith
+curl -sL https://github.com/Y2Z/monolith/releases/download/v${versions["monolith"]}/monolith-gnu-linux-x86_64 -o $HOME/.local/bin/monolith
+chmod +x $HOME/.local/bin/monolith
+{{ end -}}
+
+{{ if not (lookPath "vifm") -}}
+curl -sL https://github.com/vifm/vifm/releases/download/v${versions["vifm"]}/vifm-v${versions["vifm"]}-x86_64.AppImage -o $HOME/.local/bin/vifm
+chmod +x $HOME/.local/bin/vifm
+{{ end -}}
+
 
 log_success "$0 done."

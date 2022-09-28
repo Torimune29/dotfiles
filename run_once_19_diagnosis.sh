@@ -31,6 +31,8 @@ declare -A validator=(
   ["pandoc"]="pandoc --version"
   ["git-crypt"]="git-crypt --version"
   ["mcfly"]="mcfly --version"
+  ["monolith"]="monolith --version"
+  ["vifm"]="vifm --version"
 )
 
 print_script_info
