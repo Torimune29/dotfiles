@@ -34,6 +34,7 @@ declare -A versions=(
   ["monolith"]="2.6.2"
   ["vifm"]="0.12.1"
   ["s"]="0.6.6"
+  ["hledger"]="1.27.1"
 )
 
 print_script_info
@@ -231,5 +232,14 @@ chmod +x $HOME/.local/bin/s
 rm -rf /tmp/s-linux_amd64*
 {{ end -}}
 
+{{ if not (lookPath "hledger") -}}
+# hledger
+curl -sL https://github.com/simonmichael/hledger/releases/download/${versions["hledger"]}/hledger-linux-x64.zip  -o /tmp/hledger-linux-x64.zip
+unzip /tmp/hledger-linux-x64.zip -d /tmp && tar xf /tmp/hledger-linux-x64.tar -C /tmp
+cp /tmp/hledger $HOME/.local/bin/
+cp /tmp/hledger-ui $HOME/.local/bin/
+cp /tmp/hledger-web $HOME/.local/bin/
+rm -rf /tmp/hledger*
+{{ end -}}
 
 log_success "$0 done."

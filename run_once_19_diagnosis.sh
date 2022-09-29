@@ -34,6 +34,7 @@ declare -A validator=(
   ["monolith"]="monolith --version"
   # ["vifm"]="vifm --version"
   ["s"]="s --version"
+  ["hledger"]="hledger --version"
 )
 
 print_script_info
