@@ -521,7 +521,10 @@ nnoremap <c-u> <c-w>x
 " let $VIFM_SERVER_NAME = v:servername
 
 " Activate screen/tmux support
-" screen!
+screen!
+
+" Show hidden/dot files
+windo normal zo
 
 " ------------------------------------------------------------------------------
 " Icon decorations example
