@@ -33,6 +33,7 @@ declare -A versions=(
   ["mcfly"]="0.6.1"
   ["monolith"]="2.6.2"
   ["vifm"]="0.12.1"
+  ["s"]="0.6.6"
 )
 
 print_script_info
@@ -219,6 +220,15 @@ curl -sL https://github.com/vifm/vifm/releases/download/v${versions["vifm"]}/vif
 chmod +x $HOME/.local/bin/vifm
 # colorscheme
 curl -sL https://github.com/vifm/vifm-colors/raw/master/iceberg.vifm -o $HOME/.config/vifm/colors/iceberg.vifm
+{{ end -}}
+
+{{ if not (lookPath "s") -}}
+# s
+curl -sL https://github.com/zquestz/s/releases/download/v${versions["s"]}/s-linux_amd64.zip -o /tmp/s-linux_amd64.zip
+unzip /tmp/s-linux_amd64.zip -d /tmp
+cp /tmp/s-linux_amd64/s $HOME/.local/bin/s
+chmod +x $HOME/.local/bin/s
+rm -rf /tmp/s-linux_amd64*
 {{ end -}}
 
 

@@ -32,7 +32,8 @@ declare -A validator=(
   ["git-crypt"]="git-crypt --version"
   ["mcfly"]="mcfly --version"
   ["monolith"]="monolith --version"
-  ["vifm"]="vifm --version"
+  # ["vifm"]="vifm --version"
+  ["s"]="s --version"
 )
 
 print_script_info
