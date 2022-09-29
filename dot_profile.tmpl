@@ -28,10 +28,12 @@ export MY_OWN_LOG_PATH=$XDG_STATE_HOME/my_own/log
 # Editor settings
 {{ if lookPath "code" -}}
 export EDITOR='code --wait'
-{{ else if lookPath "vim" -}}
-export EDITOR="vim"
 {{ else -}}
-export EDITOR="vi"
+if [ "$(command -v vim)" ] && vim --version > /dev/null 2>&1; then
+  export EDITOR="vim"
+else
+  export EDITOR="vi"
+fi
 {{ end }}
 
 {{ if and (lookPath "wsl.exe") (lookPath "powershell.exe") -}}
