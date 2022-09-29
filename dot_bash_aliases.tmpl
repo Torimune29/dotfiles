@@ -52,7 +52,11 @@ alias gb='git branch'
 alias gst='git status'
 alias gco='git checkout'
 alias gf='git fetch'
-alias gc='git commit'
+if is-available git-cz --version; then
+  alias gc='git-cz'
+else 
+  alias gc='git commit'
+fi
 alias gcfg='git config'
 alias gqp='git add . && git commit -m fix && git push'
 alias cdg='cd $(git rev-parse --show-toplevel)'  # cd to .git project root
