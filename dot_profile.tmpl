@@ -25,16 +25,6 @@ export MY_OWN_SHARE_PATH=$XDG_DATA_HOME/my_own
 export MY_OWN_STATE_PATH=$XDG_STATE_HOME/my_own
 export MY_OWN_LOG_PATH=$XDG_STATE_HOME/my_own/log
 
-# Editor settings
-{{ if lookPath "code" -}}
-export EDITOR='code --wait'
-{{ else -}}
-if [ "$(command -v vim)" ] && vim --version > /dev/null 2>&1; then
-  export EDITOR="vim"
-else
-  export EDITOR="vi"
-fi
-{{ end }}
 
 {{ if and (lookPath "wsl.exe") (lookPath "powershell.exe") -}}
 # Windows/WSL settings
@@ -80,6 +70,17 @@ fi
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
+
+# Editor settings
+{{ if lookPath "code" -}}
+export EDITOR='code --wait'
+{{ else -}}
+if [ "$(command -v vim)" ] && vim --version > /dev/null 2>&1; then
+  export EDITOR="vim"
+else
+  export EDITOR="vi"
+fi
+{{ end }}
 
 #########################################################
 # add by user end
