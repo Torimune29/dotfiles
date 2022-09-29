@@ -46,12 +46,6 @@ export WINDOWS_USER_TMP_WSL_PATH="$(wslpath $WINDOWS_USER_TMP_PATH)"
 {{ end }}
 {{ end }}
 
-# running inside docker
-if (awk -F/ '$2 == "docker"' /proc/self/cgroup | read non_empty_input) ; then
-  # AppImage fallbask. https://github.com/AppImage/AppImageKit/wiki/FUSE#docker
-  export APPIMAGE_EXTRACT_AND_RUN=1
-fi
-
 {{- if stat "/opt/misc/subversion/bin" -}}
 # For work: use specific svn
 PATH=/opt/misc/subversion/bin:$PATH
