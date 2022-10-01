@@ -35,6 +35,7 @@ declare -A versions=(
   ["vifm"]="0.12.1"
   ["s"]="0.6.6"
   ["hledger"]="1.27.1"
+  ["dust"]="latest"
 )
 
 print_script_info
@@ -241,5 +242,13 @@ cp /tmp/hledger-ui $HOME/.local/bin/
 cp /tmp/hledger-web $HOME/.local/bin/
 rm -rf /tmp/hledger*
 {{ end -}}
+
+{{ if not (lookPath "dust") -}}
+# dust
+asdf plugin-add dust https://github.com/looztra/asdf-dust || true
+asdf install dust ${versions["dust"]}
+asdf global dust ${versions["dust"]}
+{{ end -}}
+
 
 log_success "$0 done."

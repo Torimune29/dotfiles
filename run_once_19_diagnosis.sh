@@ -35,6 +35,7 @@ declare -A validator=(
   # ["vifm"]="vifm --version"
   ["s"]="s --version"
   ["hledger"]="hledger --version"
+  ["dust"]="dust --version"
 )
 
 print_script_info

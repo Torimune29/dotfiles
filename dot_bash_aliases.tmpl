@@ -60,6 +60,8 @@ fi
 alias gcfg='git config'
 alias gqp='git add . && git commit -m fix && git push'
 alias cdg='cd $(git rev-parse --show-toplevel)'  # cd to .git project root
+## du
+alias du='\du -d 1 -h | sort -h'
 
 ## safety
 alias cp='cp -i'
@@ -124,6 +126,10 @@ if is-available nvim --version; then
   ## vim to nvim
   alias vim='nvim'
   alias vi='nvim'
+fi
+if is-available dust --version; then
+  ## du to dust
+  alias du='dust'
 fi
 if is-available trash --help; then
   ## rm to trash
