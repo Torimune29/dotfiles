@@ -22,6 +22,11 @@ set keymap vi-insert
 TAB: menu-complete
 # Shift-TAB cycles completions backward
 "\e[Z": menu-complete-backward
+set completion-ignore-case on
+set colored-stats on
+set colored-completion-prefix on
+set visible-stats on
+set show-all-if-ambiguous on
 
 # for vi mode
 set show-mode-in-prompt on
@@ -38,3 +43,4 @@ set vi-cmd-mode-string \1\e[31;1m\2(cmd) \1\e[0m\2
 "\C-e": end-of-line
 "\C-f": forward-char
 "\C-b": backward-char
+"\C-w": backward-kill-word
