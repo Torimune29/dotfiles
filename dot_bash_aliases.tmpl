@@ -57,6 +57,7 @@ if is-available git-cz --version; then
 else 
   alias gc='git commit'
 fi
+alias gfix='git commit --amend --no-edit'
 alias gcfg='git config'
 alias gqp='git add . && git commit -m fix && git push'
 alias cdg='cd $(git rev-parse --show-toplevel)'  # cd to .git project root
@@ -295,7 +296,7 @@ vicd() {
 # textlint
 alias tlc='fe $(chezmoi source-path)/private_dot_config/textlint'
 # terminalizer
-alias terminalizer='terminalizer --skip-sharing=true'
+alias terminalizer='\terminalizer --skip-sharing=true'
 # Ultimate Plumber(up)
 _up() {
   local cwd=$(pwd) args=("$@") script_dir=$(mktemp -d)

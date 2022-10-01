@@ -192,27 +192,6 @@ open () {
 }
 {{ end }}
 
-{{ if contains "WSL" .chezmoi.kernel.osrelease }}
-#######################################
-# google
-# Arguments:
-#   multiple search words.
-# Returns:
-#   0 is ok, non-zero on error.
-# Details:
-#   https://ludwig125.hatenablog.com/entry/2021/02/09/063639
-#######################################
-google() {
-  local browser="/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe --incognito"
-  [ $# -lt 1 ] && return 1
-  local search=""
-  for term in "$@" ; do
-    search="$search%20$term"
-  done
-  eval "$browser" https://www.google.co.jp/search\?q\=$search
-}
-{{ end }}
-
 #######################################
 # fuzzy files selector
 # Arguments:
