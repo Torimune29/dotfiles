@@ -1,3 +1,11 @@
+% terminalizer
+
+# record terminal animation
+terminalizer record <output_filename>.yml
+
+# render/generate terminal gif
+touch <output_filename>.gif && docker run --rm=true -it -v $(pwd)/<output_filename>.yml:/terminalizer/recording.yml:ro -v $(pwd)/<output_filename>.gif:/terminalizer/rendered.gif kopkop/termgifmaker
+
 % vifm
 
 # explorer file/directory using vim keybind
