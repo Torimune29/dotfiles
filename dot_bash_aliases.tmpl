@@ -257,7 +257,7 @@ ghqv () {
   local repo_path
   repo_path=$(ghq list | fzf)
   [ -z "${repo_path}" ] && return 1
-  cd $(ghq root)/${repo_path:?is empty.} && gh browse
+  (cd $(ghq root)/${repo_path:?is empty.} && gh browse)
 }
 
 # docker
