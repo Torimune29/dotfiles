@@ -1,7 +1,7 @@
 % terminalizer
 
 # record terminal animation
-terminalizer record <output_filename>.yml
+terminalizer record <output_filename>.yml --skip-sharing=true
 
 # render/generate terminal gif
 touch <output_filename>.gif && docker run --rm=true -it -v $(pwd)/<output_filename>.yml:/terminalizer/recording.yml:ro -v $(pwd)/<output_filename>.gif:/terminalizer/rendered.gif kopkop/termgifmaker
