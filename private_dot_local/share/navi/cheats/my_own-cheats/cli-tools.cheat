@@ -1,4 +1,4 @@
-% terminalizer
+% terminal: terminalizer
 
 # record terminal animation
 terminalizer record <output_filename>.yml --skip-sharing=true
@@ -6,12 +6,12 @@ terminalizer record <output_filename>.yml --skip-sharing=true
 # render/generate terminal gif
 touch <output_filename>.gif && docker run --rm=true -it -v $(pwd)/<output_filename>.yml:/terminalizer/recording.yml:ro -v $(pwd)/<output_filename>.gif:/terminalizer/rendered.gif kopkop/termgifmaker
 
-% vifm
+% terminal: vifm
 
 # explorer file/directory using vim keybind
 vifm .
 
-% tmux
+% terminal: tmux
 
 # record start/stop terminal log
 echo "Ctrl Shift p"
@@ -21,3 +21,19 @@ echo "Ctrl Alt p"
 
 # save terminal log history
 echo "Ctrl Shift Alt p"
+
+% json: jc
+# convert any command output to json
+free | jc --free
+
+# convert csv to json
+cat <csv> | jc --csv
+
+% json: gron
+# convert json to line
+free | jc --free | gron
+
+% json: jjo
+# create json object
+jjo foo=bar test=true
+
