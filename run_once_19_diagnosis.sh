@@ -36,6 +36,7 @@ declare -A validator=(
   ["s"]="s --version"
   ["hledger"]="hledger --version"
   ["dust"]="dust --version"
+  # ["up"]="up --help"
 )
 
 print_script_info
