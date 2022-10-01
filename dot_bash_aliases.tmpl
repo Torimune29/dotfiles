@@ -298,10 +298,10 @@ alias tlc='fe $(chezmoi source-path)/private_dot_config/textlint'
 alias terminalizer='terminalizer --skip-sharing=true'
 # Ultimate Plumber(up)
 _up() {
-  local cwd=$(pwd) args=("$@")
-  eval "${args}" |& \up -o ${cwd}/up.sh > /dev/null 2>&1
-  [ $? = 0 ] && eval "${args}" | ${cwd}/up.sh
-  \rm -f ${cwd}/up.sh > /dev/null 2>&1
+  local cwd=$(pwd) args=("$@") script_dir=$(mktemp -d)
+  eval "${args}" |& \up -o "${script_dir}/up.sh" > /dev/null 2>&1
+  [ $? = 0 ] && [ -e "${script_dir}/up.sh" ] && eval "${args}" | "${script_dir}/up.sh"
+  \rm -rf "${script_dir}" > /dev/null 2>&1
 }
 alias up='_up'
 
