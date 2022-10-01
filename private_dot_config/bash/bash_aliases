@@ -1,0 +1,306 @@
+#########################################################
+# add by user begin
+#########################################################
+# command availability check
+is-available() {
+  if [ "$(command -v ${1:?argument error})" ]; then
+    [ -z "$2" ] && return 0
+    eval $* > /dev/null 2>&1 && return 0
+  fi
+  return 1
+}
+
+# builtin-colorize
+alias diff='diff --color=auto'
+alias grep='grep --color=auto'
+alias ls='ls --color=auto'
+alias ip='ip --color=auto'
+
+# builtin-overwrite
+alias ll='ls -alF'
+alias la='ls -a'
+alias l='ls'
+# builtin-utility
+## date
+alias now='date +%Y%m%d%H%M%S'
+alias day='date +%Y%m%d'
+alias sday='date +%Y%m%d | cut -c 3-'
+alias isonow='date +%Y-%m-%dT%H:%M:%S%z'
+alias isoday='date +%Y-%m-%d'
+alias sisoday='date +%Y-%m-%d | cut -c 3-'
+alias epoch='date +%s'
+epochtoiso() {
+  date -d @${1:?input epoch} "+%Y-%m-%dT%H:%M:%S,%N%z"  
+}
+isotoepoch() {
+  date -d ${1:?input iso-format datetime} "+%s"  
+}
+## cd
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+## mkdir
+alias mkdir='mkcd'
+## git
+alias g='git'
+alias ga='git add'
+alias gd='git diff'
+alias gs='git status'
+alias gp='git push'
+alias gb='git branch'
+alias gst='git status'
+alias gco='git checkout'
+alias gf='git fetch'
+if is-available git-cz --version; then
+  alias gc='git-cz'
+else 
+  alias gc='git commit'
+fi
+alias gcfg='git config'
+alias gqp='git add . && git commit -m fix && git push'
+alias cdg='cd $(git rev-parse --show-toplevel)'  # cd to .git project root
+
+## safety
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+## shell
+alias reload='exec $SHELL -l'
+
+# replace commands to modern cli tools
+if is-available exa --version; then
+  ## ls, tree to exa
+  alias exa='exa --time-style long-iso --git'
+  alias ls='exa'
+  alias tree='exa --tree'
+fi
+if is-available bat --version; then
+  ## cat, less to bat
+  alias cat='bat --paging=never --color=always'
+  alias less='bat --paging=always --color=always'
+  _colorize() {
+    eval \\"$@" | bat -l log --paging=never --plain
+  }
+  alias head='_colorize \head'
+  alias tail='_colorize \tail'
+fi
+if is-available zoxide --version; then
+  ## cd to z
+  alias ..='z ..'
+  alias ...='z ../..'
+  alias ....='z ../../..'
+  alias .....='z ../../../..'
+  alias cd='z'
+  alias zls='zoxide query --interactive'
+fi
+if is-available fzf --version; then
+  ## fzf
+  ### common
+  export FZF_DEFAULT_OPTS='--height 50% +s --multi --cycle --reverse --info=hidden --select-1 --exit-0'
+  export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+  # fzf completion
+  ## not working in tmux. using default
+  # if [ -e "$HOME/.local/share/fzf/fzf-bash-completion.sh" ]; then
+  #   . $HOME/.local/share/fzf/fzf-bash-completion.sh
+  #   bind -x '"\t\t": fzf_bash_completion'
+  # fi
+  ### history
+  #### disable because use mcfly
+  # _fzf_search_history() {  ## Ctrl + r history search with fzf
+  # 	local l=$(HISTTIMEFORMAT= history | \
+  # 	sort -r | sed -E s/^\ *[0-9]\+\ \+// | \
+  # 	fzf --query "$READLINE_LINE")
+  # 	READLINE_LINE="$l"
+  # 	READLINE_POINT=${#l}
+  # }
+  # bind -x '"\C-r": _fzf_search_history'
+fi
+if is-available gojq --version; then
+  ## jq to gojq
+  alias jq='gojq'
+fi
+if is-available nvim --version; then
+  ## vim to nvim
+  alias vim='nvim'
+  alias vi='nvim'
+fi
+if is-available trash --help; then
+  ## rm to trash
+  alias rm='trash'
+  alias trash-list='cat ${XDG_DATA_HOME:-$HOME/.local/share}/Trash/info/* --color=always 2>/dev/null || true'
+  alias trash-empty='empty-trash'
+fi
+# fuzzy command
+## https://github.com/junegunn/fzf/wiki/Examples
+### edit
+#### defined on $HOME/.bash_function
+fe () {
+  IFS=$'\n' files=$(fselectfiles $@)
+  [ -z "$files" ] && return 1
+  if is-available code; then
+    code "${files[*]}"
+  else
+    eval ${EDITOR} "${files[*]}"
+  fi
+}
+### open
+fopen () {
+  IFS=$'\n' files=$(fselectfiles $@)
+  [ -z "$files" ] && return 1
+  if is-available open; then
+    open "${files[*]}"
+  else
+    return 2
+  fi
+}
+### cd from dir
+fcd () {
+  local paths
+  if [ $# = 0 ]; then
+    paths=$(zls)
+  else
+    paths=$(fselectdirectories $@)
+  fi
+  z ${paths:?is empty} || true
+}
+### diff
+fdiff () {
+  local files
+  IFS=$'\n' files=$(fselectfiles $@)
+  [ -z "$files" ] && return 1
+  if is-available code; then
+    echo ${files[*]} | xargs -n 2 code --diff
+  elif is-available delta --version; then
+    echo ${files[*]} | xargs -n 2 delta
+  else
+    echo ${files[*]} | xargs -n 2 diff
+  fi
+}
+### kill
+fkill() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+  [ -z "$pid" ] &&  return 1
+  echo $pid | xargs kill -${1:-9}
+}
+### git
+#### add
+fga () {
+  local selected
+  selected=$(git status -s | fzf -m --ansi --preview="echo {} | awk '{print \$2}' | xargs git diff --color" | awk '{print $2}' | tr '\n' ' ' | sed 's/\s*$//')
+  [ -z "$selected" ] && return 1
+  for file in $selected; do
+    git add "$file"
+  done
+}
+### diff
+fgd () {
+  if is-available delta --version; then
+    fselectgitcommit | xargs -n 2 git --no-pager diff | delta
+  else
+    fselectgitcommit | xargs -n 2 git diff
+  fi
+}
+#### checkout branch/tag
+fgco () {
+  local tags branches target
+  branches=$(
+    git --no-pager branch --all \
+      --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
+    | sed '/^$/d') || return
+  tags=$(
+    git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
+  target=$(
+    (echo "$branches"; echo "$tags") |
+    fzf --no-hscroll --no-multi -n 2 \
+        --ansi --preview="git --no-pager log -150 --pretty=format:%s '..{2}'") || return
+  git checkout $(awk '{print $2}' <<<"$target" )
+}
+#### checkout commit
+fgcoc () {
+  fselectgitcommit ${1} | xargs -I {} -n 1 git checkout {} -- $1
+}
+#### reset
+fgreset () {
+  local flag
+  flag=${1:?input --hard/--soft}
+  fselectgitcommit | xargs -n 1 git reset ${flag}
+}
+### ssh
+fssh () {
+  local host
+  host=$(fselectsshhost)
+  ssh ${host:?is empty.}
+}
+### code remote-ssh both local/remote
+fcodessh () {
+  local host
+  host=$(fselectsshhost)
+  code --file-uri vscode-remote://ssh-remote+${host:?is empty.}/~/
+}
+
+# ghq, gh
+ghql () {
+  local repo_path
+  repo_path=$(ghq list | fzf)
+  [ -z "${repo_path}" ] && return 1
+  cd $(ghq root)/${repo_path:?is empty.}
+}
+ghqo () {
+  local repo_path
+  repo_path=$(ghq list | fzf)
+  [ -z "${repo_path}" ] && return 1
+  code $(cd $(ghq root)/${repo_path:?is empty.} && pwd)
+}
+ghqv () {
+  local repo_path
+  repo_path=$(ghq list | fzf)
+  [ -z "${repo_path}" ] && return 1
+  (cd $(ghq root)/${repo_path:?is empty.} && gh browse)
+}
+
+# docker
+alias dcu='docker-compose up -d'
+alias dcd='docker-compose down'
+alias dcr='docker-compose restart'
+alias dp='docker ps'
+alias dx='docker exec -it'
+alias dr='docker run -it --rm=true'
+# tmux
+alias :vsp='tmux split-window -h'
+alias :sp='tmux split-window -v'
+# navi
+## for bashrc
+alias navi='eval $(\navi --print)'
+# vifm
+if (awk -F/ '$2 == "docker"' /proc/self/cgroup | read non_empty_input) ; then
+  # AppImage fallback. https://github.com/AppImage/AppImageKit/wiki/FUSE#docker
+  alias vifm='\vifm --appimage-extract-and-run 2> /dev/null'
+fi
+vicd() {
+  local dst="$(command vifm --choose-dir - "$@")"
+  if [ -z "$dst" ]; then
+    echo 'Directory picking canceled/failed' >&2
+    return 1
+  fi
+  cd "$dst"
+}
+# textlint
+alias tlc='fe $(chezmoi source-path)/private_dot_config/textlint'
+# terminalizer
+alias terminalizer='terminalizer --skip-sharing=true'
+
+# utility
+## defined by bash_function
+alias gg='google'
+
+# WSL
+## share clipboard
+alias pbcopy='clip.exe'
+alias pbpaste='powershell.exe -Command Get-Clipboard'
+
+
+#########################################################
+# add by user end
+#########################################################
