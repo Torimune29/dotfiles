@@ -281,7 +281,7 @@ fi
 vicd() {
   local dst="$(command vifm --choose-dir - "$@")"
   if [ -z "$dst" ]; then
-    echo 'Directory picking cancelled/failed'
+    echo 'Directory picking canceled/failed' >&2
     return 1
   fi
   cd "$dst"
