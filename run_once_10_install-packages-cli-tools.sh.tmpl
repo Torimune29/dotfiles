@@ -223,7 +223,7 @@ chmod +x $HOME/.local/bin/monolith
 curl -sL https://github.com/vifm/vifm/releases/download/v${versions["vifm"]}/vifm-v${versions["vifm"]}-x86_64.AppImage -o $HOME/.local/bin/vifm
 chmod +x $HOME/.local/bin/vifm
 # colorscheme
-curl -sL https://github.com/vifm/vifm-colors/raw/master/iceberg.vifm -o $HOME/.config/vifm/colors/iceberg.vifm
+curl -sL https://raw.githubusercontent.com/vifm/vifm-colors/master/onedark.vifm -o $HOME/.config/vifm/colors/onedark.vifm
 {{ end -}}
 
 {{ if not (lookPath "s") -}}
