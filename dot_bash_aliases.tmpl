@@ -138,7 +138,7 @@ if is-available trash --help; then
   alias trash-list='cat ${XDG_DATA_HOME:-$HOME/.local/share}/Trash/info/* --color=always 2>/dev/null || true'
   alias trash-empty='empty-trash'
 fi
-if is-available btm --help; then
+if is-available btm --version; then
   ## top to btm
   alias top='btm'
 fi
