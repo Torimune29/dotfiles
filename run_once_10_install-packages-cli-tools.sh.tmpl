@@ -37,6 +37,7 @@ declare -A versions=(
   ["hledger"]="1.27.1"
   ["dust"]="latest"
   ["up"]="latest"
+  ["csvq"]="1.17.10"
 )
 
 print_script_info
@@ -255,6 +256,12 @@ asdf global dust ${versions["dust"]}
 # Ultimate Plumber(up)
 curl -sL https://github.com/akavel/up/releases/${versions["up"]}/download/up -o $HOME/.local/bin/up
 chmod +x $HOME/.local/bin/up
+{{ end -}}
+
+{{ if not (lookPath "csvq") -}}
+# csvq
+curl -sL https://github.com/mithrandie/csvq/releases/download/v${versions["csvq"]}/csvq-v${versions["csvq"]}-linux-amd64.tar.gz \
+  | tar xz --strip=1 -C $HOME/.local/bin/ csvq-v${versions["csvq"]}-linux-amd64/csvq 
 {{ end -}}
 
 log_success "$0 done."
