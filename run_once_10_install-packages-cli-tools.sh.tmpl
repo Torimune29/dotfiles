@@ -37,7 +37,6 @@ declare -A versions=(
   ["hledger"]="1.27.1"
   ["dust"]="latest"
   ["up"]="latest"
-  ["bottom"]="latest"
 )
 
 print_script_info
@@ -256,13 +255,6 @@ asdf global dust ${versions["dust"]}
 # Ultimate Plumber(up)
 curl -sL https://github.com/akavel/up/releases/${versions["up"]}/download/up -o $HOME/.local/bin/up
 chmod +x $HOME/.local/bin/up
-{{ end -}}
-
-{{ if not (lookPath "btm") -}}
-# bottom
-asdf plugin add bottom || true
-asdf install bottom ${versions["bottom"]}
-asdf global bottom ${versions["bottom"]}
 {{ end -}}
 
 log_success "$0 done."
