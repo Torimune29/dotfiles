@@ -177,12 +177,11 @@ ln -s "$(pwd)/fpp" $HOME/.local/bin/fpp
 popd > /dev/null 2>&1 || exit
 {{ end -}}
 
-{{ if not (lookPath "semver") -}}
 # semver
+# install force to resolve conflict nodejs semver
 asdf plugin add semver || true
 asdf install semver ${versions["semver"]}
 asdf global semver ${versions["semver"]}
-{{ end -}}
 
 {{ if not (lookPath "gron") -}}
 # gron
@@ -259,7 +258,7 @@ curl -sL https://github.com/akavel/up/releases/${versions["up"]}/download/up -o 
 chmod +x $HOME/.local/bin/up
 {{ end -}}
 
-{{ if not (lookPath "bottom") -}}
+{{ if not (lookPath "btm") -}}
 # bottom
 asdf plugin add bottom || true
 asdf install bottom ${versions["bottom"]}
