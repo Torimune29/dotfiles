@@ -138,6 +138,10 @@ if is-available trash --help; then
   alias trash-list='cat ${XDG_DATA_HOME:-$HOME/.local/share}/Trash/info/* --color=always 2>/dev/null || true'
   alias trash-empty='empty-trash'
 fi
+if is-available btm --help; then
+  ## top to btm
+  alias top='btm'
+fi
 # fuzzy command
 ## https://github.com/junegunn/fzf/wiki/Examples
 ### edit
