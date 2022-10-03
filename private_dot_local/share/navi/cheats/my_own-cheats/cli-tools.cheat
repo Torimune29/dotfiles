@@ -4,7 +4,7 @@
 terminalizer record <output_filename>.yml --skip-sharing=true
 
 # render/generate terminal gif
-touch <input_filename>_tmp.gif && docker run --rm=true -it -v $(pwd)/<input_filename>.yml:/terminalizer/recording.yml:ro -v $(pwd)/<input_filename>_tmp.gif:/terminalizer/rendered.gif kopkop/termgifmaker && docker run --rm=true -it -v $(pwd)/<input_filename>_tmp.gif:/src/<input_filename>_tmp.gif starefossen/gifsicle -O3 --colors 32  /src/<input_filename>_tmp.gif -o /src/<input_filename>.gif ; rm <input_filename>_tmp.gif
+touch <input_filename>.gif && docker run --rm=true -it -v $(pwd)/<input_filename>.yml:/terminalizer/recording.yml:ro -v $(pwd)/<input_filename>.gif:/terminalizer/rendered.gif kopkop/termgifmaker
 
 % terminal: vifm
 
