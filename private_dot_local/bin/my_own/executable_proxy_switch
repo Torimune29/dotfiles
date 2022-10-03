@@ -34,6 +34,7 @@ ftp_proxy=$ftp_proxy
 FTP_PROXY=$FTP_PROXY
 no_proxy=$no_proxy
 NO_PROXY=$NO_PROXY
+ELECTRON_GET_USE_PROXY=true
 EOF
 }
 
@@ -81,6 +82,7 @@ else
       -e "/https_proxy/Id" -e "/HTTPS_PROXY/Id" \
       -e "/ftp_proxy/Id" -e "/FTP_PROXY/Id" \
       -e "/no_proxy/Id" -e "/NO_PROXY/Id" \
+      -e "/ELECTRON_GET_USE_PROXY/Id" \
       /etc/environment
     eval "$(get_escalation_method)" mv /etc/environment.bak $BACKUP_DIR
     if [ $1 = "on" ]; then
