@@ -301,7 +301,7 @@ alias tlc='fe $(chezmoi source-path)/private_dot_config/textlint'
 alias terminalizer='\terminalizer --skip-sharing=true'
 # Ultimate Plumber(up)
 _up() {
-  local cwd=$(pwd) args=("$@") script_dir=$(mktemp -d)
+  local cwd=$(pwd) args="$*" script_dir=$(mktemp -d)
   eval "${args}" |& \up -o "${script_dir}/up.sh" > /dev/null 2>&1
   if [ $? = 0 ] && [ -e "${script_dir}/up.sh" ]; then
     ## output total commands to stderr
