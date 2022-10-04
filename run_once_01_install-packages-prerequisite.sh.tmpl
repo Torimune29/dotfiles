@@ -11,7 +11,7 @@ eval $(get_escalation_method) $_facts_update 1>/dev/null
 {{ if or (eq "debian" .chezmoi.osRelease.id) (and (.chezmoi.osRelease.idLike) (contains "debian" .chezmoi.osRelease.idLike)) }}
   print_script_info "  Distribution: debian"
   DEBCONF_NOWARNINGS=yes
-  eval $(get_escalation_method) $_facts_install bash tar gzip unzip procps xz-utils 1>/dev/null
+  eval $(get_escalation_method) $_facts_install bash tar gzip unzip procps xz-utils bzip2 1>/dev/null
 {{ else if or (contains "centos" .chezmoi.osRelease.idLike) (contains "fedora" .chezmoi.osRelease.idLike) }}
   {{ if eq "amzn" .chezmoi.osRelease.id }}
     print_script_info "  Distribution: centos/fedora id:amzn"
@@ -20,7 +20,7 @@ eval $(get_escalation_method) $_facts_update 1>/dev/null
     print_script_info "  Distribution: centos/fedora"
     eval $(get_escalation_method) $_facts_install epel-release 1>/dev/null
   {{ end }}
-  eval $(get_escalation_method) $_facts_install bash tar gzip unzip procps xz 1>/dev/null
+  eval $(get_escalation_method) $_facts_install bash tar gzip unzip procps xz bzip2 1>/dev/null
 {{ else }}
 print_script_info_error \
   "  Distribution: not found" \
