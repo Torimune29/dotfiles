@@ -19,7 +19,6 @@ if [ "$LAST_LOGIN_DAY" = "$TODAY" ]; then
 fi
 
 # daily operation start
-log_note "Hello, $USER !"
 
 {{ if and (lookPath "wslpath") (lookPath "cmd.exe") -}}
 # if windows, create daily working directory
