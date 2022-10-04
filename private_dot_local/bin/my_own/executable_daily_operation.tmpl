@@ -27,7 +27,7 @@ OPERATION_DIR="${WINDOWS_USER_TMP_WSL_PATH}/_daily_operation"
 mkdir -p "${OPERATION_DIR}/${TODAY}"
 cmd.exe /c start $(wslpath -w $_) 2> /dev/null  # open directory on windows
 # delete old daily operation directory
-find "${OPERATION_DIR}/" -type d -mmin +10080 -delete  # 7 day later
+find "${OPERATION_DIR}/" -type d -mmin +10080 -exec rm -rf "{}" \;  # 7 day later
 {{ end }}
 
 # nb
