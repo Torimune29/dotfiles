@@ -119,6 +119,12 @@ fi
 #########################################################
 # add by user begin
 #########################################################
+# set PATH so it includes user's private bin if it exists
+# for executables in bashrc on interactive shell
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
 if [ -z "$TMUX" ]; then
     ID="$( tmux ls | grep -vm1 attached | cut -d: -f1 )" # get the id of a deattached session
     if [ -z "$ID" ] ;then # if not available create a new one
