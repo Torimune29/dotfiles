@@ -172,25 +172,6 @@ replay_user_script() {
   scriptreplay --divisor ${1:-1} -t <(awk 'BEGIN{i=0}{cmd="cat '$path' | cut -c 21- | tail -c +"i" | head -c "$2" | wc -l"; cmd | getline c ; i+=$2 ; print $1,$2+c*20 }' "${path}".timing) "${path}"
 }
 
-{{ if contains "WSL" .chezmoi.kernel.osrelease }}
-#######################################
-# open like mac
-# Arguments:
-#   $1: command
-# Returns:
-#   0 is ok, non-zero on error.
-# Details:
-#   https://zenn.dev/kaityo256/articles/open_command_on_wsl
-#######################################
-open () {
-  if [ $# != 1 ]; then explorer.exe .
-  else
-    if [ -e $1 ]; then cmd.exe /c start $(wslpath -w $1) 2> /dev/null
-    else echo "open: $1 : No such file or directory"
-    fi
-  fi
-}
-{{ end }}
 
 #######################################
 # fuzzy files selector
