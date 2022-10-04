@@ -37,7 +37,7 @@ declare -A versions=(
   ["hledger"]="1.27.1"
   ["dust"]="latest"
   ["up"]="latest"
-  ["csvq"]="1.17.10"
+  ["usql"]="0.12.13"
 )
 
 print_script_info
@@ -258,10 +258,10 @@ curl -sL https://github.com/akavel/up/releases/${versions["up"]}/download/up -o 
 chmod +x $HOME/.local/bin/up
 {{ end -}}
 
-{{ if not (lookPath "csvq") -}}
-# csvq
-curl -sL https://github.com/mithrandie/csvq/releases/download/v${versions["csvq"]}/csvq-v${versions["csvq"]}-linux-amd64.tar.gz \
-  | tar xz --strip=1 -C $HOME/.local/bin/ csvq-v${versions["csvq"]}-linux-amd64/csvq 
+{{ if not (lookPath "usql") -}}
+# usql
+curl -sL https://github.com/xo/usql/releases/download/v${versions["usql"]}/usql_static-${versions["usql"]}-linux-amd64.tar.bz2 | tar xj -C $HOME/.local/bin usql_static
+mv $HOME/.local/bin/usql_static $HOME/.local/bin/usql
 {{ end -}}
 
 log_success "$0 done."
