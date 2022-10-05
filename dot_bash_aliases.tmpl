@@ -304,9 +304,8 @@ _up() {
   local cwd=$(pwd) args="$*" script_dir=$(mktemp -d)
   eval "${args}" |& \up -o "${script_dir}/up.sh" > /dev/null 2>&1
   if [ $? = 0 ] && [ -e "${script_dir}/up.sh" ]; then
-    ## output total commands to stderr
-    echo $(printf "%s %s" "${args} |" "$(tail -n +2 ${script_dir}/up.sh)") >&2 \
-      && eval "${args}" | "${script_dir}/up.sh"
+    ## output total commands to stdout
+    echo $(printf "%s %s" "${args} |" "$(tail -n +2 ${script_dir}/up.sh)")
   fi
   \rm -rf "${script_dir}" > /dev/null 2>&1
 }
