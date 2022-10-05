@@ -119,6 +119,8 @@ fi
 #########################################################
 # add by user begin
 #########################################################
+# Set whether inside docker (bool)
+INSIDE_DOCKER=$(awk -F/ '$2 == "docker"' /proc/self/cgroup | read non_empty_input)
 # set PATH so it includes user's private bin if it exists
 # for executables in bashrc on interactive shell
 if [ -d "$HOME/.local/bin" ] ; then

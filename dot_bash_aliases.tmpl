@@ -283,7 +283,7 @@ alias :sp='tmux split-window -v'
 ## for bashrc
 alias navi='eval $(\navi --print)'
 # vifm
-if (awk -F/ '$2 == "docker"' /proc/self/cgroup | read non_empty_input) ; then
+if [ ${INSIDE_DOCKER} ] ; then
   # AppImage fallback. https://github.com/AppImage/AppImageKit/wiki/FUSE#docker
   alias vifm='\vifm --appimage-extract-and-run 2> /dev/null'
 fi
