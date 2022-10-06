@@ -38,6 +38,7 @@ declare -A validator=(
   ["dust"]="dust --version"
   # ["up"]="up --help"
   ["usql"]="usql --version"
+  ["hyperfine"]="hyperfine --version"
 )
 
 print_script_info
