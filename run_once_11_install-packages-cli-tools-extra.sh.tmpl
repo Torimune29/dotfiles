@@ -34,7 +34,7 @@ npm install -g \
   gtop \
   wsl-open
 
-# This fails on Ubuntu 14.04
+# This fails on Ubuntu 14.04, or no proxy
 npm install -g \
   terminalizer 
 
@@ -60,6 +60,7 @@ fi
 ##############################################################################
 eval $(get_package_management_method)
 eval $(get_escalation_method) $_facts_install \
+  xdg-open \
   neofetch \
   1>/dev/null
 
