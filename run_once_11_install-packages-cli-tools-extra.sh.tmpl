@@ -29,23 +29,30 @@ npm install -g \
   nb.sh \
   git-cz \
   standard-version \
-  terminalizer \
   undollar \
   csv2md \
   gtop \
   wsl-open
 
-# nb completion
+# This fails on Ubuntu 14.04
+npm install -g \
+  terminalizer 
+
+##############################################################################
+# python cli tools
+##############################################################################
+eval $(get_package_management_method)
+eval $(get_escalation_method) $_facts_install python3 1>/dev/null
+if [ "$(command -v python3)" ]; then
+  python3 -m pip install --force \
+    setuptools
+  python3 -m pip install \
+    tmuxp \
+    csvkit \
+    thefuck \
+    httpie \
+    http-prompt
+fi
 
 log_success "$0 done."
 
-##############################################################################
-# memo
-##############################################################################
-# install thefuck
-# for any typo
-# pip3 install thefuck
-
-
-# npm install -g \
-  # ttystudio  # record tty and generate gif  python required?

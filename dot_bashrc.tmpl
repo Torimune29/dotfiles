@@ -156,6 +156,9 @@ if [ "$(command -v mcfly)" ] && mcfly --version > /dev/null 2>&1; then
     export MCFLY_INTERFACE_VIEW=BOTTOM
     eval "$(mcfly init bash)"
 fi
+if [ "$(command -v thefuck)" ] && thefuck --version > /dev/null 2>&1; then
+    eval "$(thefuck --alias)"
+fi
 
 # enable programmable local completion features
 if ! shopt -oq posix; then
