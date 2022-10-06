@@ -34,6 +34,11 @@ npm install -g \
   gtop \
   wsl-open
 
+# for wsl xdg-open compatibility
+{{ if and (lookPath "wslpath") (lookPath "cmd.exe") -}}
+(cd $HOME && ln -s "$(which wsl-open)" .local/bin/xdg-open)
+{{ end }}
+
 # This fails on Ubuntu 14.04, or no proxy
 npm install -g \
   terminalizer 
