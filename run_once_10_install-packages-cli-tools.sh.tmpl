@@ -39,6 +39,7 @@ declare -A versions=(
   ["up"]="latest"
   ["usql"]="0.12.13"
   ["hyperfine"]="latest"
+  ["gcm"]="2.0.785"
 )
 
 print_script_info
@@ -272,5 +273,10 @@ asdf install hyperfine ${versions["hyperfine"]}
 asdf global hyperfine ${versions["hyperfine"]}
 {{ end -}}
 
+{{ if not (lookPath "git-credential-manager-core") -}}
+# git-credential-manager-core
+curl -sL https://github.com/GitCredentialManager/git-credential-manager/releases/download/v${versions["gcm"]}/gcm-linux_amd64.${versions["gcm"]}.tar.gz | tar xz -C $HOME/.local/bin
+$HOME/.local/bin/git-credential-manager-core configure
+{{ end -}}
 
 log_success "$0 done."

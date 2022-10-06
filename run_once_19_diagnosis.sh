@@ -39,6 +39,7 @@ declare -A validator=(
   # ["up"]="up --help"
   ["usql"]="usql --version"
   ["hyperfine"]="hyperfine --version"
+  ["gcm"]="git-credential-manager-core --version"
 )
 
 print_script_info

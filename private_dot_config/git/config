@@ -8,18 +8,19 @@
   autocrlf = false
   excludesfile = "~/.gitignore"
 [add.interactive]
-  useBuiltin=false
+  useBuiltin = false
 [delta]
   navigate=true
   side-by-side=true
 [merge]
-  conflictstyle=diff3
+  conflictstyle = diff3
 [diff]
   indentHeuristic = true
-  colorMoved=default
+  colorMoved = default
 [alias]
-  graph=log --graph --oneline --date-order --pretty=\"%C(yellow)%h%Creset %C(cyan)%ad%Creset %Cgreen%d%Creset%s\"
-
+  graph = log --graph --oneline --date-order --pretty=\"%C(yellow)%h%Creset %C(cyan)%ad%Creset %Cgreen%d%Creset%s\"
+[credential]
+  credentialStore = cache
 [ghq]
   root = ~/ghq
 ## own
