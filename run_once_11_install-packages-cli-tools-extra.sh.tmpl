@@ -55,5 +55,13 @@ if [ "$(command -v python3)" ]; then
     http-prompt
 fi
 
+##############################################################################
+# other cli tools
+##############################################################################
+eval $(get_package_management_method)
+eval $(get_escalation_method) $_facts_install \
+  neofetch \
+  1>/dev/null
+
 log_success "$0 done."
 

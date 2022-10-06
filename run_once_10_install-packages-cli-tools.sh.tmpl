@@ -38,6 +38,7 @@ declare -A versions=(
   ["dust"]="latest"
   ["up"]="latest"
   ["usql"]="0.12.13"
+  ["hyperfine"]="latest"
 )
 
 print_script_info
@@ -263,5 +264,13 @@ chmod +x $HOME/.local/bin/up
 curl -sL https://github.com/xo/usql/releases/download/v${versions["usql"]}/usql_static-${versions["usql"]}-linux-amd64.tar.bz2 | tar xj -C $HOME/.local/bin usql_static
 mv $HOME/.local/bin/usql_static $HOME/.local/bin/usql
 {{ end -}}
+
+{{ if not (lookPath "hyperfine") -}}
+# hyperfine
+asdf plugin add hyperfine || true
+asdf install hyperfine ${versions["hyperfine"]}
+asdf global hyperfine ${versions["hyperfine"]}
+{{ end -}}
+
 
 log_success "$0 done."
