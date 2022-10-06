@@ -37,6 +37,10 @@ export WINDOWS_USER_TMP_WSL_PATH="$(wslpath $WINDOWS_USER_TMP_PATH)"
 {{ end }}
 {{ end }}
 
+# For using dotnet core without libicu, disable icu. 
+# https://stackoverflow.com/questions/59119904/process-terminated-couldnt-find-a-valid-icu-package-installed-on-the-system-in
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+
 {{- if stat "/opt/misc/subversion/bin" -}}
 # For work: use specific svn
 PATH=/opt/misc/subversion/bin:$PATH
