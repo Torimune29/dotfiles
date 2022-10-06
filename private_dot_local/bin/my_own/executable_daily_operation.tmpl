@@ -5,7 +5,7 @@
 set -e
 
 LAST_LOGIN_DAY=""
-readonly TODAY="$(date +%Y%m%d | cut -c 3-)"
+readonly TODAY="$(date +%m%d)"
 readonly STATE_PATH="${MY_OWN_STATE_PATH}/daily_operation"
 readonly OPERATION_DIR="${WINDOWS_USER_TMP_WSL_PATH}/_daily_operation"
 
@@ -22,7 +22,7 @@ fi
 
 {{ if and (lookPath "wslpath") (lookPath "cmd.exe") -}}
 # if windows, create daily working directory
-if [ -e "${OPERATION_DIR} "]; then
+if [ -e "${OPERATION_DIR}" ]; then
   find "${OPERATION_DIR}/" -type d -mmin +10080 -exec rm -rf "{}" \;  # 7 day later
 fi
 mkdir -p "${OPERATION_DIR}/${TODAY}"
