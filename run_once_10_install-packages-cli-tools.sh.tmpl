@@ -40,6 +40,7 @@ declare -A versions=(
   ["usql"]="latest"
   ["hyperfine"]="latest"
   ["gcm"]="2.0.785"
+  ["ouch"]="0.3.1"
 )
 
 print_script_info
@@ -275,6 +276,12 @@ asdf global hyperfine ${versions["hyperfine"]}
 # git-credential-manager-core
 curl -sL https://github.com/GitCredentialManager/git-credential-manager/releases/download/v${versions["gcm"]}/gcm-linux_amd64.${versions["gcm"]}.tar.gz | tar xz -C $HOME/.local/bin
 DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 $HOME/.local/bin/git-credential-manager-core configure
+{{ end -}}
+
+{{ if not (lookPath "ouch") -}}
+# ouch
+curl -sL https://github.com/ouch-org/ouch/releases/download/${versions["ouch"]}/ouch-x86_64-linux-musl -o $HOME/.local/bin/ouch
+chmod +x $HOME/.local/bin/ouch
 {{ end -}}
 
 log_success "$0 done."
