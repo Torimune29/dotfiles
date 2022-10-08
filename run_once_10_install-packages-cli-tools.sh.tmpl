@@ -37,7 +37,7 @@ declare -A versions=(
   ["hledger"]="1.27.1"
   ["dust"]="latest"
   ["up"]="latest"
-  ["usql"]="0.12.13"
+  ["usql"]="latest"
   ["hyperfine"]="latest"
   ["gcm"]="2.0.785"
 )
@@ -262,8 +262,9 @@ chmod +x $HOME/.local/bin/up
 
 {{ if not (lookPath "usql") -}}
 # usql
-curl -sL https://github.com/xo/usql/releases/download/v${versions["usql"]}/usql_static-${versions["usql"]}-linux-amd64.tar.bz2 | tar xj -C $HOME/.local/bin usql_static
-mv $HOME/.local/bin/usql_static $HOME/.local/bin/usql
+asdf plugin-add usql https://github.com/itspngu/asdf-usql
+asdf install usql ${versions["usql"]}
+asdf global usql ${versions["usql"]}
 {{ end -}}
 
 {{ if not (lookPath "hyperfine") -}}
