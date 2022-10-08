@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "chezmoi",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.tmpl": "shellscript"
+		}
+	}
+}
