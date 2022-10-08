@@ -222,7 +222,7 @@ chmod +x $HOME/.local/bin/monolith
 
 {{ if not (lookPath "xplr") -}}
 # xplr
-curl -sL https://github.com/sayanarijit/xplr/releases/${versions["xplr"]}/download/xplr-linux.tar.gz | tar xz -C $HOME/.local/bin/xplr
+curl -sL https://github.com/sayanarijit/xplr/releases/${versions["xplr"]}/download/xplr-linux.tar.gz | tar xz -C $HOME/.local/bin/
 {{ end -}}
 
 {{ if not (lookPath "s") -}}
