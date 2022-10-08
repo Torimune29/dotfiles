@@ -32,12 +32,12 @@ declare -A versions=(
   ["git-crypt"]="0.7.0"
   ["mcfly"]="0.6.1"
   ["monolith"]="2.6.2"
-  ["vifm"]="0.12.1"
+  ["xplr"]="latest"
   ["s"]="0.6.6"
   ["hledger"]="1.27.1"
   ["dust"]="latest"
   ["up"]="latest"
-  ["usql"]="0.12.13"
+  ["usql"]="latest"
   ["hyperfine"]="latest"
   ["gcm"]="2.0.785"
 )
@@ -220,12 +220,9 @@ curl -sL https://github.com/Y2Z/monolith/releases/download/v${versions["monolith
 chmod +x $HOME/.local/bin/monolith
 {{ end -}}
 
-{{ if not (lookPath "vifm") -}}
-# vifm
-curl -sL https://github.com/vifm/vifm/releases/download/v${versions["vifm"]}/vifm-v${versions["vifm"]}-x86_64.AppImage -o $HOME/.local/bin/vifm
-chmod +x $HOME/.local/bin/vifm
-# colorscheme
-curl -sL https://raw.githubusercontent.com/vifm/vifm-colors/master/onedark.vifm -o $HOME/.config/vifm/colors/onedark.vifm
+{{ if not (lookPath "xplr") -}}
+# xplr
+curl -sL https://github.com/sayanarijit/xplr/releases/${versions["xplr"]}/download/xplr-linux.tar.gz | tar xz -C $HOME/.local/bin/xplr
 {{ end -}}
 
 {{ if not (lookPath "s") -}}
@@ -262,8 +259,9 @@ chmod +x $HOME/.local/bin/up
 
 {{ if not (lookPath "usql") -}}
 # usql
-curl -sL https://github.com/xo/usql/releases/download/v${versions["usql"]}/usql_static-${versions["usql"]}-linux-amd64.tar.bz2 | tar xj -C $HOME/.local/bin usql_static
-mv $HOME/.local/bin/usql_static $HOME/.local/bin/usql
+asdf plugin-add usql https://github.com/itspngu/asdf-usql
+asdf install usql ${versions["usql"]}
+asdf global usql ${versions["usql"]}
 {{ end -}}
 
 {{ if not (lookPath "hyperfine") -}}
