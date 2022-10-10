@@ -41,6 +41,7 @@ declare -A versions=(
   ["hyperfine"]="latest"
   ["gcm"]="2.0.785"
   ["ouch"]="0.3.1"
+  ["sd"]="0.7.6"
 )
 
 print_script_info
@@ -283,5 +284,12 @@ DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 $HOME/.local/bin/git-credential-manager-
 curl -sL https://github.com/ouch-org/ouch/releases/download/${versions["ouch"]}/ouch-x86_64-linux-musl -o $HOME/.local/bin/ouch
 chmod +x $HOME/.local/bin/ouch
 {{ end -}}
+
+{{ if not (lookPath "sd") -}}
+# sd
+curl -sL https://github.com/chmln/sd/releases/download/v${versions["sd"]}/sd-v${versions["sd"]}-x86_64-unknown-linux-gnu -o $HOME/.local/bin/sd
+chmod +x $HOME/.local/bin/sd
+{{ end -}}
+
 
 log_success "$0 done."

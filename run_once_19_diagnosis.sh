@@ -41,6 +41,7 @@ declare -A validator=(
   ["hyperfine"]="hyperfine --version"
   ["gcm"]="git-credential-manager-core --version"
   ["ouch"]="ouch --version"
+  ["sd"]="sd --version"
 )
 
 print_script_info
