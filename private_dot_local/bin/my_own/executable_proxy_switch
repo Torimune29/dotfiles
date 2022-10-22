@@ -11,6 +11,7 @@
 
 # edit flag
 EDIT_ETC_ENVIRONMENT=""
+EDIT_ETC_DEFALT_DOCKER=""
 EDIT_SHELLRC=""
 EDIT_NPM=""
 
@@ -24,7 +25,7 @@ if [ -e "${MY_OWN_SHARE_PATH}/secret/proxy.env.orig" ]; then
   set -a; . "${MY_OWN_SHARE_PATH}/secret/proxy.env.orig"; set +a
 fi
 
-print_proxy (){
+print_proxy () {
   cat << EOF
 http_proxy=$http_proxy
 HTTP_PROXY=$HTTP_PROXY
@@ -35,6 +36,20 @@ FTP_PROXY=$FTP_PROXY
 no_proxy=$no_proxy
 NO_PROXY=$NO_PROXY
 ELECTRON_GET_USE_PROXY=true
+EOF
+}
+
+print_proxy_with_export () {
+  cat << EOF
+export http_proxy=$http_proxy
+export HTTP_PROXY=$HTTP_PROXY
+export https_proxy=$https_proxy
+export HTTPS_PROXY=$HTTPS_PROXY
+export ftp_proxy=$ftp_proxy
+export FTP_PROXY=$FTP_PROXY
+export no_proxy=$no_proxy
+export NO_PROXY=$NO_PROXY
+export ELECTRON_GET_USE_PROXY=true
 EOF
 }
 
@@ -68,6 +83,7 @@ else
 
   # select files you want to edit
   read -n1 -p "edit /etc/environment? (y/N): " yn; case "$yn" in [yY]*) EDIT_ETC_ENVIRONMENT="true"; echo "," ;; *) echo ", skip";; esac
+  read -n1 -p "edit /etc/default/docker? (y/N): " yn; case "$yn" in [yY]*) EDIT_ETC_DEFALT_DOCKER="true"; echo "," ;; *) echo ", skip";; esac
   read -n1 -p "edit $SHELLRC? (y/N): " yn; case "$yn" in [yY]*) EDIT_SHELLRC="true"; echo "," ;; *) echo ", skip";; esac
   read -n1 -p "edit npm? (y/N): " yn; case "$yn" in [yY]*) EDIT_NPM="true"; echo ",";; *) echo ", skip";; esac
 
@@ -88,6 +104,22 @@ else
     if [ $1 = "on" ]; then
       log_warning "set proxy ➔ /etc/environment"
       print_proxy | eval "$(get_escalation_method)" tee -a /etc/environment
+    fi
+  fi
+
+  if [ -e "/etc/default/docker" ] && [ -n "$EDIT_ETC_DEFALT_DOCKER" ] ; then
+    log_note "clear proxy ➔ /etc/default/docker"
+    eval "$(get_escalation_method)" sed -i.bak \
+      -e "/http_proxy/Id" -e "/HTTP_PROXY/Id" \
+      -e "/https_proxy/Id" -e "/HTTPS_PROXY/Id" \
+      -e "/ftp_proxy/Id" -e "/FTP_PROXY/Id" \
+      -e "/no_proxy/Id" -e "/NO_PROXY/Id" \
+      -e "/ELECTRON_GET_USE_PROXY/Id" \
+      /etc/default/docker
+    eval "$(get_escalation_method)" mv /etc/default/docker.bak $BACKUP_DIR
+    if [ $1 = "on" ]; then
+      log_warning "set proxy ➔ /etc/default/docker"
+      print_proxy_with_export | eval "$(get_escalation_method)" tee -a /etc/default/docker
     fi
   fi
 
