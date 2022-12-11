@@ -41,6 +41,9 @@ export WINDOWS_USER_TMP_WSL_PATH="$(wslpath $WINDOWS_USER_TMP_PATH)"
 # https://stackoverflow.com/questions/59119904/process-terminated-couldnt-find-a-valid-icu-package-installed-on-the-system-in
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
+# For using docker, enable buildkit
+export DOCKER_BUILDKIT=1
+
 {{- if stat "/opt/misc/subversion/bin" -}}
 # For work: use specific svn
 PATH=/opt/misc/subversion/bin:$PATH
