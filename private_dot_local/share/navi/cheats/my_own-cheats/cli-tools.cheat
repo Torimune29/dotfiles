@@ -22,6 +22,9 @@ echo "Ctrl Alt p"
 # save terminal log history
 echo "Ctrl Shift Alt p"
 
+# yank terminal using easymotion (tmux-thumbs)
+echo "prefix + Space"
+
 % json: jc
 # convert any command output to json
 free | jc --free
