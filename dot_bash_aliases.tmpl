@@ -270,12 +270,12 @@ ghqv () {
 }
 
 # docker
-alias dcu='docker compose up -d'
-alias dcd='docker compose down'
-alias dcr='docker compose restart'
+alias dc='docker compose'
 alias dp='docker ps'
 alias dx='docker exec -it'
 alias dr='docker run -it --rm=true'
+## abouyt dive: https://github.com/wagoodman/dive
+alias dive='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest'
 # tmux
 alias :vsp='tmux split-window -h'
 alias :sp='tmux split-window -v'
