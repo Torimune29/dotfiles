@@ -5,6 +5,11 @@ set -e
 . $HOME/.local/bin/my_own/_log
 . $HOME/.local/bin/my_own/_gather_facts
 
+{{ if promptString "installMode" eq "minimal" -}}
+print_script_info "installMode is minimal. skip"
+return 0
+{{ end }}
+
 declare -A versions=(
   ["asdf"]="v0.10.2"
   ["chezmoi"]="latest"

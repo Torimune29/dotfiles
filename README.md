@@ -6,6 +6,12 @@ This is dotfiles repository, managed by [chezmoi](https://www.chezmoi.io/).
 
 [![TestingPlatform](http://github-actions.40ants.com/Torimune29/dotfiles/matrix.svg)](https://github.com/Torimune29/dotfiles)
 
+## installMode
+
+* normal or no option
+* minimal
+    * copies dotfiles
+
 ## Usage
 
 ### bootstrap
@@ -20,8 +26,8 @@ curl --silent https://raw.githubusercontent.com/Torimune29/dotfiles/main/bootstr
 ### finalize
 
 * Documentation settings
-  * vscode-textlint
-    * Add **full path** `$HOME/.config/textlint/textlintrc` in vscode `settings.json` like,
+    * vscode-textlint
+        * Add **full path** `$HOME/.config/textlint/textlintrc` in vscode `settings.json` like,
 
     ```json
     {
@@ -30,8 +36,8 @@ curl --silent https://raw.githubusercontent.com/Torimune29/dotfiles/main/bootstr
     ```
 
 * Misc
-  * (MAINTAINER only) daily operation,
-    * Add daily_operation directory
+    * (MAINTAINER only) daily operation,
+        * Add daily_operation directory
 
     ```bash
     mkdir ~/.local/state/my_own/daily_operation
@@ -46,4 +52,3 @@ curl --silent https://raw.githubusercontent.com/Torimune29/dotfiles/main/bootstr
 ## ToDo
 
 * 全開発環境向けリポジトリ作成とその fetch
-

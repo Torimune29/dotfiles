@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
-
-
-. $HOME/.local/bin/my_own/_log
-
 {{ if promptString "installMode" eq "minimal" -}}
 print_script_info "installMode is minimal. skip"
 return 0
 {{ end }}
+
+. $HOME/.local/bin/my_own/_log
 
 . $HOME/.asdf/asdf.sh
 PATH="$HOME/.local/bin:$PATH"
