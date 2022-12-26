@@ -115,7 +115,7 @@ log_success "prerequisite package instal finished."
 log_note "init scripts start"
 
 # apply dotfiles using chezmoi
-sh -c "$(curl -fsLSk https://chezmoi.io/get)" -- init --apply Torimune29 --purge --purge-binary
+sh -c "$(curl -fsLSk https://chezmoi.io/get)" -- init --apply Torimune29 --purge-binary
 
 log_success "init script finished"
 log_success "[bootstrap finished]"

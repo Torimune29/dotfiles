@@ -3,11 +3,6 @@
 . $HOME/.local/bin/my_own/_log
 . $HOME/.local/bin/my_own/_gather_facts
 
-{{ if promptString "installMode" eq "minimal" -}}
-print_script_info "installMode is minimal. skip"
-return 0
-{{ end }}
-
 # gather facts
 eval $(get_package_management_method)
 eval $(get_escalation_method) $_facts_update 1>/dev/null
