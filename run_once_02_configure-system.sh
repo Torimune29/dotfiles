@@ -53,7 +53,7 @@ case "$_facts_init" in
     # DNS
     #   /etc/resolv.conf
     if [ -f /etc/resolv.conf ]; then
-      eval "$(get_escalation_method)" sed -i.bak "/nameserver /Id" /etc/resolv.conf
+      eval "$(get_escalation_method)" sed -i.bak "/nameserver/Id" /etc/resolv.conf
       eval "$(get_escalation_method)" tee -a /etc/resolv.conf <<EOF
 nameserver ${PUBLIC_DNS_PRIMARY}
 nameserver ${PUBLIC_DNS_SECONDARY}
