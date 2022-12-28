@@ -1,25 +1,5 @@
 #!/usr/bin/env sh
 
-#######################################
-# get_system
-# Arguments:
-#   None
-# Returns:
-#   0 is ok, non-zero on error.
-# Outputs:
-#   Write system name("Linux", "Mac", "Windows", "Other") to stdout
-# Details:
-#   see: https://stackoverflow.com/a/27776822/9982477
-#   see: https://github.com/ouch-org/ouch/blob/main/install.sh
-#######################################
-get_system () {
-  case "$(uname -s)" in
-    Linux) echo "Linux" ;;
-    Darwin) echo "Mac" ;;
-    CYGWIN*|MINGW32*|MSYS*|MINGW*) echo "Windows" ;;
-    *) echo "Other" ;;
-  esac
-}
 
 #######################################
 # get escalation method(sudo, or su) if needed
@@ -74,6 +54,7 @@ get_fetch_method () {
 #     _facts_manager=(apt|yum|dnf|zypper|apk)
 #     _facts_install=(apt-get install|yum install|dnf~|zypper~|apk~)
 #     _facts_update=(apt-get update|yum check-update|dnf~|zypper~|apk~)
+#     _facts_install_file=(apt install (*.deb))
 # Details:
 #   use stdout with eval.
 #   e.g. eval $(get_package_manager); eval $_facts_install git
@@ -88,4 +69,63 @@ get_package_management_method () {
   elif [ -x "$(command -v apk)" ];      then  echo "_facts_manager=\"apk\";       _facts_install=\"apk add --no-cache\";     _facts_update=\"apk update\" "
   else return 1
   fi
+}
+
+#######################################
+# get system facts 
+# Arguments:
+#   None
+# Returns:
+#   0 is ok
+#   1 is error. can't parse package manager.
+# Outputs:
+#   Write space-separated variable-like string("A=a; B=b;") to stdout
+#     _facts_system=(Linux|Mac|Windows|Other)
+#     _facts_is_wsl=true/false
+#     _facts_is_devcontainer=true/false
+#     _facts_is_docker=true/false
+#     _facts_init=(systemd|sysvinit-like|Other)
+#     _facts_can_interactive=true/false
+# Details:
+#   use stdout with eval.
+#   e.g. eval $(get_system); echo $_facts_system
+#   see: https://stackoverflow.com/questions/2488715/idioms-for-returning-multiple-values-in-shell-scripting
+#   each facts:
+#     system:
+#       see: https://stackoverflow.com/a/27776822/9982477
+#       see: https://github.com/ouch-org/ouch/blob/main/install.sh
+#     is_wsl:
+#       see: https://zenn.dev/link/comments/e8171e443bb9b1
+#     is_devcontaier:
+#       see: https://github.com/microsoft/vscode-remote-release/issues/3517
+#     init:
+#       see: https://w.vmeta.jp/tdiary/20160801.html
+#     interactive
+#       see: https://stackoverflow.com/questions/10022323/check-isatty-in-bash#comment16085511_10022396
+#######################################
+get_system () {
+  # system
+  case "$(uname -s)" in
+    Linux) SYSTEM="Linux" ;;
+    Darwin) SYSTEM="Mac" ;;
+    CYGWIN*|MINGW32*|MSYS*|MINGW*) SYSTEM="Windows" ;;
+    *) SYSTEM="Other" ;;
+  esac
+  # is_wsl
+  [ -f /proc/sys/fs/binfmt_misc/WSLInterop ] && IS_WSL=true
+  # is_devcontainer: set up first
+  [ -n "${REMOTE_CONTAINERS}" ] && IS_DEVCONTAIENER=true
+  # is_docker
+  [ -f /.dockerenv ] && IS_DOCKER=true
+  # init
+  case "$(cat /proc/1/comm 2>/dev/null)" in
+    systemd) INIT="systemd";;
+    init) INIT="sysvinit-like" ;;
+    *) INIT="Other";;
+  esac
+  # interactive
+  [ -t 0 ] && INTERACTIVE=true
+
+  echo "_facts_system=\"${SYSTEM}\"; _facts_is_wsl=\"${IS_WSL:-false}\"; _facts_is_devcontainer=\"${IS_DEVCONTAIENER:-false}\"; _facts_is_docker=\"${IS_DOCKER:-false}\"; _facts_init=\"${INIT}\"; _facts_interactive=\"${INTERACTIVE:-false}\";"
+  return 0
 }
