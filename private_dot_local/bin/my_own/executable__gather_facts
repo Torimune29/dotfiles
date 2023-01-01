@@ -129,3 +129,31 @@ get_system () {
   echo "_facts_system=\"${SYSTEM}\"; _facts_is_wsl=\"${IS_WSL:-false}\"; _facts_is_devcontainer=\"${IS_DEVCONTAIENER:-false}\"; _facts_is_docker=\"${IS_DOCKER:-false}\"; _facts_init=\"${INIT}\"; _facts_interactive=\"${INTERACTIVE:-false}\";"
   return 0
 }
+
+#######################################
+# get distribution facts 
+# Arguments:
+#   None
+# Returns:
+#   0 is ok
+#   1 is error. can't parse package manager.
+# Outputs:
+#   Write space-separated variable-like string("A=a; B=b;") to stdout
+#     _facts_dist_id=(ubuntu|centos|debian|alpine|(etc...))
+#     _facts_dist_id_like=(debian|rhel fedora|debian|(none)|(etc...))
+#     _facts_dist_version_id=(20.04|8|10|3.12.7|(etc...))
+# Details:
+#   use stdout with eval.
+#   e.g. eval $(get_system); echo $_facts_system
+#   see: https://stackoverflow.com/questions/2488715/idioms-for-returning-multiple-values-in-shell-scripting
+#   each facts:
+#     see: https://kazuhira-r.hatenablog.com/entry/2021/07/22/221808
+#######################################
+get_distribution() {
+  # id
+  ID=$(cat /etc/os-release | awk "/^ID=/" | tr -d "ID=" | tr -d \")
+  ID_LIKE=$(cat /etc/os-release | awk "/^ID_LIKE=/" | tr -d "ID_LIKE=" | tr -d \")
+  VERSION_ID=$(cat /etc/os-release | awk "/^VERSION_ID=/" | tr -d "VERSION_ID=" | tr -d \")
+  echo "_facts_dist_id=\"${ID:-\"\"}\"; _facts_dist_id_like=\"${ID_LIKE:-\"\"}\"; _facts_dist_version_id=\"${VERSION_ID:-\"\"}\";"
+  return 0
+}
