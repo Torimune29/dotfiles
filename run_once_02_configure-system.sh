@@ -14,6 +14,7 @@ eval $(get_package_management_method)
 eval $(get_system)
 
 # etckeeper settings
+#  see: https://qiita.com/yousan/items/91dfc187f8345d299068
 eval $(get_escalation_method) $_facts_install git etckeeper 1>/dev/null
 eval $(get_escalation_method) etckeeper init
 
